@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>用户信息</title>
+		<script type="text/javascript" src="cxtester/js/jquery-2.0.3.min.js" charset="utf-8"></script>
+		<link rel="stylesheet" type="text/css" href="cxtester/css/bootstrap.min.css" />
+		<script type="text/javascript" src="cxtester/js/jquery-2.1.0.js" charset="utf-8"></script>
+		<script src="cxtester/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+   
+	</head>
+	<body>
+		<div class="container">
+		<!--<div style="font-family: Consolas;width: 80%;align-content: center;MARGIN-RIGHT: auto; MARGIN-LEFT: auto;" >-->
+		<h2 style="align-content: center; width: 100%;" align="center">管理用户信息</h2>
+		<table  border="1" cellspacing="1" cellpadding="1" style="align-content: center; width: 100%;">
+			<tr>
+				<th>序号</th>
+				<th>姓名</th>
+				<th>状态</th>
+				<th>技能</th>					
+				<th>操作</th>
+			</tr>
+			<tbody id="testerbody">
+				
+			</tbody>
+		</table>		
+		</div>
+		
+		<!-- 模态对话框开始 -->
+		<div class="modal fade" id="delTester">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">删除用户</h4>
+					</div>
+					<div class="modal-body">
+						<p>确定删除吗？&hellip;</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button onclick="delUser()" type="button" class="btn btn-primary">确定</button>
+					</div>
+				</div>
+				
+			</div>
+		
+		</div>		
+		<!-- 模态对话框结束-->
+		
+	</body>
+	
+	
+		<script  type="text/javascript">
+		$(function() { 	//这么写就是页面加载完成执行
+			$.ajax({	//方法开始
+				type: "post", 
+				url: "cxtester/selectTester.php", 
+				async: true, 	//是不是缓存数据			
+				success: function(data) {
+					var dataList = eval(data);
+					//console.log(dataList);					
+					var html="";					
+					for(var i = 0, len = dataList.length; i< len; i++){		
+						
+						html+= "<tr id='tr_" + i + "'>";
+						html+="<td align='center' >"+(i+1)+"</td>";
+						html+="<td align='center'>"+dataList[i].name+"</td>";
+						//html+="<td align='center'>"+dataList[i].status+"</td>";
+						if(dataList[i].status==0){
+							var j="可用";
+							html+="<td align='center' >"+j+"</td>";
+						}else{
+							var j="锁定";
+							html+="<td align='center'>"+j+"</td>";
+						}	
+						html+="<td align='center'>"+(dataList[i].skill||'')+"</td>";
+						html+="<td align='center'>";
+						html+="<button id='edittester_"+i+"' onclick='editt("+dataList[i].testerid+","+i+")'>编辑</button>";
+						//html+="<button id='deletetester_"+i+"' onclick='deletet("+dataList[i].testerid+","+i+")'>删除</button>";
+						html+="<button type='button' data-deltid='"+dataList[i].testerid+"' data-delid='"+i+"' class='delBtn btn btn-primary' data-target='#delTester'>删除</button>";
+						html+="</td>";
+						html+="</tr>";
+					}	
+					html+="<tr align='center'><td colspan='5'><button id='addtester' onclick='addtester()'>新增</button></td></tr>";
+					$("#testerbody").append(html)
+				}
+			});
+	});
+		</script>
+		
+		<script type="text/javascript">
+		function editt(skid,i){
+//			var skilltag=$(skid);
+//			if (skilltag.hasClass("input-b")) {
+//				$("#editbtn_" + i).html("编辑");
+//				//$("#savebtn_"+i)[0].style.display="none";
+//				$("#savebtn_"+i).css("display","none");				
+//				skilltag.attr("readonly", true);
+//				skilltag.removeClass("input-b");
+//				skilltag.val(skilltag.attr("data-value"));
+//			} else {
+//				$("#editbtn_" + i).html("取消编辑");
+//				//$("#savebtn_"+i)[0].style.display="inline";
+//				$("#savebtn_"+i).css("display","inline");
+//				skilltag.attr("readonly", false);
+//				skilltag.addClass("input-b");				
+//			}
+		}
+		function savet(skid,i){
+			
+		}
+		function deletet(tid,id){
+			console.log(tid);
+			console.log(id);
+			var res=confirm("确定要删除吗？");
+    			if(res==true){
+    				$.ajax({	//方法开始
+						type: "post", 
+						url: "cxtester/deleteTester.php", 
+						data:"testerid="+tid,
+						async: true, 	//是不是缓存数据			
+						success: function() {
+							$("#tr_"+id).remove();
+						}
+					});	
+    			}else{
+    				
+    			}					
+		}
+		function addtester(){
+			
+		}
+		</script>
+	
+	<script type="text/javascript">
+   	var delUserId=0;
+   	var delTrId=0;
+   	$(function(){
+   		
+   		//$(".delBtn").on("click",function(){
+   		$(document).on("click",".delBtn",function(){	
+   			console.log(this);
+   			delUserId =$(this).data("deltid");
+   			delTrId=$(this).data("delid");
+   			$('#delTester').modal('show');
+   		});
+   	});
+   	function delUser(){
+   		//alert("要删除的用户的ID是："+delUserId);
+   		$.ajax({	//方法开始
+				type: "post", 
+				url: "cxtester/deleteTester.php", 
+				data:"testerid="+delUserId,
+				async: true, 	//是不是缓存数据			
+				success: function() {
+					$("#tr_"+delTrId).remove();
+				}
+			});	
+   		$('#delTester').modal('hide');
+   	}
+   	</script>
+	
+</html>

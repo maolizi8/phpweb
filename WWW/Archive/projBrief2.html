@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>项目介绍</title>
+		<link rel="stylesheet" type="text/css" href="cxtester/css/bootstrap.min.css" />
+		<script type="text/javascript" src="cxtester/js/jquery-2.1.0.js" charset="utf-8"></script>
+
+		<style>
+			table{border-collapse:collapse;border-spacing:0;border-left:1px solid #d0e0e3;border-top:1px solid #d0e0e3;background: 	#FFFAF0;}
+			th,td{border-right:1px solid #dbf9f9;border-bottom:1px solid #dbf9f9;padding:5px 15px;}
+			th{font-weight:bold;background: #FDF5E6;}
+
+			.pagination{margin:5px auto auto;}
+		</style>
+	</head>
+	<body>
+		<div style="width: 80%;MARGIN-RIGHT: auto; MARGIN-LEFT: auto;" >
+			<h2  style="align-content: center; width: 100%;" align="center">项目介绍</h2>
+			<!--<div id="paginatorTop" style="float:right;"></div>-->
+			<table border="1" cellspacing="0" cellpadding="5" style="align-content: center; width: 100%;">
+				<thead>
+					<tr>
+						<th width="3%">id</th>
+						<th width="7%">业务线</th>
+						<th width="12%">项目名称</th>
+						<th width="12%">项目简称</th>
+						<th width="12%">项目性质</th>
+						<th width="30%">简单介绍</th>
+						<th width="12%">需求方</th>
+						<th width="12%">使用方</th>
+					</tr>
+				</thead>
+				<tbody id="projectbody">
+
+				</tbody>
+			</table>
+	<div id="totalRecords" style="float:left;margin-top: 5px;"></div>
+	<div id="paginator" class="pagination" style="float:right;"></div>
+
+	</div>
+
+	<script type="text/javascript">
+		//var pageNum=1;
+		var pageTotal= 0;
+
+		$(function() {
+			$.ajax({
+				type: "post",
+				//url: "cxtester/projectBriefPages.php?page="+pageNum,
+				url: "cxtester/projectBriefPages.php?page=1",
+				async: true,
+				success: function(data) {
+					var dataList = eval(data);
+					//console.log(dataList);
+					var len=dataList.length-1;
+					//console.log(len);
+					var html="";
+					for(var i = 0, len ; i< len; i++){
+						if(dataList[i].id==18){
+							html+= "<tr>";
+						html+="<td align='center' >"+dataList[i].id+"</td>";
+						html+="<td align='center'>二手车</td>";
+						html+="<td align='center' colspan='7'>";
+						html+="<a class='media' href='cxtester/files/UsedCarBriefForCheXiang-20160816.pdf' target='_blank'>二手车项目介绍</a>";
+						html+="</td></tr>";
+						}else{
+							html+= "<tr>";
+						//html+="<td align='center' >"+(i+1)+"</td>";
+						html+="<td align='center' >"+dataList[i].id+"</td>";
+						html+="<td align='center'>"+(dataList[i].businessLine||'')+"</td>";
+						html+="<td align='center'>"+(dataList[i].name||'')+"</td>";
+						html+="<td align='center'>"+(dataList[i].briefIntroduction||'')+"</td>";
+						html+="<td align='center'>"+(dataList[i].attribute||'')+ "</td>";
+						html+="<td>"+(dataList[i].detailIntroduction||'')+ "</td>";
+						html+="<td align='center'>"+(dataList[i].demandSide||'')+ "</td>";
+						html+="<td align='center'>"+(dataList[i].supplySide||'')+ "</td>";
+						html+="</tr>";
+						}
+					}
+
+					$("#projectbody").append(html);
+
+					//page
+					pageTotal=dataList[len].pageTotal;
+					//console.log("pageTotal="+pageTotal);
+					var total=dataList[len].numTotal;
+					var totalRecords="总共"+total+"条记录";
+					$("#totalRecords").append(totalRecords);
+
+				/*	var pageDisp="";
+					pageDisp+="<ul class='pagination'>";
+
+					pageDisp+="<li class='disabled'><a>&laquo;</a></li>";
+
+					pageDisp+="<li class='active'><a>1</a></li>";
+					for(var i=1,pageTotal;i<pageTotal;i++){
+						var j=i+1;
+						pageDisp+="<li><a href='#' onclick='pagenum("+j+")'>"+j+"</a></li>";
+					}
+	    			if(pageTotal==1){
+	    				pageDisp+="<li class='disabled'><a href='#'>&raquo;</a></li>";
+	    			}else{
+	    				var nextPage=2;
+	    				pageDisp+="<li><a href='#' onclick='pagenum("+nextPage+")'>&raquo;</a></li>";
+	    			}
+
+					pageDisp+="</ul> ";
+					$("#paginator").append(pageDisp);*/
+					//$("#paginatorTop").append(pageDisp);
+         //第一个 每页显示几条  第二个 有几页码按钮 第三个 总条数
+           createPage(10, 5, total);
+				}
+			});
+		})
+  function createPage(pageSize, buttons, total) {
+        $("#paginator").jBootstrapPage({
+          pageSize: pageSize,
+          total: total,
+          maxPageButton: buttons,
+          onPageClicked: function(obj, pageIndex) {
+            pagenum(pageIndex+1)
+          }
+        });
+      }
+	function pagenum(numb){
+		$.ajax({
+				type: "post",
+				url: "cxtester/projectBriefPages.php?page="+numb,
+				async: true,
+				success: function(data) {
+
+					$("#projectbody").empty();
+					$("#paginator").empty();
+					$("#totalRecords").empty();
+
+					var dataList = eval(data);
+					//console.log(dataList);
+					var len=dataList.length-1;
+					//console.log(len);
+					var html="";
+					for(var i = 0, len ; i< len; i++){
+						if(dataList[i].id==18){
+							html+= "<tr>";
+						html+="<td align='center' >"+dataList[i].id+"</td>";
+						html+="<td align='center'>二手车</td>";
+						html+="<td align='center' colspan='7'>";
+						html+="<a class='media' href='cxtester/files/UsedCarBriefForCheXiang-20160816.pdf' target='_blank'>二手车项目介绍</a>";
+						html+="</td></tr>";
+						}else{
+							html+= "<tr>";
+						//html+="<td align='center' >"+(i+1)+"</td>";
+						html+="<td align='center' >"+dataList[i].id+"</td>";
+						html+="<td align='center'>"+(dataList[i].businessLine||'')+"</td>";
+						html+="<td align='center'>"+(dataList[i].name||'')+"</td>";
+						html+="<td align='center'>"+(dataList[i].briefIntroduction||'')+"</td>";
+						html+="<td align='center'>"+(dataList[i].attribute||'')+ "</td>";
+						html+="<td>"+(dataList[i].detailIntroduction||'')+ "</td>";
+						html+="<td align='center'>"+(dataList[i].demandSide||'')+ "</td>";
+						html+="<td align='center'>"+(dataList[i].supplySide||'')+ "</td>";
+						html+="</tr>";
+						}
+					}
+
+					$("#projectbody").append(html);
+
+					//page
+					pageTotal=dataList[len].pageTotal;
+					//console.log("pageTotal="+pageTotal);
+					var total=dataList[len].numTotal;
+					var totalRecords="总共"+total+"条记录";
+					$("#totalRecords").append(totalRecords);
+
+					var pageDisp="";
+					pageDisp+="<ul class='pagination'>";
+					if(numb==1){
+						pageDisp+="<li  class='disabled'><a>&laquo;</a></li>";
+					}else{
+						var prePage=numb-1;
+	    				pageDisp+="<li><a href='#' onclick='pagenum("+prePage+")'>&laquo;</a></li>";
+					}
+
+					for(var i=0;i<numb-1;i++){
+						var j=i+1;
+						pageDisp+="<li><a href='#' onclick='pagenum("+j+")'>"+j+"</a></li>";
+					}
+					pageDisp+="<li class='active'><a>"+numb+"</a></li>";
+
+					for(var i=numb,pageTotal;i<pageTotal;i++){
+						var j=i+1;
+						pageDisp+="<li><a href='#' onclick='pagenum("+j+")'>"+j+"</a></li>";
+					}
+					if(pageTotal==numb){
+	    				pageDisp+="<li class='disabled'><a >&raquo;</a></li>";
+	    			}else{
+	    				var nextPage=numb+1;
+	    				pageDisp+="<li><a href='#' onclick='pagenum("+nextPage+")'>&raquo;</a></li>";
+	    			}
+
+					pageDisp+="</ul> ";
+					$("#paginator").append(pageDisp);
+					//$("#paginatorTop").append(pageDisp);
+				}
+			});
+
+	}
+	</script>
+
+
+
+	</body>
+</html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>测试资源管理</title>
+		<link rel="stylesheet" href="cxtester/css/bootstrap.min.css" type="text/css"  />
+		<script src="cxtester/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="cxtester/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="cxtester/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="cxtester/layer/layer.js"  type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.tr{border: 0;}	
+			th{text-align: center;border-top: 1px;}		
+			.modal-footer{border-top:0;}
+		</style>  
+		<style type="text/css">
+			.tr {
+				border: 0;
+			}
+			
+			th {
+				text-align: center;
+				border-top: 1px;
+			}
+			
+			.modal-footer {
+				border-top: 0;
+			}
+			
+			.row {
+				padding-top: 10px;
+			
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<h2 style="align-content: center; width: 100%;" align="center">测试资源管理</h2>
+			<div class="row">
+				<div class="col-md-1"> <label for="name" class="control-label">名字</label></div>
+				<div class="col-md-3"><input type="text" class="form-control" id="tpname" name="name" placeholder="请输入名字"></div>
+				<div class="col-md-1"> <label for="name">资源状态</label></div>
+				<div class="col-md-3">
+					<select class="form-control">
+						<option>可用</option>
+						<option>锁定</option>
+					</select>
+				</div>
+				<div class="col-md-1"> <label for="skill" class=" control-label">技能</label></div>
+				<div class="col-md-3"><input type="text" class="form-control" id="tpskill" name="skill" placeholder="请输入技能"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-1"><label for="skill" class=" control-label">项目</label></div>
+				<div class="col-md-3"><input type="text" class="form-control" id="tpskill" name="skill" placeholder="请输入项目"></div>
+				<div class="col-md-1"> <label for="name">项目状态</label></div>
+				<div class="col-md-3">
+					<select class="form-control">
+						<option>未开始</option>
+						<option>进行中</option>
+						<option>已结束</option>
+					</select>
+				</div>
+				<div class="col-md-1"> <label for="skill" class=" control-label">项目经理</label></div>
+				<div class="col-md-3">
+					<input type="text" class="form-control" id="tpskill" name="skill" placeholder="请输入项目经理"></div>
+			</div>
+
+			<div class="row">
+				<div class="col-md-1"><label for="skill" class=" control-label">部门</label></div>
+				<div class="col-md-3"><input type="text" class="form-control" id="tpskill" name="skill" placeholder="请输入部门"></div>
+				<div class="col-md-1"> </div>
+				<div class="col-md-3">
+				
+				</div>
+				<div class="col-md-2"> </div>
+				<div class="col-md-2" style="text-align: right">
+				<input type="button" value="搜索" onclick="searchTester()" class="btn btn-primary" />
+					<input type="button" value="全部" onclick="viewAllTester()" class="btn btn-primary" />
+		     	</div>
+			<div style="clear: both;"></div>
+	
+				
+							
+							<table class="table" border="1" cellspacing="1" cellpadding="1" style=" width: 100%;">
+								<!--<tr style="background-color: #BCE8F1;">-->
+								<tr>
+									<th>序号</th>
+									<th>姓名</th>
+									<th>资源状态</th>
+									<th>计划项目</th>
+									<th>开始时间</th>
+									<th>结束时间</th>
+									<th>项目状态</th>
+									<th>项目经理</th>
+									<th>所属部门</th>
+									<th>技能</th>
+									<!--<th width="200px">操作</th>-->
+								</tr>
+								<tbody  id="tester_proj" >
+				
+								</tbody>			
+							</table>
+					
+		</div>
+						
+	</body>
+		
+	<!--id:projects 展示项目-->
+	<script type="text/javascript">	
+	$(function() { 
+			$.ajax({
+				type: "post", 
+				url: "cxtester/selectTaP.php", 
+				async: true, 
+				success: function(data) {
+					var dataAll = eval(data);
+					//console.log(dataAll);
+					
+					var ahtml="";
+					for(var i = 0, len = dataAll.length; i< len; i++){
+						
+						ahtml+="<tr>";
+						ahtml+="<td align='center'>"+(i+1)+"</td>";
+						ahtml+="<td align='center'>"+dataAll[i].tname+"</td>";
+						
+						if(dataAll[i].tstatus==0){
+							var j="可用";
+							ahtml+="<td align='center'>"+j+"</td>";
+						}else{
+							var j="锁定";
+							ahtml+="<td align='center' style='color:#FA8072;font-weight:bold'>"+j+"</td>";
+						}	
+						ahtml+="<td align='center'>"+(dataAll[i].pproject||'')+"</td>";
+						ahtml+="<td align='center'>"+(dataAll[i].pstart||'')+"</td>";
+						ahtml+="<td align='center'>"+(dataAll[i].pcomplete||'')+"</td>";
+						
+						if(dataAll[i].pstatus==0){
+							var j="未开始";
+							ahtml+="<td align='center'>"+j+"</td>";
+						}else if(dataAll[i].pstatus==1){
+							var j="进行中";
+							ahtml+="<td align='center'>"+j+"</td>";
+						}else if(dataAll[i].pstatus==null){
+							var j="";
+							ahtml+="<td align='center'>"+(j||'')+"</td>";
+						}else{
+							var j="已结束";
+							ahtml+="<td align='center'>"+j+"</td>";
+						}
+						ahtml+="<td align='center'>"+(dataAll[i].pmanager||'')+"</td>";
+						ahtml+="<td align='center'>"+(dataAll[i].pdepartm||'')+"</td>";
+						ahtml+="<td align='center'>"+(dataAll[i].tskill||'')+"</td>";
+						ahtml+="</tr>";
+					}
+					$("#tester_proj").append(ahtml)
+				}
+			});
+	});
+	</script>
+
+	
+	
+</html>

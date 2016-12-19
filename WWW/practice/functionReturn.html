@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>js函数返回值</title>
+		
+	</head>
+	<body>
+		<textarea id="practiceFunction"></textarea>	
+		<script type="text/javascript">
+			function hi(x) {
+				var sq = x*x;
+				return x+" squre is "+sq;
+			};
+						
+			window.onload = function run() {
+				var practice=document.getElementById("practiceFunction");
+				practice.value=hi(3);				
+			}
+		</script>
+	</body>
+
+</html>

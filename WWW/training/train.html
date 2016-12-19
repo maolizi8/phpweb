@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>培训与分享</title>
+		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
+		<script src="theme/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			th {
+				text-align: center;
+				border-top: 1px;
+				
+			}
+			tr{
+				border-top: 1px;
+				border-bottom: 1px;
+			}
+		</style>
+	</head>
+	<body>
+		<div class="container">
+			<h2 style="text-align: center;">质量保障部培训与分享</h2>
+			<div id="trainbody">
+				<table id="traintable" class="table" border="1" cellspacing="1" cellpadding="1">
+					<thead><tr>
+						<th>序号</th>
+						<th>主题</th>
+						<th>主讲人</th>
+						<th>培训时间</th>
+						<th>计划时间</th>
+						<th>状态</th>
+						<th>参与人</th>
+						<th>类别</th>
+						<th>锁定</th>
+					</tr></thead>
+					<tbody id="traintb"></tbody>
+				</table>
+			</div>
+		</div>
+	<script type="text/javascript">
+		$(function() {
+			$.ajax({
+				type:"post",
+				url:"selectTrain.php",
+				async:true,
+				success: function(data) {
+					//var dataList = data;
+					var dataList = eval(data);
+					console.log(dataList);
+					var tbodydisp="";
+					len=dataList.length;
+					for(i=0,len;i<len;i++){
+						tbodydisp+="<tr>";
+						tbodydisp+="<td>"+(i+1)+"</td>";
+						tbodydisp+="<td>"+dataList[i].name+"</td>";
+						var speaker="";
+						var status="";
+						if (dataList[i].speaker!=null) {
+							speaker=dataList[i].speaker;
+						} else{
+							speaker="待定";
+						}
+						tbodydisp+="<td>"+speaker+"</td>";
+						tbodydisp+="<td>"+(dataList[i].traindate||' ')+"</td>";
+						tbodydisp+="<td>"+(dataList[i].plandate||' ')+"</td>";
+						if (dataList[i].status==0) {
+							status="待定";
+						} else if(dataList[i].status==1){
+							status="已计划";
+						}else if(dataList[i].status==2){
+							status="取消";
+						}else{
+							status="已完成";
+						}
+						tbodydisp+="<td>"+status+"</td>";
+						tbodydisp+="<td>"+(dataList[i].student||' ')+"</td>";
+						tbodydisp+="<td>"+(dataList[i].category||' ')+"</td>";
+						tbodydisp+="<td>"+(dataList[i].locking||' ')+"</td>";
+						tbodydisp+="</tr>";
+					}
+					$("#traintb").append(tbodydisp);
+				}
+			});
+		});
+	</script>
+	</body>
+	
+</html>

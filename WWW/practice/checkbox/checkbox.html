@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>复选框</title>
+		<link rel="stylesheet" href="../../theme/css/bootstrap.min.css" type="text/css" />
+		<script src="../../theme/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../theme/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../theme/js/jBootstrapPage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../theme/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		
+		<!--<form method="post" action="checkAProj.php" name="form1">-->
+		<form id="searchProjForm" name="form1">
+			<input type="checkbox" name="t1[]" value="12600">浦银点贷金融
+			</br>
+			<input type="checkbox" name="t1[]" value="12525">整车三位一体店零售分销管理系统
+			</br>
+			<input type="checkbox" name="t1[]" value="12527">数据运营支持项目Q4
+			</br>
+			<input type="checkbox" name="t1[]" value="12526">道路救援可视化项目
+			</br>
+			<input type="button" value="确定" onclick="searchProj()"  />
+		</form>
+		<div id="projCheckbox">
+			选择的项目为：
+		</div>
+		<script type="text/javascript">
+	
+	function searchProj(){
+		$.ajax({
+			type:"post",
+			url:"checkAProj.php",
+			async:true,
+			data:$("#searchProjForm").serialize(),
+			success:function(data){
+				$("#projCheckbox").empty();
+				console.log($("#searchProjForm").serialize());
+				var projList = eval(data);
+				var selectoption2="";
+				console.log(projList);
+				for (i=0,len=projList.length;i<len;i++) {
+					selectoption2+="<div class='col-md-3'><label>"+projList[i].pname+"</label></div>";
+				}
+				$("#projCheckbox").append(selectoption2);	
+			}
+		});
+	}
+</script>
+	</body>
+
+</html>

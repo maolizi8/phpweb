@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>测试资源管理</title>
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+		<script type="text/javascript" src="js/jquery-2.1.0.js" charset="utf-8"></script>
+		<script src="js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="layer/layer.js"  type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			input {border: 0;}		
+			.input-b {border: 1px slateblue solid;}			
+			.tr{border: 0;}	
+			th{text-align: center;border-top: 1px;}		
+			.modal-footer{border-top:0;}
+		</style>  
+	</head>
+	<body>
+		<div class="container">
+		<!--<form id="addpro" action="javascript:lxl()" method="post">
+			<label>用户id</label><input name="testerid" id="testerid" type="text"/>
+			<label>项目</label><input name="project" id="project" type="text"/>
+			<label>开始日期</label><input name="starttime"  id="starttime" type="date"/>
+			<label>结束日期</label><input name="completetime" id="completetime" type="date"/>			
+			<input type="submit" value="提交"/>
+			
+		</form>
+		-->
+		<button type='button'  class='addProj' data-target='#addProject'>新增项目</button>
+				
+		</div>		
+
+<!-- 新增项目的弹出层-->
+		<div class="modal fade" id="addProject">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">新增项目</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" role="form" id="addProjectForm">
+							<div class="form-group" >
+        						<label for="testerid" class="col-sm-2 control-label">用户id</label>
+        							<div class="col-sm-10">
+           								<input type="text" class="form-control" id="testerid" name="testerid" placeholder="请输入用户id">
+         							</div>
+     						</div>
+							<div class="form-group" >
+        						<label for="projectname" class="col-sm-2 control-label">项目名称</label>
+        							<div class="col-sm-10">
+           								<input type="text" class="form-control" id="project" name="project" placeholder="请输入项目名称">
+         							</div>
+     						</div>
+   							<div class="form-group">
+        						<label for="starttime" class="col-sm-2 control-label">开始时间</label>
+        							<div class="col-sm-10">
+           								<input type="date" class="form-control" id="starttime" name="starttime" placeholder="请输入开始时间">
+         							</div>
+     						</div>
+    						<div class="form-group">
+    							    <label for="completetime" class="col-sm-2 control-label">结束时间</label>
+     							    <div class="col-sm-10">
+      							     	<input type="date" class="form-control" id="completetime" name="completetime" placeholder="请输入结束时间">
+       							  	</div>
+     						</div>
+     						<div class="form-group">
+     							<label for="projmanager" class="col-sm-2 control-label">项目经理</label>
+        							<div class="col-sm-10">
+           								<input type="text" class="form-control" id="projmanager" name="projmanager" placeholder="请输入项目经理">
+         							</div>    
+     						</div>
+     						<div class="form-group">
+     							<label for="department" class="col-sm-2 control-label">事业部</label>
+        							<div class="col-sm-10">
+           								<input type="text" class="form-control" id="department" name="department" placeholder="请输入事业部">
+         							</div>    
+     						</div>
+    						<div class="form-group">
+    							<div class="col-sm-offset-9 col-sm-10">
+      							    <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+									<button onclick="addProject()" type="button" class="btn btn-primary">确定</button>
+      							</div>
+     						</div>
+   						</form>
+					</div>
+					
+				</div>				
+			</div>		
+		</div>
+	<!--<script src="jquery-2.0.3.min.js"></script>-->
+	<!--<script type="text/javascript">
+		function lxl(){
+			//这样就获得了from表单的值 $("#gql").serialize()
+			console.log($("#addpro").serialize())
+			//ajax在把值提交到后台 就好了
+			$.ajax({
+				type: "post",
+				url: "insertProj.php",
+				async: true,
+				data:$("#addpro").serialize(),				
+				success: function(data) {
+					console.log(testerid);
+					
+				}
+		});
+		}
+	</script>-->
+	<script  type="text/javascript">
+		$(function(){
+			$(document).on("click",".addProj",function(){	//显示添加项目的弹出框
+   			console.log(this);
+   			//addProTester=$(this).data("addprotid");
+   			//console.log(addProTester);
+   			$('#addProject').modal('show');
+   			});
+   		});
+		
+		function addProject(){	//添加项目的方法
+   		console.log($("#addProjectForm").serialize());
+   		$.ajax({
+				type: "post", 
+				url: "insertProj.php", 
+				data:$("#addProjectForm").serialize(),
+				
+				async: true, 	//是不是缓存数据			
+				success: function() {
+//					layer.msg("添加项目成功",function(){
+//						window.location.reload();
+//					});
+					console.log($("#addProjectForm").serialize());
+				}
+			});	
+   		$('#addProject').modal('hide');
+   	}
+	</script>
+	
+	</body>
+</html>

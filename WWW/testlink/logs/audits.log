@@ -1,0 +1,20 @@
+	[16/Sep/28 07:00:46][AUDIT][0anrdaoi69k3bv8bb8e9fle530][GUI]
+		Login for 'admin' from '::1' succeeded
+	[16/Sep/28 07:01:26][AUDIT][0anrdaoi69k3bv8bb8e9fle530][GUI]
+		Test Project 'Demo-project' was created
+	[16/Sep/28 07:03:37][AUDIT][0anrdaoi69k3bv8bb8e9fle530][GUI]
+		User 'admin' was saved
+	[16/Sep/28 08:06:14][AUDIT][0anrdaoi69k3bv8bb8e9fle530][GUI]
+		Test Project '上海汽车售后客户联络中心' was created
+	[16/Sep/28 08:50:08][AUDIT][0anrdaoi69k3bv8bb8e9fle530][GUI]
+		Logout of 'admin'
+	[16/Sep/29 01:33:29][AUDIT][<nosession>][GUI]
+		User 'testleader' created by self-sign up
+	[16/Sep/29 01:33:49][AUDIT][i17uvhos7evk4ugjfcekbqkbl2][GUI]
+		Login for 'testleader' from '::1' succeeded
+	[16/Sep/29 02:14:48][AUDIT][i17uvhos7evk4ugjfcekbqkbl2][GUI]
+		Logout of 'testleader'
+	[16/Sep/29 02:14:55][AUDIT][i17uvhos7evk4ugjfcekbqkbl2][GUI]
+		Login for 'admin' from '::1' succeeded
+	[16/Sep/29 02:15:19][AUDIT][i17uvhos7evk4ugjfcekbqkbl2][GUI]
+		User 'testleader' was saved

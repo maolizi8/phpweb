@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>页面刷新后保留表单的值</title>
+    <script src="../../theme/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+    <style>
+        #savehistory{
+            width: 400px;margin: 0 auto;
+        }
+        .userselect{
+            -moz-user-select: none;
+            -webkit-user-select: none;
+        }
+    </style>
+</head>
+<body>
+<div id="savehistory">
+    <div class="userselect">hhhhhhhhhh</div>
+    <label>1</label><input class="userselect" type="text"><br/>
+    <label>2</label><input type="text"><br/>
+    <label>3</label><input type="text"><br/>
+    <label>4</label><input type="text"><br/>
+    <label>5</label><input type="text"><br/>
+    <label>6</label><input type="button" value="按钮1"><br/>
+    <label>7</label><input type="button" value="按钮2"><br/>
+    <label>8</label><input type="radio" name="sex"><br/>
+    <label>9</label><input type="radio" name="sex"><br/>
+    <label>10</label><input id="check1" type="checkbox"><br/>
+    <label>11</label><input type="checkbox"><br/>
+    <label>12</label><input type="checkbox"><br/>
+    <button id="save">一键缓存</button>
+</div>
+</body>
+<script type="text/javascript">
+    $(function () {
+        var localMsg;
+        if(window.localStorage.formHistory){
+            localMsg=JSON.parse(window.localStorage.formHistory);
+            console.log("localMsg="+localMsg);
+        }
+        if(localMsg && localMsg.length>=1){
+        	console.log("localMsg.length="+localMsg.length);
+            var realIndex=0;
+            for(var i=0;i<$('#savehistory input').length;i++){
+                if($($('#savehistory input')[i])[0].type=='text'){
+                    $($('#savehistory input')[i]).val(localMsg[realIndex].text)
+                    realIndex++;
+                }else if($($('#savehistory input')[i])[0].type=='radio'){
+                    $($('#savehistory input')[i]).prop('checked',localMsg[realIndex].radio)
+                    realIndex++;
+                }else if($($('#savehistory input')[i])[0].type=='checkbox'){
+                    $($('#savehistory input')[i]).prop('checked',localMsg[realIndex].checkbox)
+                    realIndex++;
+                }
+            }
+        }
+        $('#save').click(function () {
+            var history=[];
+            window.localStorage.formHistory='';
+            for(var i=0;i<$('#savehistory input').length;i++){
+                if($($('#savehistory input')[i])[0].type=='text'){
+                    history.push({"text":$($('#savehistory input')[i]).val()})
+                }else if($($('#savehistory input')[i])[0].type=='radio'){
+                	console.log($($('#savehistory input')[i]).attr('checked') ? 'checked' :'');
+                    history.push({"radio":$($('#savehistory input')[i]).is(':checked')})
+                }else if($($('#savehistory input')[i])[0].type=='checkbox'){
+//              	console.log($($('#savehistory input')[i]).is(':checked'));
+//              	console.log($("#check1").is(':checked'));
+                    history.push({"checkbox":$($('#savehistory input')[i]).is(':checked')})
+                }
+            }
+            console.log("history="+history);
+            window.localStorage.formHistory=JSON.stringify(history);
+            console.log("formHistory="+window.localStorage.formHistory);
+        })
+    })
+</script>
+</html>

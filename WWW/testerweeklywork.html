@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>测试人员每周工时统计</title>
+		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
+		<script src="theme/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jBootstrapPage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		<div class="container">
+			<h2 align="center">测试人员每周工时统计</h2>
+			<div style="">
+				<button onclick="addCols()">加一列</button>
+				<table class="table table-bordered" id="lxl">
+					<tr style="font-weight: bold;">
+						<td>项目/周次</td>
+					</tr>
+					<tr>
+						<td>车享家(不含车享家一体化)</td>
+					</tr>
+					<tr>
+						<td>企业应用 （含OEM）</td>
+					</tr>
+					<tr>
+						<td>车享家一体化</td>
+					</tr>
+					<tr>
+						<td>整车</td>
+					</tr>
+					<tr>
+						<td>二手车</td>
+					</tr>
+					<tr>
+						<td>共享业务平台</td>
+					</tr>
+					<tr>
+						<td>金融事业部</td>
+					</tr>
+					<tr>
+						<td>测试部</td>
+					</tr>
+					<tr>
+						<td>其他</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		function addCols() {
+			for(var i = 0; i < $($("#lxl tr")).length; i++) {
+				var std = "<td>" + i + "</td>";
+				$($("#lxl tr")[i]).append(std);
+			}			
+		}
+	</script>
+
+</html>

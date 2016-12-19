@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		
+		<link rel="stylesheet" type="text/css" href="css/ajax.css"/>
+	</head>
+
+	<body>
+		<table border="" cellspacing="" cellpadding="">
+			<tr>
+				<th>姓名</th>
+				<th>年龄</th>
+				<th>操作</th>
+			</tr>
+			<tbody id="gql">
+
+			</tbody>
+
+		</table>
+		<div id="pagination" class="pagination"></div>
+	</body>
+
+	<script src="js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+     <script src="js/page.js" type="text/javascript" charset="utf-8"></script>
+
+	<script type="text/javascript">
+	var d,totalPage,pageSize=15;
+	//d 是后台返回所有的数据   totalPage 是总页数  pageSize 是页大小
+		function initUI(pageNo, pageSize) {
+			var num=0;
+			if(pageNo * pageSize>=d.length){
+				num = d.length
+			}else{
+				num=pageNo * pageSize;
+			}
+			var html = '';
+			for(var i = (pageNo - 1) * pageSize; i < num; i++) {
+				var item = d[i];
+				console.log(d[i])
+				html += "<tr id='tr_" + i + "'>";
+				html += "<td><input id='input_name_" + i + "' value='" + item.name + "'></td>";
+				html += "<td><input id='input_age_" + i + "' value='" + (item.age || '') + "'></td>";
+				html += "<td><button onclick=test('" + i + "')>点击</button></td>";
+				html += "</tr>";
+			}
+		  $("#gql").html(html)
+			pagination({
+				cur: pageNo,
+				total: totalPage,
+				len: pageSize,
+				targetId: 'pagination',
+				callback: function() {
+					var me = this;
+					var oPages = document.getElementsByClassName('page-index');
+					for(var i = 0; i < oPages.length; i++) {
+						oPages[i].onclick = function() {
+							initUI(this.getAttribute('data-index'), pageSize);
+						}
+					}
+					var goPage = document.getElementById('go-search');
+					goPage.onclick = function() {
+						var index = document.getElementById('yeshu').value;
+						if(!index || (+index > me.total) || (+index < 1)) {
+							return;
+						}
+						initUI(index, pageSize);
+					}
+				}
+			});
+		}
+
+		$(function() { //这么写就是页面加载完成执行
+			$.ajax({ //方法开始
+				type: "get", //请求的方式 get和post
+				url: "1.json", //请求的地址
+				async: true, //是不是缓存数据
+				success: function(data) {
+					var html = "";
+					/*data.forEach(function(info, i) {
+						html += "<tr id='tr_" + i + "'>";
+						html += "<td><input id='input_name_" + i + "' value='" + info.name + "'></td>";
+						html += "<td><input id='input_age_" + i + "' value='" + (info.age || '') + "'></td>";
+						html += "<td><button onclick=test('" + i + "')>点击</button></td>";
+						html += "</tr>";
+					})
+					$("#gql").append(html)*/
+					d = data;
+				    totalPage =Math.ceil(d.length/pageSize);
+					initUI(1,pageSize);
+				}
+			});
+		});
+
+		function test(i) {
+			var tr = $("#tr_" + i);
+			var html = "<tr class='tr'><td colspan='3'><div style='display: none;  height: 100px;background-color: red;'>asdadadasdasdasdas</div></td></tr>"
+			if(tr.next()[0]) {
+				if(tr.next().hasClass("tr")) {
+
+					tr.next().find("div").slideToggle(function() {
+						tr.next().remove();
+					});
+				} else {
+					tr.after(html)
+					tr.next().find("div").slideToggle();
+				}
+			} else {
+				tr.after(html)
+				tr.next().find("div").slideToggle();
+			}
+
+		}
+	</script>
+	<script src="js/alloy_lever.js" type="text/javascript" charset="utf-8"></script>
+
+</html>

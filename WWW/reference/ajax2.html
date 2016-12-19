@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<table border="" cellspacing="" cellpadding="">
+			<tr>
+				<th>姓名</th>
+				<th>年龄</th>
+				<th>操作</th>
+			</tr>
+			<tbody id="gql">
+
+			</tbody>
+
+		</table>
+	</body>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		$(function() { //这么写就是页面加载完成执行
+			$.ajax({ //方法开始
+				type: "get", //请求的方式 get和post
+				url: "3.json", //请求的地址
+				async: true, //是不是缓存数据
+				success: function(data) {
+					var html = "";
+					data.forEach(function(info, i) {
+						html += "<tr id='tr_" + i + "'>";
+						html += "<td><input id='input_name_" + i + "' value='" + info.name + "'></td>";
+						html += "<td><input id='input_age_" + i + "' value='" + (info.age || '') + "'></td>";
+						html += "<td><button onclick=test('" + i + "')>点击</button></td>";
+						html += "</tr>";
+					})
+					$("#gql").append(html)
+				}
+			});
+		});
+
+		function test(i) {
+			var tr = $("#tr_" + i);
+			var html = "<tr class='tr'><td colspan='4'><div style='display: none;  height: 100px;background-color: red;'>asdadadasdasdasdas</div></td></tr>"
+			if(tr.next()[0]) {
+				if(tr.next().hasClass("tr")) {
+					tr.next().remove();
+				} else {
+					tr.after(html)
+					tr.next().find("div").slideToggle();
+				}
+			} else {
+				tr.after(html)
+				tr.next().find("div").slideToggle();
+			}
+
+		}
+	</script>
+
+</html>

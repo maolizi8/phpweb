@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title>戈秋力第一课</title>
+		<link rel="stylesheet" href="../bootstarp/css/bootstrap.min.css">
+
+	</head>
+	<style type="text/css">
+		input {
+			border: 0;
+		}
+		
+		.input-b {
+			border: 1px slateblue solid;
+		}
+	</style>
+
+	<body>
+		<table class="table table-bordered">
+			<thead>
+				<tr>
+					<th>id</th>
+					<th>姓名</th>
+					<th>状态</th>				
+					<th>技能</th>
+					<th width="200px">操作</th>
+				</tr>
+			</thead>
+			<tbody id="view">
+
+			</tbody>
+		</table>
+	</body>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script src="laytpl.js" type="text/javascript" charset="utf-8"></script>
+	<script id="info" type="text/html">
+		{{# for(var i = 0, len = d.length; i
+		< len; i++){ }} <tr>
+			<td>{{d[i].testerid}}</td>
+			<td><input type="text" id="put_{{i}}" data-value="{{d[i].name}}" value="{{d[i].name}}" readonly="readonly" /></td>
+			<td>{{d[i].status}}</td>
+			<td>{{d[i].skill}}</td>
+			<td><button style="width: 100px;" onclick="edit('put_{{i}}',{{i}})" id="btn_{{i}}">编辑</button>&nbsp;<button onclick="save('put_{{i}}',{{i}})">保存</button></td>
+			</tr>
+			{{# } }}
+
+	</script>
+	<script type="text/javascript">
+		function dataLoad() {
+			$.ajax({
+				type: "post",
+				url: "select.php",
+				async: false,
+				success: function(data) {
+					var dataList = eval(data);
+					console.log(dataList)
+					var gettpl = document.getElementById('info').innerHTML;
+					laytpl(gettpl).render(dataList, function(html) {
+						document.getElementById('view').innerHTML = html;
+					});
+				},
+				error: function(error) {
+					console.log(error)
+				}
+			});
+		}
+		dataLoad();
+
+		function edit(id, i) {
+			 var tag =$("#" + id);
+			if (tag.hasClass("input-b")) {
+				$("#btn_" + i).html("编辑")
+				tag.attr("readonly", true)
+				tag.removeClass("input-b")
+				tag.val(tag.attr("data-value"))
+			} else {
+				$("#btn_" + i).html("取消编辑")
+				tag.attr("readonly", false)
+				tag.addClass("input-b");
+			}
+		}
+
+		function save(id) {
+			$("#" + id).attr("readonly", true)
+			$("#" + id).removeClass("input-b")
+		}
+	</script>
+
+</html>

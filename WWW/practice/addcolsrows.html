@@ -1,0 +1,38 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+	</head>
+	
+	<body>
+		<table id ="lxl" border="1px">
+			
+			<tr><td>Data</td><td>Data</td></tr>
+			<tr><td>Data</td><td>Data</td></tr>
+			<tr><td>Data</td><td>Data</td></tr>
+		</table>
+		<button onclick="addh()">加一行</button> <button onclick="addl()">加一列</button>
+	</body>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		function addh(){
+			var str ="";
+			for(var i = 0 ; i <$($("#lxl tr")[0]).find("td").length; i++){
+				str +="<td>Data</td>"; 
+			}
+			$("#lxl").append("<tr>"+str+"</tr>");
+		}
+		function addl(){
+			for(var i = 0 ; i <$($("#lxl tr")).length; i++){
+				var std ="<td>"+i+"</td>"; 
+				//console.log($("#lxl tr")[i]);
+				//console.log($($("#lxl tr")[i]));
+				$($("#lxl tr")[i]).append(std);
+			}
+			//console.log($("#lxl tr"));
+			//$("#lxl tr").append("<td>Data</td>");
+			
+		}
+	</script>
+</html>

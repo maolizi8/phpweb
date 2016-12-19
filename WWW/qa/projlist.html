@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>项目id对照表</title>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-latest.js"></script>
+		<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	</head>
+
+	<body>
+		<div class="container">
+			<h2 align="center" style="margin-bottom: 40px;">项目id对照表</h2>
+			<table class="table table-bordered" style="width: 80%;margin-right: auto;margin-left: auto;">
+				<thead>
+					<th>项目ID</th>
+					<th>项目名称</th>
+				</thead>
+				<tbody id="projbody"></tbody>
+			</table>
+		</div>
+
+	</body>
+	<script>
+		$(function() {
+			$.ajax({
+				type: "post",
+				url: "Project",
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function(data) {
+					console.log(data);
+					var projList=eval(data);
+					//var projList=data;
+					var tbody="";
+					for (i=0,len=projList.length;i<len;i++) {
+						tbody+='<tr>';
+						tbody+='<td>'+projList[i]['id']+'</td>';
+						tbody+='</tr>';
+					}
+					$("#projbody").append(tbody);
+
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					//alert(errorThrown);
+					console.log(errorThrown);
+				}
+			});
+
+		})
+	</script>
+
+</html>
