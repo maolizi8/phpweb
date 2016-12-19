@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>测试能力分析</title>
+		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
+		<script src="theme/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jBootstrapPage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			th{
+				text-align: center;
+			}
+			.topbread {
+				width: 98%;
+				margin-left: auto;
+				margin-right: auto;
+				padding: 2px 7px;
+			}
+		</style>
+	</head>
+	<body>
+		<div>
+				<ol class="breadcrumb topbread ">
+					<li>
+						<a href="index.html" target="_blank">测试人员看板</a>
+					</li>
+					<li>
+						<a href="qaboard.html" target="_blank">项目质量看板</a>
+					</li>
+					<li class="active"><span style="font-weight:bold;">测试能力分析</span></li>
+					<li style="float: right;">
+						<a href="rulesForQA.html" target="_blank">规则说明</a>
+					</li>
+				</ol>
+		</div>
+		<h2 align="center">测试能力分析</h2>
+		<br />
+		<div style="float: left;width: 33%;">
+			<table  class="table table-bordered"  style="width: 97%;margin-left: auto;margin-right: auto;">
+				<thead><th>月份</th><th>生产Bug</th><th>有效Bug</th><th>Bug总数</th><th>测试质量</th><th>测试效率</th></thead>
+				<tbody id="m_tbody">
+					
+				</tbody>
+			</table>
+		</div>
+		<div style="float: left;width: 33%;">
+			<table class="table table-bordered"  style="width: 97%;margin-left: auto;margin-right: auto;">
+				<thead><th>季度</th><th>生产Bug</th><th>有效Bug</th><th>Bug总数</th><th>测试质量</th><th>测试效率</th></thead>
+				<tbody id="q_tbody">
+					
+				</tbody>
+			</table>
+		</div>
+		<div style="float: left;width: 33%;">
+			<table class="table table-bordered"  style="width: 97%;margin-left: auto;margin-right: auto;">
+				<thead><th>年份</th><th>生产Bug</th><th>有效Bug</th><th>Bug总数</th><th>测试质量</th><th>测试效率</th></thead>
+				<tbody id="y_tbody">
+					
+				</tbody>
+			</table>
+		</div>
+		
+	</body>
+	<script type="text/javascript">
+		$(function() {
+			$.ajax({
+				type:"get",
+				url:"jira/qafigure.php?action=m",
+				async:true,
+				success:function(data){
+					var mList = eval(data);
+					var mTBody = "";
+					for(i = 0, len = mList.length; i < len; i++) {
+						mTBody += "<tr>";
+						mTBody += "<td align='center'>"+ mList[i].mont+"</td>";
+						mTBody += "<td align='center'>"+ (mList[i].prdnum||0)+"</td>";
+						mTBody += "<td align='center'>"+ (mList[i].validnum||0)+"</td>";
+						mTBody += "<td align='center'>"+ mList[i].total+"</td>";
+						var qua=Math.round(mList[i].prdnum / mList[i].validnum * 10000) / 100.00;
+						var effi=Math.round(mList[i].validnum/mList[i].total* 10000) / 100.00;
+						mTBody += "<td align='center'>"+ qua+"%</td>";
+						mTBody += "<td align='center'>"+ effi+"%</td>";
+						mTBody += "</div>";
+					}
+					$("#m_tbody").append(mTBody);
+				}
+			});
+		});
+		
+		$(function() {
+			$.ajax({
+				type:"get",
+				url:"jira/qafigure.php?action=q",
+				async:true,
+				success:function(data){
+					var qList = eval(data);
+					var qTBody = "";
+					for(i = 0, len = qList.length; i < len; i++) {
+						qTBody += "<tr>";
+						var quastr1=qList[i].quart.toString();
+						var quastr2=quastr1.substr(0,4)+"Q"+quastr1.substr(4)
+						qTBody += "<td align='center'>"+ quastr2+"</td>";
+						qTBody += "<td align='center'>"+ (qList[i].prdnum||0)+"</td>";
+						qTBody += "<td align='center'>"+ (qList[i].validnum||0)+"</td>";
+						qTBody += "<td align='center'>"+ qList[i].total+"</td>";
+						var qua=Math.round(qList[i].prdnum / qList[i].validnum * 10000) / 100.00;
+						var effi=Math.round(qList[i].validnum/qList[i].total* 10000) / 100.00;
+						qTBody += "<td align='center'>"+ qua+"%</td>";
+						qTBody += "<td align='center'>"+ effi+"%</td>";
+						qTBody += "</div>";
+					}
+					$("#q_tbody").append(qTBody);
+				}
+			});
+		});
+		
+		$(function() {
+			$.ajax({
+				type:"get",
+				url:"jira/qafigure.php?action=y",
+				async:true,
+				success:function(data){
+					var yList = eval(data);
+					var yTBody = "";
+					for(i = 0, len = yList.length; i < len; i++) {
+						yTBody += "<tr>";
+						yTBody += "<td align='center'>"+ yList[i].years+"</td>";
+						yTBody += "<td align='center'>"+ (yList[i].prdnum||0)+"</td>";
+						yTBody += "<td align='center'>"+ (yList[i].validnum||0)+"</td>";
+						yTBody += "<td align='center'>"+ yList[i].total+"</td>";
+						var qua=Math.round(yList[i].prdnum / yList[i].validnum * 10000) / 100.00;
+						var effi=Math.round(yList[i].validnum/yList[i].total* 10000) / 100.00;
+						yTBody += "<td align='center'>"+ qua+"%</td>";
+						yTBody += "<td align='center'>"+ effi+"%</td>";
+						yTBody += "</div>";
+					}
+					$("#y_tbody").append(yTBody);
+				}
+			});
+		})
+	</script>
+</html>
