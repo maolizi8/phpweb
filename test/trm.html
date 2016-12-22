@@ -1,0 +1,1130 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>测试人员看板</title>
+		<link href="theme/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+		<script src="theme/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jBootstrapPage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			.tr {
+				border: 0;
+			}
+			
+			th {
+				text-align: center;
+				border-top: 1px;
+			}
+			
+			tr {
+				border-top: 1px;
+				border-bottom: 1px;
+			}
+			
+			.modal-footer {
+				border-top: 0;
+			}
+			
+			.table {
+				margin-bottom: 10px;
+			}
+			
+			.row {
+				padding-top: 5px;
+			}
+			
+			.pagination {
+				margin: 5px auto auto;
+			}
+			
+			#dname {
+				width: 45px;
+			}
+			
+			#dproname {
+				width: 100px;
+			}
+			
+			.delmsg {
+				font-size: 14px;
+				border: none;
+				color: blue;
+				text-align: center;
+				overflow: hidden;
+				text-overflow: ellipsis;
+			}
+			
+			.topbread {
+				padding: 2px 7px;
+				margin-bottom: 7px;
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<div class="container">
+			<div id="title">
+				<!--<ol class="breadcrumb topbread ">
+					<li class="active"><span style="font-weight:bold;">测试人员看板</span></li>
+					<li>
+						<a href="qaboard.html" target="_blank">项目质量看板</a>
+					</li>
+					<li>
+						<a href="qafigure.html" target="_blank">测试能力分析</a>
+					</li>
+					<li style="float: right;">
+						<a href="projBrief.html" target="_blank">项目介绍</a>
+					</li>
+				</ol>-->
+			</div>
+			<div class="bs-docs-section">
+				<h3 style="align-content: center; width: 100%;margin-top: 7px;margin-bottom: 7px;" align="center">测试人员看板</h3>
+
+				<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+					<ul id="myTabs" class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active">
+							<a href="#trm" data-toggle="tab">测试人员看板</a>
+						</li>
+						<li role="presentation">
+							<a href="#projects" data-toggle="tab">所有项目</a>
+						</li>
+					</ul>
+					<div id="myTabContent" class="tab-content">
+						<p></p>
+						<div class="tab-pane fade in active" id="trm">
+
+							<div style="height: auto;margin-bottom: 10px; ">
+								<form role="form" id="searchTesterForm">
+									<div class="row">
+										<div class="col-md-1">
+											<label for="name" class="control-label">名字</label>
+										</div>
+										<div class="col-md-2">
+											<input type="text" class="form-control" id="tname" name="name" placeholder="请输入名字">
+										</div>
+										<div class="col-md-1">
+											<label for="name">人员状态</label>
+										</div>
+										<div class="col-md-2">
+											<select class="form-control" name="status">
+												<option value="">请选择</option>
+												<option value="0">可用</option>
+												<option value="1">锁定</option>
+											</select>
+										</div>
+										<div class="col-md-1">
+											<label for="skill" class="control-label">技能</label>
+										</div>
+										<div class="col-md-2">
+											<input type="text" class="form-control" id="tskill" name="skill" placeholder="请输入技能">
+										</div>
+										<div class="col-md-1"></div>
+										<div class="col-md-2" style="text-align: right;">
+											<input type="button" value="搜索" onclick="searchTester()" class="btn btn-primary" />
+											<input type="button" value="重置" onclick="viewAllTester()" class="btn btn-primary" />
+										</div>
+									</div>
+								</form>
+								<div class="row">
+									<form id="trmPageSize">
+										<div class="col-md-1">
+											<label>每页显示</label>
+										</div>
+										<div class="col-md-1">
+											<select class="form-control" name="pageSize" id="trmPSize">
+												<option value="10" selected="selected">10</option>
+												<option value="20">20</option>
+												<option value="50">50</option>
+											</select>
+										</div>
+										<div class="col-md-1" style="text-align: right;">
+											<input type="button" value="确定" onclick="setTrmPageSize()" class="btn" />
+										</div>
+									</form>
+									<div class="col-md-1"></div>
+									<div class="col-md-2"></div>
+									<div class="col-md-1"></div>
+									<div class="col-md-2"></div>
+									<div class="col-md-1"></div>
+									<div class="col-md-2" style="text-align: right;">
+										<button type='button' class='addTest btn' data-target='#addTester'>新增用户</button>
+									</div>
+								</div>
+							</div>
+
+							<table id="testertable" class="table" border="1" cellspacing="1" cellpadding="1" style="align-content: center; width: 100%;">
+								<thead>
+									<tr style="background-color:#B0E0E6;">
+										<th>序号</th>
+										<th>姓名</th>
+										<th>状态</th>
+										<th>技能</th>
+										<th>管理用户</th>
+										<th>计划项目&nbsp;&nbsp;
+											<a style="font-size:70%;" href="projBrief.html" target="_blank">项目介绍</a>
+										</th>
+										<th>Jira工时</th>
+									</tr>
+								</thead>
+								<tbody id="testerbody">
+
+								</tbody>
+							</table>
+							<div id="totalRecordsTester" style="float:left;margin-top: 2px;"></div>
+							<div id="paginatorTester" class="pagination" style="float:right;"></div>
+						</div>
+
+						<div class="tab-pane fade" id="projects">
+							<div style="height: auto;margin-bottom: 10px; ">
+								<form role="form" id="searchTaPForm">
+									<div class="row">
+										<div class="col-md-1">
+											<label for="name" class="control-label">名字</label>
+										</div>
+										<div class="col-md-3">
+											<input type="text" class="form-control" id="tpname" name="tname" placeholder="请输入名字">
+										</div>
+										<div class="col-md-1">
+											<label for="name">人员状态</label>
+										</div>
+										<div class="col-md-3">
+											<select class="form-control" name="tstatus">
+												<option value="">请选择</option>
+												<option value="0">可用</option>
+												<option value="1">锁定</option>
+											</select>
+										</div>
+										<div class="col-md-1">
+											<label for="skill" class=" control-label">技能</label>
+										</div>
+										<div class="col-md-3">
+											<input type="text" class="form-control" id="tpskill" name="tskill" placeholder="请输入技能">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-md-1">
+											<label for="skill" class=" control-label">项目</label>
+										</div>
+										<div class="col-md-3">
+											<input type="text" class="form-control" id="tpskill" name="pproject" placeholder="请输入项目">
+										</div>
+										<div class="col-md-1">
+											<label for="name">项目状态</label>
+										</div>
+										<div class="col-md-3">
+											<select class="form-control" name="pstatus">
+												<option value="">请选择</option>
+												<option value="0">未开始</option>
+												<option value="1">进行中</option>
+												<option value="2">已结束</option>
+											</select>
+										</div>
+										<div class="col-md-1"> <label for="skill" class=" control-label">项目经理</label></div>
+										<div class="col-md-3">
+											<input type="text" class="form-control" id="pmanager" name="pmanager" placeholder="请输入项目经理">
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-md-1"><label for="skill" class=" control-label">部门</label></div>
+										<div class="col-md-3">
+											<input type="text" class="form-control" id="pdepartm" name="pdepartm" placeholder="请输入部门">
+										</div>
+										<div class="col-md-1"> </div>
+										<div class="col-md-3">
+
+										</div>
+										<div class="col-md-1"> </div>
+										<div class="col-md-3" style="text-align:right">
+											<input type="button" value="搜索" onclick="searchTandP()" class="btn btn-primary" />
+											<input type="button" value="重置" onclick="searchReset()" class="btn btn-primary" />
+										</div>
+									</div>
+									<!--<p>&nbsp;</p>-->
+								</form>
+								<div id="proPageSize" class="row">
+									<div class="col-md-1">
+										<label>每页显示</label>
+									</div>
+									<div class="col-md-2">
+										<select class="form-control" name="pageSize" id="proPSize">
+											<option value="10" selected="selected">10</option>
+											<option value="20">20</option>
+											<option value="50">50</option>
+										</select>
+									</div>
+									<div class="col-md-1" style="text-align: right;">
+										<input type="button" value="确定" onclick="setProPageSize()" class="btn" />
+									</div>
+									<div class="col-md-2"> </div>
+									<div class="col-md-3"></div>
+
+								</div>
+								<!--<p>&nbsp;</p>
+							<div style="clear: both;"></div>-->
+							</div>
+
+							<table class="table" border="1" cellspacing="1" cellpadding="1" style=" width: 100%;">
+								<thead>
+									<tr style="background-color:#B0E0E6;">
+										<th>序号</th>
+										<th>姓名</th>
+										<th>人员状态</th>
+										<th>计划项目</th>
+										<th>开始时间</th>
+										<th>结束时间</th>
+										<th>项目状态</th>
+										<th>项目经理</th>
+										<th>所属部门</th>
+										<th>技能</th>
+									</tr>
+								</thead>
+								<tbody id="tester_proj">
+
+								</tbody>
+							</table>
+							<div id="totalRecordsTaP" style="float:left;margin-top: 5px;"></div>
+							<div id="paginatorTap" class="pagination" style="float:right;"></div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 新增用户的弹出层-->
+		<div class="modal fade" id="addTester">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">新增用户</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" role="form" id="addTesterForm">
+							<div class="form-group">
+								<label for="name" class="col-sm-2 control-label">名字</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="aname" name="name" placeholder="请输入名字">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="skill" class="col-sm-2 control-label">技能</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="askill" name="skill" placeholder="请输入技能">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="jiraid" class="col-sm-2 control-label">Jira账户</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="ajiraid" name="jiraid" placeholder="请输入Jira账户">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-9 col-sm-10">
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+									<button onclick="addTester()" type="button" class="btn btn-primary">确定</button>
+								</div>
+							</div>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- 编辑用户的弹出层-->
+		<div class="modal fade" id="editTester">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">编辑用户</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" role="form" id="editTesterForm">
+							<div class="form-group">
+								<label for="name" class="col-sm-2 control-label">名字</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="ename" name="name" placeholder="请输入名字">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="skill" class="col-sm-2 control-label">技能</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="eskill" name="skill" placeholder="请输入技能">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="jiraid" class="col-sm-2 control-label">Jira账户</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="ejiraid" name="jiraid" placeholder="请输入Jira账户">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-9 col-sm-10">
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+									<button onclick="editTester()" type="button" class="btn btn-primary">确定</button>
+								</div>
+							</div>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- 确定删除用户的提示 -->
+		<div class="modal fade" id="delTester">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">删除用户</h4>
+					</div>
+					<div class="modal-body">
+						<p>确定要删除该用户：<input readonly="readonly" type="text" class="delmsg" id="dname" /> 吗？</p>
+						<p>删除用户后，所属项目也会一起删除哦~</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button onclick="delTester()" type="button" class="btn btn-primary">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 确定删除项目的提示 -->
+		<div class="modal fade" id="delProject">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">删除项目</h4>
+					</div>
+					<div class="modal-body">
+						<p>确定要删除该项目：<input readonly="readonly" type="text" class="delmsg" id="dproname" /> 吗？</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+						<button onclick="delProject()" type="button" class="btn btn-primary">确定</button>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!-- 新增项目的弹出层-->
+		<div class="modal fade" id="addProject">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">新增项目</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" role="form" id="addProjectForm">
+
+							<div class="form-group">
+								<label for="projectname" class="col-sm-2 control-label">项目名称</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="aproject" name="project" placeholder="请输入项目名称">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="starttime" class="col-sm-2 control-label">开始时间</label>
+								<div class="col-sm-10">
+									<input type="date" class="form-control" id="astarttime" name="starttime" placeholder="请输入开始时间">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="completetime" class="col-sm-2 control-label">结束时间</label>
+								<div class="col-sm-10">
+									<input type="date" class="form-control" id="acompletetime" name="completetime" placeholder="请输入结束时间">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="projmanager" class="col-sm-2 control-label">项目经理</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="aprojmanager" name="projmanager" placeholder="请输入项目经理">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="department" class="col-sm-2 control-label">事业部</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="adepartment" name="department" placeholder="请输入事业部">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-9 col-sm-10">
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+									<button onclick="addProject()" type="button" class="btn btn-primary">确定</button>
+								</div>
+							</div>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<!-- 编辑项目的弹出层-->
+		<div class="modal fade" id="editProject">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">编辑项目</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" role="form" id="editProjectForm">
+
+							<div class="form-group">
+								<label for="projectname" class="col-sm-2 control-label">项目名称</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="eproject" name="project" placeholder="请输入项目名称">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="starttime" class="col-sm-2 control-label">开始时间</label>
+								<div class="col-sm-10">
+									<input type="date" class="form-control" id="estarttime" name="starttime" placeholder="请输入开始时间">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="completetime" class="col-sm-2 control-label">结束时间</label>
+								<div class="col-sm-10">
+									<input type="date" class="form-control" id="ecompletetime" name="completetime" placeholder="请输入结束时间">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="projmanager" class="col-sm-2 control-label">项目经理</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="eprojmanager" name="projmanager" placeholder="请输入项目经理">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="department" class="col-sm-2 control-label">事业部</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="edepartment" name="department" placeholder="请输入事业部">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-9 col-sm-10">
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+									<button onclick="editProject()" type="button" class="btn btn-primary">确定</button>
+								</div>
+							</div>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</body>
+
+	<!--id:trm 展示内容-->
+	<script type="text/javascript">
+	$(function() {
+			$("#title").load("header.html");
+		})
+		var myDate = new Date();
+		var currentYear = myDate.getFullYear();
+		var preMonth = myDate.getMonth();
+		if(preMonth <= 0) {
+			var preM = "12";
+			var viewYear = currentYear - 1;
+		} else if(preMonth < 10 && preMonth > 0) {
+			var preM = "0" + preMonth.toString();
+			var viewYear = currentYear;
+		} else {
+			var preM = preMonth.toString();
+			var viewYear = currentYear;
+		}
+		var preMonthPoried = preM + viewYear.toString().substring(2);
+		//console.log(preMonthPoried);
+
+		var currentMonth = myDate.getMonth() + 1;
+		if(currentMonth < 10) {
+			var currentM = "0" + currentMonth.toString();
+		} else {
+			var currentM = currentMonth.toString();
+		}
+		var monthPoried = currentM + currentYear.toString().substring(2);
+		//console.log(monthPoried);
+
+		var currentWeekDay = myDate.getDay();
+		var currentSunday = new Date(myDate.setDate(myDate.getDate() - currentWeekDay));
+		var dateSunday = currentSunday.getMonth();
+		var sundayMonth = currentSunday.getMonth() + 1;
+		var sudayDay = currentSunday.getDate();
+		if(sundayMonth < 10) {
+			var sundayM = "0" + sundayMonth.toString();
+		} else {
+			var sundayM = sundayMonth.toString();
+		}
+		if(sudayDay < 10) {
+			var sundayD = "0" + sudayDay.toString();
+		} else {
+			var sundayD = sudayDay.toString();
+		}
+		var weekPoried = sundayD + sundayM + currentYear.toString();
+		//console.log(weekPoried);
+
+		var initTesterStatus = true;
+		var pageTrmSize = 10;
+		$(function() {
+			reanderIDTrm(1);
+		});
+
+		function reanderIDTrm(pageNo) {
+			$.ajax({
+				type: "post",
+				url: "cxtester/queryTester.php?page=" + pageNo + "&pageSize=" + pageTrmSize,
+				data: $("#searchTesterForm").serialize(),
+				async: true,
+				success: function(data) {
+					//console.log($("#searchTesterForm").serialize()+"&page="+pageNo);
+					$("#testerbody").empty();
+					var dataList = eval(data);
+					//console.log(dataList);		
+					var html = "";
+					var len = dataList.length - 1;
+					var pageTotal = dataList[len].pageTotal;
+
+					//console.log("pageTotal="+pageTotal);
+					//console.log("pageTrmSize="+pageTrmSize);
+
+					if(len == 0 && dataList[0].numTotal == 0) {
+						html += "<tr style='align-content: center; height: 50px;background-color:#F5FFFA'><td align='center' colspan='7'>没有相关人员信息哦~</td></tr>";
+					} else {
+						for(var i = 0, len; i < len; i++) {
+							var xh = pageTrmSize * (pageNo - 1);
+
+							html += "<tr id='tr_" + i + "' style='background-color:#F5FFFA'>";
+							html += "<td align='center' >" + (xh + i + 1) + "</td>";
+							html += "<td align='center'>" + dataList[i].name + "</td>";
+
+							if(dataList[i].status == 0) {
+								var j = "可用";
+								html += "<td align='center' >" + j + "</td>";
+							} else {
+								var j = "锁定";
+								html += "<td align='center'  style='color:#FA8072;font-weight:bold'>" + j + "</td>";
+							}
+							html += "<td align='center'>" + (dataList[i].skill || '') + "</td>";
+							html += "<td align='center'>";
+							html += "&nbsp;<button type='button' data-edittesterid='" + dataList[i].testerid + "' data-edittestname='" + dataList[i].name + "' data-edittestskill='" + dataList[i].skill + "' data-editjiraid='" + dataList[i].jiraid + "' class='editTest btn btn-default btn-sm' data-target='#editTester'>编辑</button>";
+							html += "&nbsp;<button type='button' data-deltesterid='" + dataList[i].testerid + "' data-deltetrid='" + i + "' data-deltestername='" + dataList[i].name + "' class='delTest btn btn-default btn-sm' data-target='#delTester'>删除</button>";
+							html += "</td>";
+							html += "<td align='center'>";
+							html += "&nbsp;<button id='probtn_" + i + "' onclick='selectproj(" + dataList[i].testerid + "," + i + ")' class='btn btn-default btn-sm' >查看项目</button>";
+							html += "&nbsp;<button type='button' data-addproxhid='"+i+"' data-addprotid='" + dataList[i].testerid + "'  class='addProj btn btn-default btn-sm' data-target='#addProject'>新增项目</button>";
+							html += "</td>";
+
+							var tempoPreMonth = "http://jira.dds.com/secure/TempoUserBoard!report.jspa?userId=" + dataList[i].jiraid + "&period=" + preMonthPoried + "&periodView=PERIOD";
+							var tempoMonth = "http://jira.dds.com/secure/TempoUserBoard!report.jspa?userId=" + dataList[i].jiraid + "&period=" + monthPoried + "&periodView=PERIOD";
+							var tempoWeek = "http://jira.dds.com/secure/TempoUserBoard!report.jspa?userId=" + dataList[i].jiraid + "&period=" + weekPoried + "&periodView=WEEK";
+							html += "<td align='center'>";
+							html += "&nbsp;<a target='_blank' href='" + tempoPreMonth + "' style='color:blue;font-family:Microsoft JhengHei'>上月</a>";
+							html += "&nbsp;|&nbsp;<a target='_blank' href='" + tempoMonth + "' style='color:#8B4513;font-family:SimHei'>本月</a>";
+							html += "&nbsp;|&nbsp;<a target='_blank' href='" + tempoWeek + "' style='color:#008B00;font-family:Microsoft YaHei'>本周</a>"
+							html += "</td>";
+							html += "</tr>";
+						}
+					}
+
+					$("#testerbody").append(html);
+
+					if(initTesterStatus) {
+						$("#totalRecordsTester").empty();
+						$("#paginatorTester").empty();
+						var total = dataList[len].numTotal;
+						var totalRecords = "总计" + total + "条记录  总计" + pageTotal + "页";
+						$("#totalRecordsTester").append(totalRecords);
+						initTesterStatus = false;
+						//第一个参数-每页显示几条，第二个参数-显示几个按钮，第三个参数-总条数
+						if(total != 0) {
+							createPageTester(pageTrmSize, 5, total);
+						}
+					}
+				}
+			});
+		}
+
+		function createPageTester(pageSize, buttons, total) {
+			$("#paginatorTester").jBootstrapPage({
+				pageSize: pageSize,
+				total: total,
+				maxPageButton: buttons,
+				onPageClicked: function(obj, pageIndex) {
+					reanderIDTrm(pageIndex + 1)
+				}
+			});
+		}
+
+		function searchTester() {
+			initTesterStatus = true;
+			reanderIDTrm(1);
+		}
+
+		function viewAllTester() {
+			document.getElementById('searchTesterForm').reset();
+			initTesterStatus = true;
+			reanderIDTrm(1);
+		}
+
+		function setTrmPageSize() {
+			console.log($("#trmPSize").val());
+			pageTrmSize = $("#trmPSize").val();
+			console.log(pageTrmSize);
+			initTesterStatus = true;
+			reanderIDTrm(1);
+		}
+		//	用户项目展开收缩
+		function selectproj(tid, id) {
+			console.log(tid);
+			var tr = $("#tr_" + id);
+			var phtml = "<tr class='tr' style='background-color: #FFF8DC;'><td colspan='7'><div style='display: none;  height: auto;'>";
+			phtml += "<table class='table-bordered' border='1' cellspacing='1' cellpadding='1' width='100%' >";
+			phtml += "<tr><th width='7%'>序号</th><th width='18%'>项目</th><th width='14%'>开始时间</th><th width='14%'>结束时间</th><th width='7%'>状态</th>";
+			phtml += "<th width='10%'>项目经理</th><th width='14%'>所属部门</th><th width='14%'>操作</th></tr>";
+			phtml += "<tbody  id='projbody_" + id + "'></tbody></table></div></td></tr>";
+			if(tr.next()[0]) {
+				if(tr.next().hasClass("tr")) {
+					tr.next().find("div").slideToggle(function() {
+						$("#probtn_" + id).html("查看项目");
+						$("#probtn_" + id).addClass("btn-default");
+						tr.next().remove();
+					});
+				} else {
+					tr.after(phtml)
+					$("#probtn_" + id).html("隐藏项目");
+					$("#probtn_" + id).removeClass("btn-default");
+					tr.next().find("div").slideToggle();
+				}
+			} else {
+				tr.after(phtml)
+				$("#probtn_" + id).html("隐藏项目");
+				//$("#probtn_" + id).css("color ","red");
+				$("#probtn_" + id).removeClass("btn-default");
+				tr.next().find("div").slideToggle();
+			}
+			dispProjBody(tid,id);
+		}
+		
+		function dispProjBody(tid,id){
+			$.ajax({
+				type: "post",
+				url: "cxtester/selectProj.php?action=notall",
+				async: true,
+				data: 'testerid=' + tid,
+				success: function(data) {
+					var pbhtml = "";
+					var dataProj = eval(data);
+					//console.log(dataProj);
+
+					if(dataProj.length == 1 && dataProj[0].testerid == 0) {
+						pbhtml += "<tr style='align-content: center; height: 50px;'><td align='center' colspan='8'>暂时没有项目哦~</td></tr>";
+					} else {
+						for(var i = 0, len = dataProj.length; i < len; i++) {
+
+							pbhtml += "<tr id='ptr_" + i + "' style='background-color: #FFFFF0;'>";
+							pbhtml += "<td align='center'>" + (i + 1) + "</td>";
+							pbhtml += "<td align='center' width='200px' id='pproj_" + i + "'>" + (dataProj[i].project || '') + "</td>";
+							pbhtml += "<td align='center' width='200px' id='pstart_" + i + "'>" + (dataProj[i].starttime || '') + "</td>";
+							pbhtml += "<td align='center' width='200px' id='pcomplete_" + i + "'>" + (dataProj[i].completetime || '') + "</td>";
+
+							if(dataProj[i].status == 0) {
+								var j = "未开始";
+								pbhtml += "<td align='center'>" + j + "</td>";
+							} else if(dataProj[i].status == 1) {
+								var j = "进行中";
+								pbhtml += "<td align='center'>" + j + "</td>";
+							} else {
+								var j = "已结束";
+								pbhtml += "<td align='center'>" + j + "</td>";
+							}
+
+							pbhtml += "<td align='center' width='200px' id='pmanager_" + i + "'>" + (dataProj[i].projmanager || '') + "</td>";
+							pbhtml += "<td align='center' width='200px' id='pdepart_" + i + "'>" + (dataProj[i].department || '') + "</td>";
+
+							pbhtml += "<td width='200px' align='center'>";
+							pbhtml += "<button type='button' data-edittrid='" + id + "' data-editproid='" + dataProj[i].id + "' data-edittesterid='" + dataProj[i].testerid + "' data-editproject='" + dataProj[i].project + "' data-editstart='" + dataProj[i].starttime + "' data-editcomplete='" + dataProj[i].completetime + "' data-editmanager='" + dataProj[i].projmanager + "' data-editdepartment='" + dataProj[i].department + "'  class='editProj' data-target='#editProject'>编辑</button>";
+
+							pbhtml += "&nbsp;<button type='button' data-delproid='" + dataProj[i].id + "' data-delptesterid='" + dataProj[i].testerid + "' data-deltrid='" + i + "' data-delprojname='" + dataProj[i].project + "' class='delProj' data-target='#delProject'>删除</button>";
+
+							pbhtml += "</td>";
+							pbhtml += "</tr>";
+						}
+					}					
+					$("#projbody_" + id).append(pbhtml);
+				}
+			});
+		}
+		
+	</script>
+
+	<!--id:projects 展示项目-->
+	<script type="text/javascript">
+		var initTaPStatus = true;
+		var pageProSize = 10;
+
+		$(function() {
+			reanderIDProject(1);
+		});
+
+		function reanderIDProject(pageNo) {
+			$.ajax({
+				type: "post",
+				url: "cxtester/queryTaP.php?page=" + pageNo + "&pageSize=" + pageProSize,
+				data: $("#searchTaPForm").serialize(),
+				async: true,
+				success: function(data) {
+					//console.log($("#searchTaPForm").serialize()+"&page="+pageNo);
+					$("#tester_proj").empty();
+					console.log(data);
+					var dataAll = eval(data);
+					console.log(dataAll);
+					var ahtml = "";
+					var len = dataAll.length - 1;
+					var pageTotal = dataAll[len].pageTotal;
+
+					if(len == 0 && dataAll[0].numTotal == 0) {
+						ahtml += "<tr style='align-content: center; height: 50px;background-color:#F5FFFA'><td align='center' colspan='10'>没有匹配的结果哦~</td></tr>";
+					} else {
+						for(var i = 0, len; i < len; i++) {
+							var xh = pageProSize * (pageNo - 1);
+
+							ahtml += "<tr style='background-color:#F5FFFA'>";
+							ahtml += "<td align='center'>" + (xh + i + 1) + "</td>";
+
+							ahtml += "<td align='center'>" + dataAll[i].tname + "</td>";
+
+							if(dataAll[i].tstatus == 0) {
+								var j = "可用";
+								ahtml += "<td align='center'>" + j + "</td>";
+							} else {
+								var j = "锁定";
+								ahtml += "<td align='center' style='color:#FA8072;font-weight:bold'>" + j + "</td>";
+							}
+							ahtml += "<td align='center'>" + (dataAll[i].pproject || '') + "</td>";
+							ahtml += "<td align='center'>" + (dataAll[i].pstart || '') + "</td>";
+							ahtml += "<td align='center'>" + (dataAll[i].pcomplete || '') + "</td>";
+
+							if(dataAll[i].pstatus == 0) {
+								var j = "未开始";
+								ahtml += "<td align='center'>" + j + "</td>";
+							} else if(dataAll[i].pstatus == 1) {
+								var j = "进行中";
+								ahtml += "<td align='center'>" + j + "</td>";
+							} else if(dataAll[i].pstatus == null) {
+								var j = "";
+								ahtml += "<td align='center'>" + (j || '') + "</td>";
+							} else {
+								var j = "已结束";
+								ahtml += "<td align='center'>" + j + "</td>";
+							}
+							ahtml += "<td align='center'>" + (dataAll[i].pmanager || '') + "</td>";
+							ahtml += "<td align='center'>" + (dataAll[i].pdepartm || '') + "</td>";
+							ahtml += "<td align='center'>" + (dataAll[i].tskill || '') + "</td>";
+							ahtml += "</tr>";
+						}
+					}
+
+					$("#tester_proj").append(ahtml)
+
+					if(initTaPStatus) {
+						$("#totalRecordsTaP").empty();
+						$("#paginatorTap").empty();
+						var total = dataAll[len].numTotal;
+						var totalRecords = "总计" + total + "条记录  总计" + pageTotal + "页";
+						$("#totalRecordsTaP").append(totalRecords);
+						initTaPStatus = false;
+						//第一个参数-每页显示几条，第二个参数-显示几个按钮，第三个参数-总条数
+						if(total != 0) {
+							createPage(pageProSize, 5, total);
+						}
+					}
+				}
+			});
+		}
+
+		function createPage(pageSize, buttons, total) {
+			$("#paginatorTap").jBootstrapPage({
+				pageSize: pageSize,
+				total: total,
+				maxPageButton: buttons,
+				onPageClicked: function(obj, pageIndex) {
+					reanderIDProject(pageIndex + 1)
+				}
+			});
+		}
+
+		function searchTandP() {
+			initTaPStatus = true;
+			reanderIDProject(1);
+		}
+
+		function searchReset() {
+			document.getElementById('searchTaPForm').reset();
+			initTaPStatus = true;
+			reanderIDProject(1);
+		}
+
+		function setProPageSize() {
+			console.log($("#proPSize").val());
+			pageProSize = $("#proPSize").val();
+			console.log(pageProSize);
+			initTaPStatus = true;
+			reanderIDProject(1);
+		}
+	</script>
+
+	<!--用户、项目的增删改查-->
+	<script type="text/javascript">
+		//全局变量
+		var editTesterId = 0;
+		var editTestName = "";
+		var editTestSkill = "";
+		var editJiraId = "";
+		var delTesterId = 0;
+		var delTTrId = 0;
+		var delTesterName = "";
+
+		var addProTester = 0;
+		var addProXhId=0;
+		var delProjId = 0;
+		var delPTrId = 0;
+		var delPTesterid = 0;
+		var delProjName = "";
+		
+		var editTrId=0;
+		var editProjId = 0;
+		var editPTesterid = 0;
+		var editProjname = "";
+		var editStart = "";
+		var editComplete = "";
+		var editManager = "";
+		var editDepart = "";
+
+		$(function() {
+			$(document).on("click", ".addTest", function() { //显示添加用户的弹出框
+				$('#addTester').modal('show');
+			});
+
+			$(document).on("click", ".editTest", function() { //显示确认编辑用户的弹出框
+				editTesterId = $(this).data("edittesterid");
+				editTestName = $(this).data("edittestname");
+				editTestSkill = $(this).data("edittestskill");
+				editJiraId = $(this).data("editjiraid");
+
+				$('#editTester').modal('show');
+
+				$("#ename").attr("value", editTestName);
+				$("#eskill").attr("value", editTestSkill);
+				$("#ejiraid").attr("value", editJiraId);
+			});
+
+			$(document).on("click", ".delTest", function() { //显示确认删除用户的弹出框
+				delTesterId = $(this).data("deltesterid");
+				delTTrId = $(this).data("deltetrid");
+				delTesterName = $(this).data("deltestername");
+				$('#delTester').modal('show');
+				$("#dname").attr("value", delTesterName);
+			});
+
+			$(document).on("click", ".delProj", function() { //显示确认删除项目的弹出框
+				delProjId = $(this).data("delproid");
+				delPTrId = $(this).data("deltrid");
+				delPTesterid = $(this).data("delptesterid");
+				delProjName = $(this).data("delprojname");
+				$('#delProject').modal('show');
+				$("#dproname").attr("value", delProjName);
+			});
+
+			$(document).on("click", ".addProj", function() { //显示添加项目的弹出框
+				addProTester = $(this).data("addprotid");
+				addProXhId = $(this).data("addproxhid");
+				
+				//console.log(addProTester);
+				$('#addProject').modal('show');
+			});
+
+			$(document).on("click", ".editProj", function() { //显示编辑项目的弹出框
+				
+				//console.log(this);
+				editProjId = $(this).data("editproid");
+				editPTesterid = $(this).data("edittesterid");
+				editProjname = $(this).data("editproject");
+				editStart = $(this).data("editstart");
+				editComplete = $(this).data("editcomplete");
+				editManager = $(this).data("editmanager");
+				editDepart = $(this).data("editdepartment");
+				editTrId = $(this).data("edittrid");
+
+				$('#editProject').modal('show');
+				
+				//console.log("editptid>"+editPTesterid);
+
+				$("#eproject").attr("value", editProjname);
+				$("#estarttime").attr("value", editStart);
+				$("#ecompletetime").attr("value", editComplete);
+				$("#eprojmanager").attr("value", editManager);
+				$("#edepartment").attr("value", editDepart);
+
+			});
+
+		});
+
+		function addTester() { //添加用户的方法
+			if($.trim($("#aname").val()) == "") {
+				layer.alert("姓名不能为空！");
+				return;
+			} else {
+				$.ajax({
+					type: "post",
+					url: "cxtester/insertTester.php",
+					data: $("#addTesterForm").serialize(),
+					async: true,
+					success: function() {
+						layer.msg("添加成功", function() {
+							window.location.reload();
+						});
+					}
+				});
+				$('#addTester').modal('hide');
+			}
+		}
+
+		function delTester() { //删除用户的方法
+			console.log(delTesterId);
+			console.log(delTTrId);
+			$.ajax({
+				type: "post",
+				url: "cxtester/deleteTester.php",
+				data: "testerid=" + delTesterId,
+				async: true,
+				success: function() {
+					layer.msg("删除用户成功", function() {
+						window.location.reload();
+					});
+				}
+			});
+			$('#delTester').modal('hide');
+		}
+
+		function editTester() { //编辑用户的方法			
+			if($.trim($("#ename").val()) == "") {
+				layer.alert("姓名不能为空！");
+				return;
+			} else {
+				$.ajax({
+					type: "post",
+					url: "cxtester/editTester.php",
+					data: $("#editTesterForm").serialize() + "&testerid=" + editTesterId,
+					async: true,
+					success: function() {
+						layer.msg("编辑用户成功", function() {
+							window.location.reload();
+							
+						});
+					},
+					error: function(){
+						layer.alert("哎呀，出错啦！请重新试试~"); 
+					}
+				});
+				$('#editTester').modal('hide');
+			}
+		}
+
+		function addProject() { //添加项目的方法
+			if($.trim($("#aproject").val()) == "") {
+				layer.alert("项目名称不能为空！");
+				return;
+			} else {
+				$.ajax({
+					type: "post",
+					url: "cxtester/insertProj.php",
+					data: $("#addProjectForm").serialize() + "&testerid=" + addProTester,
+					async: true,
+					success: function() {
+						layer.msg("添加项目成功", function() {
+							$("#projbody_" + addProXhId).empty();
+							dispProjBody(addProTester, addProXhId);						
+							//window.location.reload();	
+//							var addProjName=$("#aproject").val();
+//							var addProjStart=$("#astarttime").val();
+//							var addProjComplete=$("#acompletetime").val();
+//							var addProjPM=$("#aprojmanager").val();
+//							var addProjDept=$("#adepartment").val();
+//							var addprojhtml="<tr><td>-</td><td>"+addProjName+"</td>";
+//							addprojhtml+="<td>"+astarttime+"</td><td>"+addProjComplete+"</td><td>状态</td>";
+//							addprojhtml+="<td>addProjPM</td><td>addProjDept</td><td>- -</td></tr>";
+//							console.log("addProTester"+addProTester);
+//							console.log("addprojhtml"+addprojhtml);
+//							$("#projbody_" + addProXhId).append(addprojhtml);
+						});
+							
+					},
+					error: function(){
+						layer.alert("哎呀，出错啦！请重新试试~"); 
+					}
+				});
+				$('#addProject').modal('hide');
+			}
+		}
+
+		function delProject() { //删除项目的方法
+			$.ajax({
+				type: "post",
+				url: "cxtester/deleteProj.php",
+				data: "id=" + delProjId + "&testerid=" + delPTesterid,
+				async: true, //是不是缓存数据			
+				success: function() {
+					layer.msg("删除项目成功", function() {
+						//window.location.reload();
+						$("#ptr_"+delPTrId).remove();
+					});
+				},
+				error: function(){
+					layer.alert("哎呀，出错啦！请重新试试~"); 
+				}
+			});
+			$('#delProject').modal('hide');
+		}
+
+		function editProject() {
+			if($.trim($("#eproject").val()) == "") {
+				layer.alert("项目名称不能为空！");
+				return;
+			} else {
+				$.ajax({
+					type: "post",
+					url: "cxtester/editProj.php",
+					data: $("#editProjectForm").serialize() + "&id=" + editProjId + "&testerid=" + editPTesterid,
+					async: true,
+					success: function() {
+						layer.msg("编辑项目成功", function() {
+							window.location.reload();
+//							$("#projbody_" + editTrId).empty();
+//							dispProjBody(editPTesterid, editTrId);	
+						});
+					},
+					error: function(){
+						layer.alert("哎呀，出错啦！请重新试试~"); 
+					}
+
+				});
+				$('#editProject').modal('hide');
+			}
+		}
+	</script>
+
+</html>

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>测试人员分组情况</title>
+		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
+		<script src="theme/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jBootstrapPage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<div class="container">
+			<table class="table table-bordered">
+				<thead>
+					<tr>
+						<th>域账户</th>
+						<th>分组</th>
+						
+					</tr>
+				</thead>
+				<tbody id="lxl">
+					
+				</tbody>
+			</table>
+		</div>
+	</body>
+	<script type="text/javascript">
+		$(function(){
+			$.ajax({
+				type:"post",
+				url:"jira/testerGroup.php",
+				async:true,
+				success:function(data){
+					var dataList=eval(data);
+					var lxltb="";
+					for (i=0,len=dataList.length;i<len;i++) {
+						lxltb+='<tr>';
+						lxltb+='<td>'+dataList[i].MEMBER_KEY+'</td>';
+						lxltb+='<td>'+dataList[i].NAME+'</td>';
+						lxltb+='</tr>';
+					}
+					$("#lxl").append(lxltb);
+				},
+			});
+		})
+	</script>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>规则说明</title>
+		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
+	</head>
+
+	<body>
+		<div class="container">
+			<h2 style="text-align: center;">规则说明</h2>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					质量看板
+				</div>
+				<div class="panel-body">
+					<h3>数据来源</h3>
+					<p>质量看板内容和数据全部来源于jira。
+						<br /> 展示项目信息：项目名称、项目类别、创建时间、负责人。
+						<br /> 数据信息：项目中总BUG数，未修复（所有的还没有关闭的BUG），待验证（处于resolved状态的BUG，需要测试人员去验证的BUG），有效率（有效BUG/总BUG），遗漏率（生产BUG/总BUG），及时率（PRE环境以前的BUG/总BUG）。
+						<br />
+					</p>
+					<hr>
+					<h3>颜色规则</h3>
+					<img src="jira/images/rulesforqa.jpg" />
+				</div>
+			</div>
+			<div class="panel panel-default">
+				<div class="panel-heading">
+					测试能力分析
+				</div>
+				<div class="panel-body">
+					<h3>数据来源</h3>
+					<p>测试能力分析内容和数据全部来源于jira。
+					<br /> 分别按月、按季度、按年展示生产BUG数量、有效BUG数量、以及BUG总数。
+					<br /> 数据信息：测试质量=生产Bug/有效Bug；测试效率=有效Bug/Bug总数
+					<br />
+					</p>
+					
+				</div>
+			</div>
+
+		</div>
+	</body>
+
+</html>

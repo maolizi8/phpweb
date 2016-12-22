@@ -1,0 +1,127 @@
+Option Explicit
+
+Private Sub showAllExpLocs()
+    Dim sht As Worksheet
+    Dim cnn As New ADODB.Connection
+    Dim rs As New ADODB.Recordset
+    Dim sql As String
+    Dim calmode As Single
+    
+    Set sht = ThisWorkbook.Worksheets("异常数据调整记录")
+    'Set cnn = New ADODB.Connection
+    sql = "SELECT id, git_projectname, commit_id, code_suffix, ch_locs FROM pm.ma_exception_record"
+    cnn.ConnectionString = "DRIVER={MySQL ODBC 5.3 Unicode Driver};UID=pm;PWD=pm@@1234;SERVER=10.32.135.62;DATABASE=pm;PORT=3306;"
+    'MsgBox cnn.ConnectionString
+    cnn.Open
+    rs.Open sql, cnn, adOpenDynamic, adLockReadOnly
+    
+    calmode = Application.Calculation
+    Application.Calculation = xlCalculationManual
+    Dim i, j, n As Integer
+    For j = 0 To rs.Fields.Count
+            If j = 4 Then
+                sht.Cells(3, j + 1).Value = "commit_type"
+                n = 1
+            Else
+                sht.Cells(3, j + 1).Value = rs.Fields(j - n).Name
+                n = 0
+            End If
+    Next
+    n = 0
+    While Not rs.EOF
+        For j = 0 To rs.Fields.Count
+            If j = 4 Then
+                sht.Cells(i + 4, j + 1).Value = sht.Cells(i + 4, 3).Value & sht.Cells(i + 4, 4).Value
+                n = 1
+            Else
+                sht.Cells(i + 4, j + 1).Value = rs(j - n).Value
+                n = 0
+            End If
+        Next
+        rs.MoveNext
+        i = i + 1
+    Wend
+    
+    rs.Close
+    cnn.Close
+    Application.Calculation = calmode
+    'MsgBox cnn.State
+End Sub
+
+Sub rec_exp()
+'Start Del 2016/01/26 -- table change (commit_diff -> cm_commit_diff, commit_info -> cm_commit_info) -- by SongMo
+'    Dim sht As Worksheet
+'    Dim cnn As New ADODB.Connection
+'    Dim rs As New ADODB.Recordset
+'    Dim sql As String
+'    Dim calmode As Single
+'
+'    Set sht = ThisWorkbook.Worksheets("异常数据调整记录")
+'
+'    cnn.ConnectionString = "DRIVER={MySQL ODBC 5.3 Unicode Driver};UID=pm;PWD=pm@@1234;SERVER=10.32.135.62;DATABASE=pm;PORT=3306;"
+'    cnn.Open
+'
+'    Dim arg, rg As Range
+'
+'    Set arg = db.getSelCol(Selection)
+'
+'    calmode = Application.Calculation
+'    Application.Calculation = xlCalculationManual
+'    For Each rg In arg
+'        If Application.WorksheetFunction.CountA(rg.Offset(0, 1), rg.Offset(0, 2), rg.Offset(0, 3), rg.Offset(0, 5)) >= 3 And Application.WorksheetFunction.IsNumber(rg.Offset(0, 5).Value) Then
+'            If is_ex_ext(cnn, rg.Offset(0, 2).Value, rg.Offset(0, 3).Value) Then
+'                MsgBox "第【" & rg.Row & "】行待提交的异常记录已存在，如需要修改请在数据库中更改。"
+'            Else
+'                rg.Offset(0, 4).Value = rg.Offset(0, 2).Value & rg.Offset(0, 3).Value
+'                sql = "INSERT INTO pm.ma_exception_record (git_projectname, commit_id, code_suffix, ch_locs, Operator) values ('" & rg.Offset(0, 1).Value & "', '" & rg.Offset(0, 2).Value & "', '" & rg.Offset(0, 3).Value & "', " & rg.Offset(0, 5).Value & ", '" & Environ("USERNAME") & "')"
+'                cnn.Execute sql
+'                rg.Value = "已提交"
+'            End If
+'        Else
+'            MsgBox "当前选中的行记录格式可能有误，请检查。"
+'        End If
+'
+'    Next
+'
+'    If rs.State = 1 Then
+'        rs.Close
+'    End If
+'    If cnn.State = 1 Then
+'        cnn.Close
+'    End If
+'    Application.Calculation = calmode
+'End Del 2016/01/26 -- table change (commit_diff -> cm_commit_diff, commit_info -> cm_commit_info) -- by SongMo
+
+'Start Add 2016/01/26 -- table change (commit_diff -> cm_commit_diff, commit_info -> cm_commit_info) -- by SongMo
+MsgBox "哎~哟~" & Chr(13) & "此功能暂时停止使用哦！"
+'End Add 2016/01/26 -- table change (commit_diff -> cm_commit_diff, commit_info -> cm_commit_info) -- by SongMo
+End Sub
+
+Private Function is_ex_ext(cnn As ADODB.Connection, cmtId As String, suffix As String) As Boolean
+    Dim str As String
+    Dim rs As New ADODB.Recordset
+    Dim n As Integer
+    If suffix = "" Then
+        str = " is null"
+    Else
+        str = "=""" & suffix & """"
+    End If
+
+    rs.Open "select count(id) from pm.ma_exception_record where commit_id=""" & cmtId & """ and code_suffix" & str & "", cnn, adOpenDynamic, adLockReadOnly
+    n = CInt(rs(0).Value)
+    rs.Close
+    If n > 0 Then
+        is_ex_ext = True
+    Else
+        is_ex_ext = False
+    End If
+End Function
+
+Private Sub Worksheet_Change(ByVal Target As Range)
+    If Target.Cells.Count = 1 Then
+        If Target.Column = 4 And Target.Row > 3 Then
+            Target.Offset(0, 1).Value = Target.Offset(0, -1).Value & Target.Value
+        End If
+    End If
+End Sub
+

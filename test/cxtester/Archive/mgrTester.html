@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>用户信息</title>
+		<script type="text/javascript" src="jquery-2.0.3.min.js" charset="utf-8"></script>
+		<style type="text/css">
+		input {
+			border: 0;
+		}		
+		.input-b {
+			border: 1px slateblue solid;
+		}		
+		</style>
+   
+	</head>
+	<body>
+		<div style="font-family: Consolas;width: 80%;align-content: center;MARGIN-RIGHT: auto; MARGIN-LEFT: auto;" >
+		<h2 style="align-content: center; width: 100%;" align="center">管理用户信息</h2>
+		<table  border="1" cellspacing="1" cellpadding="1" style="align-content: center; width: 100%;">
+			<tr>
+				<th>姓名</th>
+				<th>技能</th>
+				<th>状态</th>	
+				<th>操作</th>
+			</tr>
+			<tbody   id="tablebody">
+				
+			</tbody>
+		</table>
+		
+		<script  type="text/javascript">
+		$(function() { 	//这么写就是页面加载完成执行
+			$.ajax({	//方法开始
+				type: "post", 
+				url: "selectTester.php", 
+				async: true, 	//是不是缓存数据			
+				success: function(data) {
+					var dataList = eval(data);					
+					console.log(dataList);					
+					var html="";					
+					for(var i = 0, len = dataList.length; i< len; i++){		
+						
+						html+= "<tr  id='tr_" + i + "'>";
+						html+="<td align='center' >"+dataList[i].name+"</td>";
+						html+="<td><input readonly='readonly' id='tskill_"+i+"' value='"+(dataList[i].skill||'')+"' data-value='"+dataList[i].skill+ "' ></td>";
+						
+						//html+="<td align='center'>"+dataList[i].status+"</td>";
+						if(dataList[i].status==0){
+							var j="可用";
+							html+="<td align='center'>"+j+"</td>";
+						}else{
+							var j="锁定";
+							html+="<td align='center'>"+j+"</td>";
+						}	
+						html+="<td width='200px' ><button id='editbtn_"+i+"' onclick='editt(tskill_"+i+","+i+")'>编辑</button>";
+						html+="&nbsp;<button id='editbtn_"+i+"' onclick='deletet("+dataList[i].testerid+","+i+")'>删除</button>";
+						html+="&nbsp;<button id='savebtn_"+i+"' onclick='savet(tskill_"+i+","+i+")' style='display:none'>保存</button></td>";
+
+						html+="</tr>";
+					}	
+					html+="<tr align='center'><td colspan='4'><button id='addtester' onclick='addtester()'>新增用户</button></td></tr>";
+					$("#tablebody").append(html)
+				}
+				});
+			});
+		</script>
+		<script type="text/javascript">
+		function editt(skid,i){
+//			var skilltag=$(skid);
+//			if (skilltag.hasClass("input-b")) {
+//				$("#editbtn_" + i).html("编辑");
+//				//$("#savebtn_"+i)[0].style.display="none";
+//				$("#savebtn_"+i).css("display","none");				
+//				skilltag.attr("readonly", true);
+//				skilltag.removeClass("input-b");
+//				skilltag.val(skilltag.attr("data-value"));
+//			} else {
+//				$("#editbtn_" + i).html("取消编辑");
+//				//$("#savebtn_"+i)[0].style.display="inline";
+//				$("#savebtn_"+i).css("display","inline");
+//				skilltag.attr("readonly", false);
+//				skilltag.addClass("input-b");				
+//			}
+		}
+		function savet(skid,i){
+			
+		}
+		function deletet(tid,id){
+			console.log(tid);
+			$.ajax({	//方法开始
+				type: "post", 
+				url: "deleteTester.php", 
+				data:"id="+tid,
+				async: true, 	//是不是缓存数据			
+				success: function() {
+					$("#tr"+id).remove();
+				}
+			});			
+		}
+		function addtester(){
+			
+		}
+		</script>
+		</div>
+		
+		
+	</body>
+</html>

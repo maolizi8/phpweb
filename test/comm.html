@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>建议</title>
+		<link href="theme/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+		<script src="theme/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jBootstrapPage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+
+		<body>
+			<div class="container">
+				<h2 align="center">关于工会的各种建议</h2>
+				<br />
+				<p>现在工会要收集大家的建议，请同学们认真写下各自的真实想法。你们的想法或建议会“原汁原味”的提交上去的哈——Follow Your Heart!</p>
+				<form role="form" id="addcomments">
+					<div class="form-group">
+						<label for="addcomm2">你的想法或建议：</label>
+						<textarea name="commbody" class="form-control" id="commbody"></textarea>
+					</div>
+					<input type="button" value="提交" onclick="addComment()" class="btn btn-primary" />
+				</form>
+				<div id="comments" style="margin-top: 30px;">
+					<h3>他们说：</h3>
+					<table class="table table-condensed" id="commtable">
+						
+					</table>
+				</div>
+			</div>
+			
+			<!-- 确定删除项目的提示 -->
+		<div class="modal fade" id="delComments">
+			<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+				<h3 align="center">确定要删除吗？</h3>
+				</div>
+				<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+				<button onclick="delComment()" type="button" class="btn btn-primary">确定</button>
+			
+				</div>
+			</div>
+			</div>
+		</div>
+		
+		</body>
+		<script type="text/javascript">
+			$(function() {
+				$.ajax({
+					type: "post",
+					url: "cxtester/comments.php?action=search",
+					async: true,
+					success: function(data) {
+						var commList = eval(data);
+						var commBody = "";
+						for(i = 0, len = commList.length; i < len; i++) {
+							commBody += '<tr>';
+							commBody += '<td width="90%"><i>无名氏</i>：' + commList[i].commbody + '</td>';
+							commBody += '	<td width="10%">'
+							commBody += "&nbsp;<button type='button' data-delid='" + commList[i].id + "' data-deltrid='" + i + "' class='delComm btn btn-default btn-sm' data-target='#delComments'>删除</button>";
+							commBody += '</td></tr>';
+						}
+						$('#commtable').append(commBody);
+					}
+				});
+				});
+			
+			$(function() {	
+				$(document).on("click", ".delComm", function() { 
+					delId = $(this).data("delid");
+					delTrId = $(this).data("deltrid");
+					$('#delComments').modal('show');
+			
+				})
+			});
+
+			function addComment() { 
+				if($.trim($("#commbody").val()) == "") {
+					layer.alert("你还没有输入任何想法和建议哦！");
+					return;
+				} else {
+					$.ajax({
+						type: "post",
+						url: "cxtester/comments.php?action=add",
+						data: $("#addcomments").serialize(),
+						async: true,
+						success: function() {
+							layer.msg("提交成功！", function() {
+								window.location.reload();
+							});
+						}
+					});
+				}
+			}
+			function delComment() {
+				$.ajax({
+						type: "post",
+						url: "cxtester/comments.php?action=delete",
+						data: "id="+delId,
+						async: true,
+						success: function() {
+							layer.msg("删除成功！", function() {
+								window.location.reload();
+							});
+						}
+				});
+				
+			}
+		</script>
+
+</html>
