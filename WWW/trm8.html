@@ -68,8 +68,8 @@
 	<body>
 
 		<div class="container">
-			<div>
-				<ol class="breadcrumb topbread ">
+			<div id="title">
+				<!--<ol class="breadcrumb topbread ">
 					<li class="active"><span style="font-weight:bold;">测试人员看板</span></li>
 					<li>
 						<a href="qaboard.html" target="_blank">项目质量看板</a>
@@ -80,15 +80,15 @@
 					<li style="float: right;">
 						<a href="projBrief.html" target="_blank">项目介绍</a>
 					</li>
-				</ol>
+				</ol>-->
 			</div>
 			<div class="bs-docs-section">
-				<h3 style="align-content: center; width: 100%;margin-top: 7px;margin-bottom: 7px;" align="center">测试人员管理</h3>
+				<h3 style="align-content: center; width: 100%;margin-top: 7px;margin-bottom: 7px;" align="center">测试人员看板</h3>
 
 				<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 					<ul id="myTabs" class="nav nav-tabs" role="tablist">
 						<li role="presentation" class="active">
-							<a href="#trm" data-toggle="tab">测试人员管理</a>
+							<a href="#trm" data-toggle="tab">测试人员看板</a>
 						</li>
 						<li role="presentation">
 							<a href="#projects" data-toggle="tab">所有项目</a>
@@ -531,6 +531,9 @@
 
 	<!--id:trm 展示内容-->
 	<script type="text/javascript">
+	$(function() {
+			$("#title").load("header.html");
+		})
 		var myDate = new Date();
 		var currentYear = myDate.getFullYear();
 		var preMonth = myDate.getMonth();

@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>测试人员工时查询</title>
+		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
+		<script src="theme/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jBootstrapPage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			th {
+				text-align: center;
+				border-top: 1px;
+			}
+			
+			tr {
+				border-top: 1px;
+				border-bottom: 1px;
+			}
+			td{
+				text-align: center;
+			}
+			.topbread {
+				padding: 2px 7px;
+			}
+						
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div id="title">
+				<!--<ol class="breadcrumb topbread ">
+					<li class="active"><span style="font-weight:bold;">测试人员工时查询</span></li>
+					<li>
+						<a href="testerWorklogGroup.html" target="_blank">测试人员工时分组统计</a>
+					</li>
+					<li>
+						<a href="index.html" target="_blank">测试人员看板</a>
+					</li>
+					<li>
+						<a href="qaboard.html" target="_blank">项目质量看板</a>
+					</li>
+					<li>
+						<a href="qafigure.html" target="_blank">测试能力分析</a>
+					</li>
+					<li style="float: right;">
+						<a href="testerGroup.html" target="_blank">测试人员分组情况</a>
+					</li>
+				</ol>-->
+			</div>
+			<h2 align="center">测试人员工时查询</h2>
+			<div style="margin-top: 30px;">
+				<form method="post" name="inputdate" id="inputdateform">
+					<div class="row">
+						<div class="col-md-2">开始时间：</div>
+						<div class="col-md-3">
+							<input type="date" class="form-control" id="startdate" name="startdate" />
+						</div>
+						<div class="col-md-2">结束时间：</div>
+						<div class="col-md-3">
+							<input type="date" class="form-control" id="enddate" name="enddate" />
+						</div>
+						<div class="col-md-2" style="float: right;">
+							<input type="button" class="btn btn-primary form-control" value="统计工时" onclick="calJiraWorklog()" />
+						</div>
+					</div>
+				</form>
+				<hr />
+				<table class="table table-bordered" id="lxl">
+					<thead>
+						<tr>
+							<th>域账户</th>
+							<th>显示名称</th>
+							<th>项目类别</th>
+							<th>总工时</th>
+							<th>统计时间</th>
+						</tr>
+					</thead>
+					<tbody id="lxlbody">
+						
+					</tbody>
+
+				</table>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+	$(function() {
+			$("#title").load("header.html");
+		})
+		function calJiraWorklog() {
+			if ($.trim($("#startdate").val()) == "") {
+				layer.alert("请输入开始日期！");
+				return;
+			}else if($.trim($("#enddate").val()) == ""){
+				layer.alert("请输入结束日期！");
+				return;
+			} else{
+				var timenow=new Date();
+			$.ajax({
+				type: "post",
+				url: "jira/testerJiraWork.php",
+				data:$("#inputdateform").serialize(),
+				async: true,
+				success: function(data) {
+					var dataList=eval(data);
+					var lxlbody="";
+					for (var i = 0; i < dataList.length; i++) {
+						lxlbody+="<tr>";
+						lxlbody+="<td>" + dataList[i].lower_user_name + "</td>";
+						lxlbody+="<td>" + dataList[i].display_name + "</td>";
+						lxlbody+="<td>" + dataList[i].cname + "</td>";
+						lxlbody+="<td>" + (dataList[i].sum/3600) + "</td>";
+						lxlbody+="<td>" + timenow.toLocaleString() + "</td>";
+						lxlbody+="</tr>";
+					}
+					$("#lxlbody").empty();
+					$("#lxlbody").append(lxlbody);
+				}
+			});
+			}
+			
+
+		}
+	</script>
+
+</html>

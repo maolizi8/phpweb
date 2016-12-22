@@ -15,8 +15,7 @@
 	<body>
 		<div class="container">
 			<h2 align="center">测试人员每周工时统计</h2>
-			<div style="">
-				<button onclick="addCols()">加一列</button>
+			<div style="margin-top: 30px;">
 				<table class="table table-bordered" id="lxl">
 					<tr style="font-weight: bold;">
 						<td>项目/周次</td>
@@ -45,20 +44,46 @@
 					<tr>
 						<td>测试部</td>
 					</tr>
-					<tr>
-						<td>其他</td>
-					</tr>
+
 				</table>
 			</div>
 		</div>
 	</body>
 	<script type="text/javascript">
-		function addCols() {
-			for(var i = 0; i < $($("#lxl tr")).length; i++) {
-				var std = "<td>" + i + "</td>";
-				$($("#lxl tr")[i]).append(std);
-			}			
-		}
+		$(function() {
+			$.ajax({
+				type: "post",
+				url: "jira/weeklyTesterLog.php",
+				async: true,
+				success: function(data) {
+					var dataList=eval(data);
+					console.log(dataList);
+					for (var i = 0; i < dataList.length; i++) {
+						var duriation="<td>" + dataList[i].duriation + "</td>";
+						var cxjsum="<td>" + (dataList[i].cxjsum||'0') + "</td>";
+						var easum="<td>" + (dataList[i].easum||'0') + "</td>";
+						var ythsum="<td>" + (dataList[i].ythsum||'0') + "</td>";
+						var cssum="<td>" + (dataList[i].cssum||'0') + "</td>";
+						var ucsum="<td>" + (dataList[i].ucsum||'0') + "</td>";
+						var bpsum="<td>" + (dataList[i].bpsum||'0') + "</td>";
+						var fpsum="<td>" + (dataList[i].fpsum||'0') + "</td>";
+						var otsum="<td>" + (dataList[i].otsum||'0') + "</td>";
+						
+						$($("#lxl tr")[0]).append(duriation);
+						$($("#lxl tr")[1]).append(cxjsum);
+						$($("#lxl tr")[2]).append(easum);
+						$($("#lxl tr")[3]).append(ythsum);
+						$($("#lxl tr")[4]).append(cssum);
+						$($("#lxl tr")[5]).append(ucsum);
+						$($("#lxl tr")[6]).append(bpsum);
+						$($("#lxl tr")[7]).append(fpsum);
+						$($("#lxl tr")[8]).append(otsum);
+					}
+					
+				}
+			});
+
+		})
 	</script>
 
 </html>
