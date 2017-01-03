@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>项目介绍</title>
+		<link rel="stylesheet" type="text/css" href="cxtester/css/bootstrap.min.css" />
+		<script type="text/javascript" src="cxtester/js/jquery-2.1.0.js" charset="utf-8"></script>
+		<script type="text/javascript" src="cxtester/js/jBootstrapPage.js"></script>
+
+		<style>
+			table{border-collapse:collapse;border-spacing:0;border-left:1px solid #d0e0e3;border-top:1px solid #d0e0e3;background: 	#FFFAF0;}
+			th,td{border-right:1px solid #dbf9f9;border-bottom:1px solid #dbf9f9;padding:5px 15px;}
+			th{font-weight:bold;background: #FDF5E6;}
+			.pagination{margin:5px auto auto;}
+		</style>
+	</head>
+	<body>
+		<div style="width: 80%;MARGIN-RIGHT: auto; MARGIN-LEFT: auto;" >
+			<h2  style="align-content: center; width: 100%;" align="center">项目介绍</h2>
+			
+			<table border="1" cellspacing="0" cellpadding="5" style="align-content: center; width: 100%;">
+				<thead>
+					<tr>
+						<th width="3%">id</th>
+						<th width="7%">业务线</th>
+						<th width="12%">项目名称</th>
+						<th width="12%">项目简称</th>
+						<th width="12%">项目性质</th>
+						<th width="30%">简单介绍</th>
+						<th width="12%">需求方</th>
+						<th width="12%">使用方</th>
+					</tr>
+				</thead>
+				<tbody id="projectbody">
+
+				</tbody>
+			</table>
+	<div id="totalRecords" style="float:left;margin-top: 5px;"></div>
+	<div id="paginator" class="pagination" style="float:right;"></div>
+
+	</div>
+
+<script type="text/javascript">
+	
+	var pageTotal= 0;
+	var pageSize=0;
+   	var  initStatus=true;
+   	
+ function reanderUI(pageNo){
+  	$.ajax({
+        type: "post",
+        url: "cxtester/projectBriefPages.php?page="+pageNo,
+        async: true,
+        success: function(data) {
+			$("#projectbody").empty();
+			var dataList = eval(data);
+          	console.log(dataList);
+          	var len=dataList.length-1;
+          	//console.log(len);
+          	var html="";
+        	for(var i = 0, len ; i< len; i++){
+            	if(dataList[i].id==18){
+             		html+= "<tr>";
+            		html+="<td align='center' >"+(i+1)+"</td>";
+           			html+="<td align='center'>二手车</td>";
+            		html+="<td align='center' colspan='7'>";
+            		html+="<a class='media' href='cxtester/files/UsedCarBriefForCheXiang-20160816.pdf' target='_blank'>二手车项目介绍</a>";
+            		html+="</td></tr>";
+            	}else{
+              		html+= "<tr>";
+            		html+="<td align='center' >"+(i+1)+"</td>";
+            		//html+="<td align='center' >"+dataList[i].id+"</td>";
+            		html+="<td align='center'>"+(dataList[i].businessLine||'')+"</td>";
+            		html+="<td align='center'>"+(dataList[i].name||'')+"</td>";
+            		html+="<td align='center'>"+(dataList[i].briefIntroduction||'')+"</td>";
+            		html+="<td align='center'>"+(dataList[i].attribute||'')+ "</td>";
+            		html+="<td>"+(dataList[i].detailIntroduction||'')+ "</td>";
+            		html+="<td align='center'>"+(dataList[i].demandSide||'')+ "</td>";
+            		html+="<td align='center'>"+(dataList[i].supplySide||'')+ "</td>";
+            		html+="</tr>";
+            	}
+          	}
+
+         	$("#projectbody").append(html);
+        	pageTotal=dataList[len].pageTotal;
+        	pageSize=dataList[len].pageSize;
+         
+         	if(initStatus){
+          		var total=dataList[len].numTotal;
+          		var totalRecords="总计"+total+"条记录  总计"+pageTotal+"页";
+          		$("#totalRecords").append(totalRecords);
+          		initStatus=false;
+          		//第一个参数-每页显示几条，第二个参数-显示几个按钮，第三个参数-总条数
+         		createPage(pageSize, 5, total);
+         	}
+        }
+    });
+  }
+
+   function createPage(pageSize, buttons, total) {
+        $("#paginator").jBootstrapPage({
+          pageSize: pageSize,
+          total: total,
+          maxPageButton: buttons,
+          onPageClicked: function(obj, pageIndex) {
+           	reanderUI(pageIndex+1)
+           
+          }
+        });
+      }
+
+      $(function(){
+        reanderUI(1);
+      });
+
+	</script>
+
+
+
+	</body>
+</html>

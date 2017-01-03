@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>测试人员工时分组统计</title>
+		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
+		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jBootstrapPage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			th {
+				text-align: center;
+				border-top: 1px;
+			}
+			
+			tr {
+				border-top: 1px;
+				border-bottom: 1px;
+			}
+			
+			td {
+				text-align: center;
+			}
+			
+			.topbread {
+				padding: 2px 7px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div id="title">
+				<!--<ol class="breadcrumb topbread ">
+					<li class="active"><span style="font-weight:bold;">测试人员工时分组统计</span></li>
+					<li>
+						<a href="testerWorklogJira.html" target="_blank">测试人员工时查询</a>
+					</li>
+					<li>
+						<a href="index.html" target="_blank">测试人员看板</a>
+					</li>
+					<li>
+						<a href="qaboard.html" target="_blank">项目质量看板</a>
+					</li>
+					<li>
+						<a href="qafigure.html" target="_blank">测试能力分析</a>
+					</li>
+					<li style="float: right;">
+						<a href="testerGroup.html" target="_blank">测试人员分组情况</a>
+					</li>
+				</ol>-->
+			</div>
+			<h2 align="center">测试人员工时分组统计</h2>
+			<div style="margin-top: 30px;">
+				<form method="post" name="inputdate" id="inputdateform">
+					<div class="row">
+						<div class="col-md-2">开始时间：</div>
+						<div class="col-md-3">
+							<input type="date" class="form-control" id="startdate" name="startdate" />
+						</div>
+						<div class="col-md-2">结束时间：</div>
+						<div class="col-md-3">
+							<input type="date" class="form-control" id="enddate" name="enddate" />
+						</div>
+						<div class="col-md-2" style="float: right;">
+							<input type="button" class="btn btn-primary form-control" value="统计工时" onclick="calWorklog()" />
+						</div>
+					</div>
+				</form>
+				<hr />
+				<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+					<ul id="myTabs" class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active">
+							<a href="#lxl" data-toggle="tab">工时数据</a>
+						</li>
+						<li role="presentation">
+							<a href="#gql" data-toggle="tab">工时占比</a>
+						</li>
+					</ul>
+					<div id="myTabContent" class="tab-content">
+						<p></p>
+						<div class="tab-pane fade in active" id="lxl">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>查询时间段</th>
+										<th>车享家<span style="font-weight: lighter;font-size: small;">(不含车享家一体化)</span></th>
+										<th>企业应用<span style="font-weight: lighter;font-size: small;">(含OEM)</span></th>
+										<th>车享家一体化</th>
+										<th>整车</th>
+										<th>二手车</th>
+										<th>共享业务平台</th>
+										<th>金融事业部</th>
+										<th>测试部</th>
+										<th>统计时间</th>
+									</tr>
+								</thead>
+								<tbody id="lxltb">
+
+								</tbody>
+
+							</table>
+						</div>
+						<div class="tab-pane fade" id="gql">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>查询时间段</th>
+										<th>车享家<span style="font-weight: lighter;font-size: small;">(不含车享家一体化)</span></th>
+										<th>企业应用<span style="font-weight: lighter;font-size: small;">(含OEM)</span></th>
+										<th>车享家一体化</th>
+										<th>整车</th>
+										<th>二手车</th>
+										<th>共享业务平台</th>
+										<th>金融事业部</th>
+										<th>测试部</th>
+										<th>统计时间</th>
+									</tr>
+								</thead>
+								<tbody id="gqltb">
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="modal fade" id="loading">
+      <div class="modal-dialog">
+         <div class="modal-content" style="height:250px;position: relative;width: 300px;margin-top: 200px; ">
+        	<div class="modal-header" style="widith:20px;padding:0;">
+            <h4 class="modal-title" style="widith:20px;text-align:center;">正在加载中，请稍候。。。</h4>
+          </div>
+          <div class="modal-body" style="padding-left:40px;padding-top:0">
+            <img src="theme/images/loading.gif" />
+          </div>
+        </div>
+      </div>
+    </div>
+	</body>
+	<script type="text/javascript">
+		$(function() {
+			$("#title").load("header.html");
+		})
+
+		function calWorklog() {
+			if($.trim($("#startdate").val()) == "") {
+				layer.alert("请输入开始日期！");
+				return;
+			} else if($.trim($("#enddate").val()) == "") {
+				layer.alert("请输入结束日期！");
+				return;
+			} else {
+				$('#loading').modal({backdrop: 'static', keyboard: false,show:true});
+				var timenow = new Date();
+				$.ajax({
+					type: "post",
+					url: "jira/testerWorkByGroup.php",
+					data: $("#inputdateform").serialize() + "&timenow=" + timenow.toUTCString(),
+					async: true,
+					success: function(data) {
+						//console.log(data);
+						var dataList = eval(data);
+						//console.log(dataList);
+						var lxlbody = "";
+						for(var i = 0; i < dataList.length; i++) {
+							lxlbody += "<tr>";
+							lxlbody += "<td>" + dataList[i].duriation + "</td>";
+							lxlbody += "<td>" + (dataList[i].cxjsum || '0') + "</td>";
+							lxlbody += "<td>" + (dataList[i].easum || '0') + "</td>";
+							lxlbody += "<td>" + (dataList[i].ythsum || '0') + "</td>";
+							lxlbody += "<td>" + (dataList[i].cssum || '0') + "</td>";
+							lxlbody += "<td>" + (dataList[i].ucsum || '0') + "</td>";
+							lxlbody += "<td>" + (dataList[i].bpsum || '0') + "</td>";
+							lxlbody += "<td>" + (dataList[i].fpsum || '0') + "</td>";
+							lxlbody += "<td>" + (dataList[i].otsum || '0') + "</td>";
+							lxlbody += "<td>" + dataList[i].created + "</td>";
+							lxlbody += "</tr>";
+						}
+						$("#lxltb").append(lxlbody);
+
+						var total = 0;
+						var gqltb = "";
+						for(var i = 0; i < dataList.length; i++) {
+							total += (dataList[i].cxjsum || 0);
+							total += (dataList[i].easum || 0);
+							total += (dataList[i].ythsum || 0);
+							total += (dataList[i].cssum || 0);
+							total += (dataList[i].ucsum || 0);
+							total += (dataList[i].bpsum || 0);
+							total += (dataList[i].fpsum || 0);
+							total += (dataList[i].otsum || 0);
+							cxj = Math.round((dataList[i].cxjsum || 0) / total * 10000) / 100.00;
+							ea = Math.round((dataList[i].easum || 0) / total * 10000) / 100.00;
+							yth = Math.round((dataList[i].ythsum || 0) / total * 10000) / 100.00;
+							cs = Math.round((dataList[i].cssum || 0) / total * 10000) / 100.00;
+							uc = Math.round((dataList[i].ucsum || 0) / total * 10000) / 100.00;
+							bp = Math.round((dataList[i].bpsum || 0) / total * 10000) / 100.00;
+							fp = Math.round((dataList[i].fpsum || 0) / total * 10000) / 100.00;
+							ot = Math.round((dataList[i].otsum || 0) / total * 10000) / 100.00;
+							gqltb += "<tr>";
+							gqltb += "<td>" + dataList[i].duriation + "</td>";
+							gqltb += "<td>" + (cxj || 0) + "%</td>";
+							gqltb += "<td>" + (ea || 0) + "%</td>";
+							gqltb += "<td>" + (yth || 0) + "%</td>";
+							gqltb += "<td>" + (cs || 0) + "%</td>";
+							gqltb += "<td>" + (uc || 0) + "%</td>";
+							gqltb += "<td>" + (bp || 0) + "%</td>";
+							gqltb += "<td>" + (fp || 0) + "%</td>";
+							gqltb += "<td>" + (ot || 0) + "%</td>";
+							gqltb += "<td>" + dataList[i].created + "</td>";
+							gqltb += "</tr>";
+						}
+						$("#gqltb").append(gqltb);
+						$('#loading').modal('hide');
+					}
+				});
+
+			}
+		}
+	</script>
+
+</html>

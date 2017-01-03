@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<title></title>
+	</head>
+
+	<body>
+		<input type="checkbox" name="gql" data-id="a" value="1" />我选择1
+		<input type="checkbox" name="gql" data-id="b" value="2" />我选择2
+		<input type="checkbox" name="gql" data-id="c" value="3" />我选择3
+		<input type="checkbox" name="gql" data-id="d" value="4" />我选择4
+		<input type="checkbox" name="gql" data-id="e" value="5" />我选择5
+		<input type="checkbox" name="gql" data-id="f" value="6" />我选择6
+		<input type="checkbox" name="gql" data-id="g" value="7" />我选择7
+
+	</body>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		var stageList = []; //需要存的集合
+		$("input[name='gql']").click(function() {
+			var t = $(this);
+			if(t.is(':checked')) {
+				stageList.push(t.data("id"))
+			} else {
+				stageList.splice(stageList.indexOf(t.data("id")), 1)
+			}
+			localStorage.removeItem("list");
+			localStorage.setItem("list", stageList.toString());
+		})
+		$(function() {
+			if(localStorage.getItem("list") != null) {
+				stageList = localStorage.getItem("list").split(",");
+
+			}
+			$("input[data-id]").each(function() {
+				if(stageList.indexOf($(this).data("id")) != -1) {
+					$(this).prop("checked", "checked");
+				}
+			})
+
+		})
+	</script>
+
+</html>

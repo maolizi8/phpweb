@@ -1,6 +1,6 @@
 <?php
 @include_once('conToJira.php');
-	$query="select * from project";
+	$query="select * from project order by id desc";
 	$result=$conjira->query($query);
 	if(!$result)
 		{

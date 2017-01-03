@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>项目ID对照表</title>
+		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
+		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		
+	</head>
+
+	<body>
+		<div class="container">
+			<h2 align="center">项目ID对照表</h2>
+			<div style="margin-top: 30px;">
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>项目ID</th>
+							<th>项目名称</th>
+						</tr>
+					</thead>
+					<tbody id="lxlbody">
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+
+	</body>
+	<script type="text/javascript">
+		$(function() {
+			$.ajax({
+					type: "get",
+					url: "jira/project.php",
+					async: true,
+					success: function(data) {
+						var dataList = eval(data);
+						var lxlbody = "";
+						for(var i = 0; i < dataList.length; i++) {
+							lxlbody += "<tr>";
+							lxlbody += "<td>" + dataList[i].ID + "</td>";
+							lxlbody += "<td>" + dataList[i].pname + "</td>";
+							lxlbody += "</tr>";
+						}
+						$("#lxlbody").append(lxlbody);
+					}
+			});				
+			})
+
+	</script>
+	
+
+</html>

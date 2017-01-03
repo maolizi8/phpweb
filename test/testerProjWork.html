@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>项目的测试工时</title>
+		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
+		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jBootstrapPage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			tr {
+				border-top: 1px;
+				border-bottom: 1px;
+			}
+			
+			td {
+				text-align: center;
+			}
+			
+			.topbread {
+				padding: 2px 7px;
+			}
+			
+			.container  th {
+				border-top: 1px;
+				text-align: center;
+			}
+			.row{
+				margin-top: 10px;
+			}
+			.container hr{
+				margin-top: 7px;
+				margin-bottom: 7px;
+			}
+			.back {
+				position: absolute;
+				background: #3D3D3D;
+				z-index: 998;
+				top: 0;
+				left: 0;
+				height: 2000px;
+				width: 100%;
+				opacity: 0.6;
+				display: none;
+			}
+			.loading{
+				widows: 100px;
+				height: 100px;
+				z-index: 1000;
+				text-align: center;
+				display: none;
+			}
+			.show{
+				display: block;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div id="title">
+
+			</div>
+			<h2 align="center">项目的测试工时查询</h2>
+			<div style="margin-top: 30px;">
+				<form method="post" name="inputdate" id="inputdateform">
+					<div class="row">
+						<div class="col-md-2">项目ID：</div>
+						<div class="col-md-4">
+							<input type="text" class="form-control" id="projid" name="projid" />
+						</div>
+						<div class="col-md-2">
+							<a href="projects.html" target="_blank">项目ID查询</a>
+						</div>
+						<div class="col-md-2">							
+						</div>
+						<div class="col-md-2">
+							<input type="button" class="btn btn-primary form-control" value="统计工时" onclick="calJiraWorklog()" />
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-md-2">开始时间：</div>
+						<div class="col-md-4">
+							<input type="date" class="form-control" id="startdate" name="startdate" />
+						</div>
+						<div class="col-md-2">结束时间：</div>
+						<div class="col-md-4">
+							<input type="date" class="form-control" id="enddate" name="enddate" />
+						</div>
+					</div>
+				</form>
+				<hr />
+
+				<table class="table table-bordered">
+					<thead>
+						<tr>
+							<th>项目ID</th>
+							<th>项目名称</th>
+							<th>总工时/H</th>
+							<th>起止时间段</th>
+							<th>统计时间</th>
+						</tr>
+					</thead>
+					<tbody id="lxlbody">
+
+					</tbody>
+				</table>
+			</div>
+		</div>
+<div class="back" id="loadingback"></div>
+		<div class="loading" id="loading">
+			<img src="../theme/images/test3.gif" />
+		</div>
+
+	</body>
+	<script type="text/javascript">
+		$(function() {
+			$("#title").load("header.html");
+		})
+
+		function calJiraWorklog() {
+			var projid=$.trim($("#projid").val());
+			if(projid == ""){
+				layer.alert("请输入项目ID！");
+				return;			
+//			}else if(isNaN(projid)) {
+//				layer.alert("项目ID为纯数字！");
+//				return;
+//			}else if($.trim($("#startdate").val()) == "") {
+//				layer.alert("请输入开始日期！");
+//				return;
+//			} else if($.trim($("#enddate").val()) == "") {
+//				layer.alert("请输入结束日期！");
+//				return;
+			}else {
+				//$("#myModal").modal({backdrop: 'static', keyboard: false,show:true});
+				document.getElementById("loadingback").className="back show";
+				document.getElementById("loading").className="loading show";
+				var timenow = new Date();
+				var duriation = $.trim($("#startdate").val()) + "---" + $.trim($("#enddate").val());
+				$.ajax({
+					type: "post",
+					url: "jira/testerProjWork.php",
+					data: $("#inputdateform").serialize(),
+					async: false,
+					success: function(data) {
+						var dataList = eval(data);
+						var lxlbody = "";
+						for(var i = 0; i < dataList.length; i++) {
+							lxlbody += "<tr>";
+							lxlbody += "<td>" + dataList[i].PROJECT + "</td>";
+							lxlbody += "<td>" + dataList[i].pname + "</td>";
+							lxlbody += "<td>" + (dataList[i].sumproj / 3600.00) + "</td>";
+							lxlbody += "<td>" + duriation + "</td>";
+							lxlbody += "<td>" + timenow.toLocaleString() + "</td>";
+							lxlbody += "</tr>";
+						}
+						document.getElementById("loading").className="loading";
+						document.getElementById("loadingback").className="back";
+						$("#lxlbody").append(lxlbody);
+					}
+				});
+				
+			}
+
+		}
+	</script>
+	
+</html>

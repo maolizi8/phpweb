@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>本地存储</title>
+		<link rel="stylesheet" href="../../theme/css/bootstrap.min.css" type="text/css" />
+		<script src="../../theme/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../theme/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			#showproj{
+				margin-bottom: 10px;
+				height: 100px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="showproj" ></div>
+		<!--<div style="margin-top: 10px;"><h2>测试本地存储</h2></div>-->
+		<!--<div class="tab-pane fade  in active" id="ongoingproj">-->
+			<div class="panel-group" id="projfilter">
+				<div class="panel panel-default">
+					<div class="panel-heading">
+						<h4 class="panel-title">
+											筛选项目
+											<span style="float: right;">
+												<a data-toggle="collapse" data-parent="#projfilter" href="#collapseproj">
+													展开/收缩
+												</a>
+											</span>
+										</h4>
+					</div>
+					<div id="collapseproj" class="panel-collapse collapse in">
+						<div class="panel-body">
+							<form role="form" id="searchProjForm">
+								<div class="row">
+									<div class="col-md-3">
+										<label for="name" class="control-label">选择要显示的项目</label>
+									</div>
+									<div class="col-md-7"></div>
+									<div class="col-md-2" style="text-align: right;">
+										<input type="button" value="确定" onclick="searchProj()" class="btn btn-primary" />
+									</div>
+								</div>
+								<div id="projCheckbox">
+
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div id="qaboardongoing">
+				
+
+				<table id="jiratable" class="table" border="1" cellspacing="1" cellpadding="1">
+					<thead>
+						<tr>
+							<th>序号</th>
+							<th>项目</th>
+							<th>负责人</th>
+							<th>Bug总数</th>
+							<th>未修复</th>
+							<th>待验证</th>
+							<th>有效率</th>
+							<th>遗漏率</th>
+							<th>及时率</th>
+
+						</tr>
+					</thead>
+					<tbody id="qaboardtb"></tbody>
+				</table>
+			</div>
+
+		<!--</div>-->
+		<script type="text/javascript">
+			$(function() {
+				$.ajax({
+					type: "post",
+					url: "../../jira/searchProj.php",
+					async: true,
+					success: function(data) {
+						var dataList = eval(data);
+						var selectoption = "";
+						//console.log(dataList);
+						for(i = 0, len = dataList.length; i < len; i++) {
+							selectoption += "<div class='col-md-3'><label>";
+							selectoption += "<input type='checkbox' name='projCheck[]' value=" + dataList[i].ID + " />" + dataList[i].pname;
+							selectoption += "</label></div>";
+						}
+						$("#projCheckbox").append(selectoption);
+					}
+				});
+			});
+		</script>
+		
+		
+		<script type="text/javascript">
+//			$(function() {
+//				if (localStorage.projArray!=null) {
+//					
+//					var projList1= JSON.parse(localStorage.projArray);
+//					//alert(projList1);
+//					console.log("projList2="+projList1);
+//					var projList11=eval(projList1);
+//					var selectProj2 = "";
+//						//console.log(projList);
+//						for(i = 0, len = projList11.length; i < len; i++) {
+//							selectProj2 += "<div class='col-md-3'><label>" + projList11[i].pname + "</label></div>";
+//						}
+//						$("#showproj").empty();
+//						$("#showproj").append(selectProj2);
+//					
+//				} else{
+//					$("#showproj").append("未选择项目");
+//				}
+//			});
+			function dispProject() {
+				if (localStorage.projArray!=null) {
+					
+					var projList1= JSON.parse(localStorage.projArray);
+					//alert(projList1);
+					console.log("projList2="+projList1);
+					var projList11=eval(projList1);
+					var selectProj2 = "";
+						//console.log(projList);
+						for(i = 0, len = projList11.length; i < len; i++) {
+							selectProj2 += "<div class='col-md-3'><label>" + projList11[i].pname + "</label></div>";
+						}
+						$("#showproj").empty();
+						$("#showproj").append(selectProj2);
+					
+				} else{
+					$("#showproj").append("未选择项目");
+				}
+			});
+			
+			function searchProj() {
+				$.ajax({
+					type: "post",
+					url: "../../jira/dispProj.php",
+					async: true,
+					data: $("#searchProjForm").serialize(),
+					success: function(data) {
+						var projList = eval(data);
+						var str = JSON.stringify(data); 
+						localStorage.projArray =str;
+						var selectProj = "";
+						console.log("projList1="+localStorage.projArray);
+						for(i = 0, len = projList.length; i < len; i++) {
+							selectProj += "<div class='col-md-3'><label>" + projList[i].pname + "</label></div>";
+						}
+						dispProject();
+						$("#showproj").append(selectProj);
+					}
+				});
+			}
+		
+			
+		</script>
+		
+	</body>
+
+</html>

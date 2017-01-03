@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>表格扩展列</title>
+		<link href="../theme/css/bootstrap.min.css" type="text/css" rel="stylesheet" />
+		<script src="../theme/js/jquery-2.0.3.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../theme/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../theme/js/jBootstrapPage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../theme/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+	<body>
+		<button onclick="addCols()">添加列</button>
+		<table id="tablename" border="1">
+			<tr>
+				<td>r1</td>
+				<td>r1</td>
+				<td>r1</td>
+			</tr>
+			<tr>
+				<td>r2</td>
+				<td>r2</td>
+				<td>r2</td>
+			</tr>
+		</table>
+	</body>
+	<script type="text/javascript">
+		function addCols(){
+			var addCol="";
+			addCol+="<tr><td>r1</td><td>r1</td><td>r1</td></tr>";
+			$('#tablename').append(addCol);
+		}
+	</script>
+</html>
