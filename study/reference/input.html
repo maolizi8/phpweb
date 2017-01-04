@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+
+	<body>
+		<input type="text" name="lxl" id="lxl" value="" data-info="用户名不可以为空" />
+		<input type="text" name="gql" id="gql" value="" data-info="密码不可以为空" />
+		<input type="text" name="ddd" id="ddd" value="" data-info="我是提示信息" />
+		<input type="text" name="ccc" id="ccc" value="" data-info="你好" />
+		<button onclick="lxl()">点击我看看谁空了</button>
+	</body>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script type="text/javascript">
+	function lxl(){
+		$("input").each(function(){
+			if($.trim($(this).val())==""){
+				alert($(this).attr("data-info"));
+				$(this).focus();
+				return false;
+			}
+		})
+	}
+	</script>
+
+</html>

@@ -142,9 +142,36 @@
     </div>
 	</body>
 	<script type="text/javascript">
+	var myDate=new Date();
+	var ls=new Date();
+	var lls=new Date();
+	var theday=myDate.getDay();
+	var lastSaturday=new Date(ls.setDate(myDate.getDate()-myDate.getDay()-1));
+	var lastlastSunday=new Date(lls.setDate(myDate.getDate()-myDate.getDay()-7));
+	
+	function dateFormet(myday){
+		var m=myday.getMonth()+1;
+		var d=myday.getDate();
+		var yyyy=myday.getFullYear();
+		if(m< 10) {
+			var mm = "0" + m.toString();
+		} else {
+			var mm = m.toString();
+		}
+		if(d < 10) {
+			var dd = "0" + d.toString();
+		} else {
+			var dd = d.toString();
+		}
+		return (yyyy.toString()+"-"+mm +"-" +dd);
+	}
+	
 		$(function() {
 			$("#title").load("header.html");
+			$("#startdate").attr("value",dateFormet(lastlastSunday));
+			$("#enddate").attr("value",dateFormet(lastSaturday));
 		})
+		
 
 		function calWorklog() {
 			if($.trim($("#startdate").val()) == "") {

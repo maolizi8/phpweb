@@ -560,7 +560,8 @@
 		//console.log(monthPoried);
 
 		var currentWeekDay = myDate.getDay();
-		var currentSunday = new Date(myDate.setDate(myDate.getDate() - currentWeekDay));
+		var d=new Date();
+		var currentSunday = new Date(d.setDate(myDate.getDate() - currentWeekDay));
 		var dateSunday = currentSunday.getMonth();
 		var sundayMonth = currentSunday.getMonth() + 1;
 		var sudayDay = currentSunday.getDate();

@@ -69,11 +69,13 @@ LEFT JOIN
 SELECT w.UPDATEAUTHOR,sum(w.timeworked) as sumwork
 FROM worklog w
 WHERE 
-DATE_FORMAT(w.STARTDATE,'%Y-%m-%d')>='2016-12-04'
-AND DATE_FORMAT(w.STARTDATE,'%Y-%m-%d')<='2016-12-10'
+DATE_FORMAT(w.STARTDATE,'%Y-%m-%d')>='".$start."'
+AND DATE_FORMAT(w.STARTDATE,'%Y-%m-%d')<='".$end."'
 AND w.UPDATEAUTHOR in
 (SELECT DISTINCT MEMBER_KEY FROM ao_aefed0_team_member_v2
-	WHERE TEAM_ID=43)
+	WHERE TEAM_ID=43
+	AND id in (SELECT TEAM_MEMBER_ID from ao_aefed0_membership)
+	)
 GROUP BY w.UPDATEAUTHOR
 ) b on a.MEMBER_KEY=b.UPDATEAUTHOR";
 	}else {

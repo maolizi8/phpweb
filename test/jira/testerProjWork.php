@@ -22,7 +22,9 @@ AND DATE_FORMAT(w.STARTDATE,'%Y-%m-%d')<='".$end."'
 	AND j.project=$projid
 AND w.UPDATEAUTHOR in
  (SELECT DISTINCT MEMBER_KEY FROM ao_aefed0_team_member_v2
-	WHERE TEAM_ID=43)";
+	WHERE TEAM_ID=43
+	AND id in (SELECT TEAM_MEMBER_ID from ao_aefed0_membership)
+	)";
 						
 	$result=$conjira->query($sql);
 		

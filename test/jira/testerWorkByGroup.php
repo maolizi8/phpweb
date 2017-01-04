@@ -11,7 +11,9 @@
 		DATE_FORMAT(w.STARTDATE,'%Y-%m-%d')>='".$start."'
 		AND DATE_FORMAT(w.STARTDATE,'%Y-%m-%d')<='".$end."'
 		AND w.UPDATEAUTHOR in
-		(SELECT MEMBER_KEY from ao_aefed0_team_member_v2 where TEAM_ID=$tid)";
+		(SELECT MEMBER_KEY from ao_aefed0_team_member_v2 where TEAM_ID=$tid
+		AND id in (SELECT TEAM_MEMBER_ID from ao_aefed0_membership)
+		)";
 		$result=$conjira->query($sql);
 		$result_array=$result->fetch_assoc();
 		$conjira->close();
@@ -26,6 +28,7 @@
 		$sql="SELECT a.MEMBER_KEY,b.TEAM_ID,c.sum from (
 SELECT MEMBER_KEY,COUNT(TEAM_ID) as num from ao_aefed0_team_member_v2
 WHERE TEAM_ID in (51,52,53,54,55,56,57,34)
+AND id in (SELECT TEAM_MEMBER_ID from ao_aefed0_membership)
 GROUP BY MEMBER_KEY) a 
 LEFT JOIN
 (
@@ -37,7 +40,9 @@ LEFT JOIN
 (
 SELECT SUM(worklog.timeworked)as sum,worklog.UPDATEAUTHOR from worklog
 WHERE UPDATEAUTHOR in 
-	(SELECT MEMBER_KEY from ao_aefed0_team_member_v2 WHERE TEAM_ID in (51,52,53,54,55,56,57,34) )
+	(SELECT MEMBER_KEY from ao_aefed0_team_member_v2 WHERE TEAM_ID in (51,52,53,54,55,56,57,34)
+	AND id in (SELECT TEAM_MEMBER_ID from ao_aefed0_membership)
+	 )
 AND DATE_FORMAT(STARTDATE,'%Y-%m-%d')>='".$start."'
 AND DATE_FORMAT(STARTDATE,'%Y-%m-%d')<='".$end."'
 GROUP BY UPDATEAUTHOR
