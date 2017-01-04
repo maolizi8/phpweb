@@ -1,0 +1,316 @@
+<!DOCTYPE HTML>
+<html>
+
+	<head>
+
+		<title>人员增删改</title>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+		<script type="text/javascript" src="js/jquery-latest.js"></script>
+		<script type="text/javascript" src="js/layer.js"></script>
+		<script type="text/javascript" src="js/boostrap.min.js"></script>
+
+	</head>
+
+	<body>
+		<div class="container">
+			<h2 align="center" style="margin-bottom: 40px;">人员信息</h2>
+			<button type='button' class='adduser btn' data-target='#adduser' style="float:right;margin-bottom:5px;">新增用户</button>
+			<table class="table table-bordered">
+				<thead>
+					<th>域账户</th>
+					<th>显示名称</th>
+					<th>岗位</th>
+					<th>操作</th>
+				</thead>
+				<tbody id="userbody"></tbody>
+			</table>
+		</div>
+
+		<div class="modal fade" id="adduser">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">新增用户</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" role="form" id="addUserForm">
+							<div class="form-group">
+								<label for="username" class="col-sm-2 control-label">域账户</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="username" name="username" placeholder="请输入域账户">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="displayname" class="col-sm-2 control-label">名字</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="displayname" name="displayname" placeholder="请输入名字">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="position" class="col-sm-2 control-label">岗位</label>
+								<div class="col-sm-10">
+									<select class="form-control" id="position" name="position">
+										<option value="" selected="selected">请选择岗位</option>
+										<option value="1">开发</option>
+										<option value="2">测试</option>
+										<option value="3">产品</option>
+										<option value="4">运维</option>
+										<option value="5">UED</option>
+										<option value="6">SQA</option>
+										<option value="7">管理</option>
+										<option value="0">其他</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-9 col-sm-10">
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+									<button onclick="addUser()" type="button" class="btn btn-primary">确定</button>
+								</div>
+							</div>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+		<div class="modal fade" id="modifyuser">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">修改用户信息</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" role="form" id="modifyUserForm">
+							<div class="form-group">
+								<label for="username" class="col-sm-2 control-label">域账户</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="musername" name="username" placeholder="请输入域账户">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="displayname" class="col-sm-2 control-label">名字</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="mdisplayname" name="displayname" placeholder="请输入名字">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="position" class="col-sm-2 control-label">岗位</label>
+								<div class="col-sm-10">
+									<select class="form-control" id="mposition" name="position">
+										<option value="" selected="selected">请选择岗位</option>
+										<option value="1">开发</option>
+										<option value="2">测试</option>
+										<option value="3">产品经理</option>
+										<option value="4">运维</option>
+										<option value="5">UED</option>
+										<option value="6">SQA</option>
+										<option value="7">管理</option>
+										<option value="0">其他</option>
+									</select>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-9 col-sm-10">
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+									<button onclick="modifyUser()" type="button" class="btn btn-primary">确定</button>
+								</div>
+							</div>
+						</form>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		$(function() {
+			$.ajax({
+				type: "post",
+				url: "UserServlet",
+				contentType: "application/json; charset=utf-8",
+				dataType: "json",
+				success: function(data) {
+					//console.log(data);
+					//var projList=eval(data);
+					var userlist = data;
+					var tbody = "";
+					for(i = 0, len = userlist.length; i < len; i++) {
+						tbody += '<tr>';
+						tbody += '<td>' + userlist[i].user_name + '</td>';
+						tbody += '<td>' + userlist[i].display_name + '</td>';
+						tbody += '<td>' + userlist[i].position_name + '</td>';
+						tbody += '<td>';
+						tbody += "<button type='button' data-edituserid='" + userlist[i].id + "' data-editusername='" + userlist[i].user_name + "' data-editdisplay_name='" + userlist[i].display_name + "' data-editposition='" + userlist[i].position + "'  class='modifyuser btn btn-default btn-sm' data-target='#modifyuser'>修改按钮</button>";
+						tbody += '   <input type="button" name="update" class=" btn btn-default btn-sm" value="删除" onclick="deleteuser(' + userlist[i].id + ')">';
+						tbody += '</td>';
+						tbody += '</tr>';
+					}
+					$("#userbody").append(tbody);
+				},
+				error: function(XMLHttpRequest, textStatus, errorThrown) {
+					//alert(errorThrown);
+					console.log(errorThrown);
+				}
+			});
+
+		});
+		var editUserId = 0;
+			var editUserName = "";
+			var editDisplayName = "";
+			var editPosition = "";
+
+		$(function() {
+			
+			$(document).on("click", ".adduser", function() {
+				$('#adduser').modal({
+					backdrop: 'static',
+					keyboard: false,
+					show: true
+				});
+			});
+			$(document).on("click", ".modifyuser", function() {
+				editUserId = $(this).data("edituserid");
+				console.log(editUserId);
+				editUserName = $(this).data("editusername");
+				editDisplayName = $(this).data("editdisplay_name");
+				editPosition = $(this).data("editposition");
+				$('#modifyuser').modal({
+					backdrop: 'static',
+					keyboard: false,
+					show: true
+				});
+				$("#musername").attr("value", editUserName);
+				$("#mdisplayname").attr("value", editDisplayName);
+				$("#mposition").val(editPosition);
+			});
+		});
+		
+		function positionname(poid){
+			switch(poid) {
+					case "0":
+						return "其他";
+						break;
+					case "1":
+						return "开发";
+						break;
+					case "2":
+						return "测试";
+						break;
+					case "3":
+						return "产品经理";
+						break;
+					case "4":
+						return "运维";
+						break;
+					case "5":
+						return "UED";
+						break;
+					case "6":
+						return "SQA";
+						break;
+					case "7":
+						return "管理";
+						break;
+			}
+		}
+
+
+		function deleteuser(uid) {
+			console.log(uid);
+			layer.confirm('确定要删除该用户?', {
+				icon: 3,
+				title: '提示'
+			}, function(index) {
+				console.log("点击确定后");
+				$.ajax({
+					type: "get",
+					url: "DeleteUserServlet",
+					data: 'id=' + uid,
+					success: function() {
+						layer.msg("成功删除!", function() {
+							window.location.reload();
+						});
+						layer.close(index);
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						layer.alert(errorThrown);
+						//console.log(errorThrown);
+					}
+				});
+
+			});
+
+		}
+
+		function addUser() {
+			if($.trim($("#username").val()) == "") {
+				layer.alert("请输入域账户");
+			} else if($.trim($("#displayname").val()) == "") {
+				layer.alert("请输入姓名");
+			} else if($.trim($("#position").val()) == "") {
+				layer.alert("请选择岗位");
+			} else {
+				var poid = $("#position").val();
+				console.log(poid);
+				var poname=positionname(poid);
+				console.log($("#addUserForm").serialize() + "&positionname="+poname);
+				console.log("positionname="+poname);
+				$.ajax({
+					type: "post",
+					url: "AddUserServlet",
+					async: true,
+					data: $("#addUserForm").serialize() + "&positionname="+poname,
+					success: function() {
+						$('#adduser').modal("hide");
+						layer.msg("成功添加用户!", function() {
+							window.location.reload();
+						});
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						layer.alert(errorThrown);
+					}
+
+				});
+			}
+
+		}
+
+		function modifyUser() {
+			if($.trim($("#musername").val()) == "") {
+				layer.alert("请输入域账户");
+			} else if($.trim($("#mdisplayname").val()) == "") {
+				layer.alert("请输入姓名");
+			} else if($.trim($("#mposition").val()) == "") {
+				layer.alert("请选择岗位");
+			} else {
+				var poid = $("#mposition").val();
+				var poname=positionname(poid);
+				console.log($("#modifyUserForm").serialize() + "&positionname="+poname+"&id="+editUserId);
+				console.log("positionname="+poname);
+				console.log("id="+editUserId);
+				$.ajax({
+					type: "post",
+					url: "AddUserServlet",
+					async: true,
+					data: $("#modifyUserForm").serialize() + "&positionname="+poname+"&id="+editUserId,
+					success: function() {
+						$('#modifyuser').modal("hide");
+						layer.msg("成功修改用户!", function() {
+							window.location.reload();
+						});
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						layer.alert(errorThrown);
+					}
+
+				});
+			}
+		}
+	</script>
+
+</html>

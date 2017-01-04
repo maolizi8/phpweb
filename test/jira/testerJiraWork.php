@@ -22,7 +22,9 @@ AND DATE_FORMAT(w.STARTDATE,'%Y-%m-%d')>='".$start."'
 AND DATE_FORMAT(w.STARTDATE,'%Y-%m-%d')<='".$end."'
 AND w.UPDATEAUTHOR in
  (SELECT DISTINCT MEMBER_KEY FROM ao_aefed0_team_member_v2
-	WHERE TEAM_ID=43)) a 
+	WHERE TEAM_ID=43
+	AND id in (SELECT TEAM_MEMBER_ID from ao_aefed0_membership)
+	)) a 
 LEFT JOIN
 (
 select n.SOURCE_NODE_ID,n.SINK_NODE_ID,c.cname
@@ -41,7 +43,9 @@ AND DATE_FORMAT(w.STARTDATE,'%Y-%m-%d')>='".$start."'
 AND DATE_FORMAT(w.STARTDATE,'%Y-%m-%d')<='".$end."'
 AND w.UPDATEAUTHOR in
  (SELECT DISTINCT MEMBER_KEY FROM ao_aefed0_team_member_v2
-	WHERE TEAM_ID=43)) a 
+	WHERE TEAM_ID=43
+	AND id in (SELECT TEAM_MEMBER_ID from ao_aefed0_membership)
+	)) a 
 LEFT JOIN
 (
 select n.SOURCE_NODE_ID,n.SINK_NODE_ID,c.cname
@@ -55,9 +59,10 @@ ORDER BY b.cname";
 		$sql="SELECT * from
 (SELECT DISTINCT u.MEMBER_KEY,cu.display_name,au.lower_user_name
  FROM ao_aefed0_team_member_v2 u,app_user au,cwd_user cu
-	WHERE TEAM_ID=43
+	WHERE u.TEAM_ID=43
 	AND u.MEMBER_KEY=au.user_key
 	AND au.lower_user_name=cu.lower_user_name
+	AND u.id in (SELECT TEAM_MEMBER_ID from ao_aefed0_membership)
 ) a
 LEFT JOIN
 (
