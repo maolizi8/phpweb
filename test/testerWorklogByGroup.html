@@ -5,6 +5,7 @@
 		<meta charset="UTF-8">
 		<title>测试人员工时分组统计</title>
 		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
+		<link rel="stylesheet" href="theme/css/loading.css" type="text/css" />
 		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
 		<script src="theme/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="theme/js/jBootstrapPage.js" type="text/javascript" charset="utf-8"></script>
@@ -128,20 +129,17 @@
 				</div>
 			</div>
 		</div>
-		<div class="modal fade" id="loading">
-      <div class="modal-dialog">
-         <div class="modal-content" style="height:250px;position: relative;width: 300px;margin-top: 200px; ">
-        	<div class="modal-header" style="widith:20px;padding:0;">
-            <h4 class="modal-title" style="widith:20px;text-align:center;">正在加载中，请稍候。。。</h4>
-          </div>
-          <div class="modal-body" style="padding-left:40px;padding-top:0">
-            <img src="theme/images/loading.gif" />
-          </div>
-        </div>
-      </div>
-    </div>
+		
+		<div class="backgrey fade"></div>
+		<div class="spinner fade">
+			<div class="bounce1"></div>
+			<div class="bounce2"></div>
+			<div class="bounce3"></div>
+		</div>
 	</body>
 	<script type="text/javascript">
+	var backgrey = document.getElementsByClassName("backgrey")[0];
+				var spinner = document.getElementsByClassName("spinner")[0];
 	var myDate=new Date();
 	var ls=new Date();
 	var lls=new Date();
@@ -181,7 +179,8 @@
 				layer.alert("请输入结束日期！");
 				return;
 			} else {
-				$('#loading').modal({backdrop: 'static', keyboard: false,show:true});
+				backgrey.classList.remove("fade");
+				spinner.classList.remove("fade");
 				var timenow = new Date();
 				$.ajax({
 					type: "post",
@@ -242,7 +241,8 @@
 							gqltb += "</tr>";
 						}
 						$("#gqltb").append(gqltb);
-						$('#loading').modal('hide');
+						backgrey.classList.add("fade");
+						spinner.classList.add("fade");
 					}
 				});
 

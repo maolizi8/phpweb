@@ -5,6 +5,7 @@
 		<meta charset="UTF-8">
 		<title>测试人员工时查询</title>
 		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
+		<link rel="stylesheet" href="theme/css/loading.css" type="text/css" />
 		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
 		<script src="theme/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="theme/js/jBootstrapPage.js" type="text/javascript" charset="utf-8"></script>
@@ -22,11 +23,13 @@
 			.topbread {
 				padding: 2px 7px;
 			}
+			
 			.container th {
 				border-top: 1px;
 				text-align: center;
 			}
-			.container hr{
+			
+			.container hr {
 				margin-top: 7px;
 				margin-bottom: 7px;
 			}
@@ -36,7 +39,7 @@
 	<body>
 		<div class="container">
 			<div id="title">
-				
+
 			</div>
 			<h2 align="center">测试人员工时查询</h2>
 			<div style="margin-top: 30px;">
@@ -123,7 +126,7 @@
 
 			</div>
 		</div>
-		
+
 		<div class="backgrey fade"></div>
 		<div class="spinner fade">
 			<div class="bounce1"></div>
@@ -132,34 +135,36 @@
 		</div>
 	</body>
 	<script type="text/javascript">
-	var myDate=new Date();
-	var ls=new Date();
-	var lls=new Date();
-	var theday=myDate.getDay();
-	var lastSaturday=new Date(ls.setDate(myDate.getDate()-myDate.getDay()-1));
-	var lastlastSunday=new Date(lls.setDate(myDate.getDate()-myDate.getDay()-7));
-	
-	function dateFormet(myday){
-		var m=myday.getMonth()+1;
-		var d=myday.getDate();
-		var yyyy=myday.getFullYear();
-		if(m< 10) {
-			var mm = "0" + m.toString();
-		} else {
-			var mm = m.toString();
+		var backgrey = document.getElementsByClassName("backgrey")[0];
+		var spinner = document.getElementsByClassName("spinner")[0];
+		var myDate = new Date();
+		var ls = new Date();
+		var lls = new Date();
+		var theday = myDate.getDay();
+		var lastSaturday = new Date(ls.setDate(myDate.getDate() - myDate.getDay() - 1));
+		var lastlastSunday = new Date(lls.setDate(myDate.getDate() - myDate.getDay() - 7));
+
+		function dateFormet(myday) {
+			var m = myday.getMonth() + 1;
+			var d = myday.getDate();
+			var yyyy = myday.getFullYear();
+			if(m < 10) {
+				var mm = "0" + m.toString();
+			} else {
+				var mm = m.toString();
+			}
+			if(d < 10) {
+				var dd = "0" + d.toString();
+			} else {
+				var dd = d.toString();
+			}
+			return(yyyy.toString() + "-" + mm + "-" + dd);
 		}
-		if(d < 10) {
-			var dd = "0" + d.toString();
-		} else {
-			var dd = d.toString();
-		}
-		return (yyyy.toString()+"-"+mm +"-" +dd);
-	}
-	
+
 		$(function() {
 			$("#title").load("header.html");
-			$("#startdate").attr("value",dateFormet(lastlastSunday));
-			$("#enddate").attr("value",dateFormet(lastSaturday));
+			$("#startdate").attr("value", dateFormet(lastlastSunday));
+			$("#enddate").attr("value", dateFormet(lastSaturday));
 		})
 
 		function calJiraWorklog() {
@@ -170,8 +175,11 @@
 				layer.alert("请输入结束日期！");
 				return;
 			} else {
+				backgrey.classList.remove("fade");
+				spinner.classList.remove("fade");
 				var timenow = new Date();
-				var duriation=$.trim($("#startdate").val())+"---"+$.trim($("#enddate").val());
+				var duriation = $.trim($("#startdate").val()) + "---" + $.trim($("#enddate").val());
+
 				$.ajax({
 					type: "post",
 					url: "jira/testerJiraWork.php?action=d",
@@ -192,51 +200,55 @@
 						}
 						$("#lxlbody1").empty();
 						$("#lxlbody1").append(lxlbody);
+						$.ajax({
+							type: "post",
+							url: "jira/testerJiraWork.php?action=c",
+							data: $("#inputdateform").serialize(),
+							async: true,
+							success: function(data) {
+								var dataList = eval(data);
+								var lxlbody = "";
+								for(var i = 0; i < dataList.length; i++) {
+									lxlbody += "<tr>";
+									lxlbody += "<td>" + dataList[i].cname + "</td>";
+									lxlbody += "<td>" + (dataList[i].sum / 3600.00) + "</td>";
+									lxlbody += "<td>" + duriation + "</td>";
+									lxlbody += "<td>" + timenow.toLocaleString() + "</td>";
+									lxlbody += "</tr>";
+								}
+								$("#lxlbody2").empty();
+								$("#lxlbody2").append(lxlbody);
+								$.ajax({
+									type: "post",
+									url: "jira/testerJiraWork.php?action=t",
+									data: $("#inputdateform").serialize(),
+									async: true,
+									success: function(data) {
+										var dataList = eval(data);
+										var lxlbody = "";
+										for(var i = 0; i < dataList.length; i++) {
+											lxlbody += "<tr>";
+											lxlbody += "<td>" + dataList[i].lower_user_name + "</td>";
+											lxlbody += "<td>" + dataList[i].display_name + "</td>";
+											lxlbody += "<td>" + (dataList[i].sumwork / 3600.00) + "</td>";
+											lxlbody += "<td>" + duriation + "</td>";
+											lxlbody += "<td>" + timenow.toLocaleString() + "</td>";
+											lxlbody += "</tr>";
+										}
+										$("#lxlbody3").empty();
+										$("#lxlbody3").append(lxlbody);
+										backgrey.classList.add("fade");
+										spinner.classList.add("fade");
+									}
+								});
+							}
+						});
 					}
 				});
-				$.ajax({
-					type: "post",
-					url: "jira/testerJiraWork.php?action=c",
-					data: $("#inputdateform").serialize(),
-					async: true,
-					success: function(data) {
-						var dataList = eval(data);
-						var lxlbody = "";
-						for(var i = 0; i < dataList.length; i++) {
-							lxlbody += "<tr>";
-							lxlbody += "<td>" + dataList[i].cname + "</td>";
-							lxlbody += "<td>" + (dataList[i].sum / 3600.00) + "</td>";
-							lxlbody += "<td>" + duriation + "</td>";
-							lxlbody += "<td>" + timenow.toLocaleString() + "</td>";
-							lxlbody += "</tr>";
-						}
-						$("#lxlbody2").empty();
-						$("#lxlbody2").append(lxlbody);
-					}
-				});
-				$.ajax({
-					type: "post",
-					url: "jira/testerJiraWork.php?action=t",
-					data: $("#inputdateform").serialize(),
-					async: true,
-					success: function(data) {
-						var dataList = eval(data);
-						var lxlbody = "";
-						for(var i = 0; i < dataList.length; i++) {
-							lxlbody += "<tr>";
-							lxlbody += "<td>" + dataList[i].lower_user_name + "</td>";
-							lxlbody += "<td>" + dataList[i].display_name  + "</td>";
-							lxlbody += "<td>" + (dataList[i].sumwork / 3600.00) + "</td>";
-							lxlbody += "<td>" + duriation + "</td>";
-							lxlbody += "<td>" + timenow.toLocaleString() + "</td>";
-							lxlbody += "</tr>";
-						}
-						$("#lxlbody3").empty();
-						$("#lxlbody3").append(lxlbody);
-					}
-				});
+
 			}
 
 		}
 	</script>
+
 </html>

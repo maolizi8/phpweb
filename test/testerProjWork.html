@@ -5,6 +5,7 @@
 		<meta charset="UTF-8">
 		<title>项目的测试工时</title>
 		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
+		<link rel="stylesheet" href="theme/css/loading.css" type="text/css" />
 		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
 		<script src="theme/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
 		<script src="theme/js/jBootstrapPage.js" type="text/javascript" charset="utf-8"></script>
@@ -109,13 +110,18 @@
 				</table>
 			</div>
 		</div>
-<div class="back" id="loadingback"></div>
-		<div class="loading" id="loading">
-			<img src="theme/images/test3.gif" />
+		
+<div class="backgrey fade"></div>
+		<div class="spinner fade">
+			<div class="bounce1"></div>
+			<div class="bounce2"></div>
+			<div class="bounce3"></div>
 		</div>
 
 	</body>
 	<script type="text/javascript">
+	var backgrey = document.getElementsByClassName("backgrey")[0];
+				var spinner = document.getElementsByClassName("spinner")[0];
 	var myDate=new Date();
 	var ls=new Date();
 	var lls=new Date();
@@ -162,9 +168,8 @@
 				layer.alert("请输入结束日期！");
 				return;
 			}else {
-				//$("#myModal").modal({backdrop: 'static', keyboard: false,show:true});
-				document.getElementById("loadingback").className="back show";
-				document.getElementById("loading").className="loading show";
+				backgrey.classList.remove("fade");
+				spinner.classList.remove("fade");;
 				var timenow = new Date();
 				var duriation = $.trim($("#startdate").val()) + "---" + $.trim($("#enddate").val());
 				$.ajax({
@@ -184,8 +189,8 @@
 							lxlbody += "<td>" + timenow.toLocaleString() + "</td>";
 							lxlbody += "</tr>";
 						}
-						document.getElementById("loading").className="loading";
-						document.getElementById("loadingback").className="back";
+						backgrey.classList.add("fade");
+						spinner.classList.add("fade");
 						$("#lxlbody").append(lxlbody);
 					}
 				});
