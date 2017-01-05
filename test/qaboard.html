@@ -433,21 +433,21 @@
 					var prdPercent = "-";
 					var prePercent = "-";
 				}
-				if(validPercent > 85) {
+				if(validPercent > 95) {
 					tbodydisp += "<td align='center' bgcolor='lightgreen'>" + validPercent + "%" + "</td>";
-				} else if(validPercent <= 85 && validPercent >= 80) {
+				} else if(validPercent <= 95 && validPercent >= 85) {
 					tbodydisp += "<td align='center' bgcolor='yellow'>" + validPercent + "%" + "</td>";
-				} else if(validPercent < 80 && validPercent >= 0) {
+				} else if(validPercent < 85 && validPercent >= 0) {
 					tbodydisp += "<td align='center' bgcolor='red'>" + validPercent + "%" + "</td>";
 				} else {
 					tbodydisp += "<td align='center'>" + validPercent + "</td>";
 				}
 
-				if(prdPercent < 5 && prdPercent >= 0) {
+				if(prdPercent < 3 && prdPercent >= 0) {
 					tbodydisp += "<td align='center' bgcolor='lightgreen'>" + prdPercent + "%" + "</td>";
-				} else if(prdPercent <= 10 && prdPercent >= 5) {
+				} else if(prdPercent <= 5 && prdPercent >= 3) {
 					tbodydisp += "<td align='center' bgcolor='yellow'>" + prdPercent + "%" + "</td>";
-				} else if(prdPercent > 10) {
+				} else if(prdPercent > 5) {
 					tbodydisp += "<td align='center' bgcolor='red'>" + prdPercent + "%" + "</td>";
 				} else {
 					tbodydisp += "<td align='center'>" + prdPercent + "</td>";
