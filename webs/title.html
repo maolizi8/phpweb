@@ -19,7 +19,7 @@
 				width: 100%;
 				height: 100%;
 				min-height: 1000px;
-				min-width: 600px;
+				min-width: 700px;
 			}
 			
 			.breadcrumb {
@@ -73,7 +73,9 @@
 			.lefttop li:nth-of-type(2) a {
 				color: #03a9f4;
 			}
-			
+			.lefttop li:nth-of-type(3) a:hover {
+				color: #03a9f4;
+			}
 			.icon-location {
 				position: absolute;
 				width: 15px;
@@ -97,13 +99,13 @@
 			.location-value{
 				margin-left: 15px;
 			}
-			.div_location{
+			.div-location{
 				width: 50px;
 				height: 31px;
 				padding: 0 5px;
 			}
 			
-			.div_location-hover {
+			.div-location-over {
 				color: #03a9f4;
 				width: 48px;
 				background-color: #fff;
@@ -116,7 +118,7 @@
 				position: absolute;
 				width: 1px;
 				height: 15px;
-				top:7px ;
+				top:7px;
 				background-color: #999;
 			}
 			.righttop {
@@ -129,14 +131,25 @@
 			
 			.dingwei{
 				position: absolute;
-				width: 100px;
-				height: 300px;
+				width: 300px;
+				height: 250px;
 				border: 1px solid #ccc;
 				border-top: transparent;
 				left: 10%;
-				padding: 10px;
+				/*padding: 10px;*/
 			}
-			.dingwei a{
+			.dingwei ul li{
+				display: inline;
+				text-wrap: ;
+			}
+			.letters{
+				height: 70px;
+				border-bottom: 1px solid #999;
+				margin-top: 15px;
+				padding-left: 10px;
+				padding-right: 10px;
+			}
+			.letters a{
 				text-decoration: none;
 				color: #000000;
 				width: 20px;
@@ -146,9 +159,45 @@
 				line-height: 25px;
 				background-color: #E0E0E0;
 			}
-			.dingwei ul li{
-				display: inline;
-				text-wrap: ;
+			.letters a:hover{
+				background-color: #002DFF;
+				color: #fff;
+			}
+			.diming{
+				height: 148px;
+				overflow-y: auto;
+				margin-bottom: 10px;
+				font-size: 16px;
+				font-family: verdana,sans-serif;
+			}
+			.dm{
+				border-bottom: 1px dashed #999;
+			}
+			.dm div{
+				display: inline-block;
+				vertical-align: top;
+			}
+			.dmletters{
+				width:30px ;
+				margin-left: 10px;
+				line-height: 35px;
+				color: blue;
+			}
+			.dmnames{
+				width:200px ;
+			}
+			.dmnames a{
+				line-height: 35px;
+				width: 25px;
+				margin-left: 5px;
+				margin-right: 5px;
+				color: #666;
+				white-space: nowrap;
+				text-decoration: none;
+			}
+			.dmnames a:hover{
+				background-color: blue;
+				color: white;
 			}
 		</style>
 	</head>
@@ -158,9 +207,9 @@
 			<div class="topcenter">
 				<ul class="lefttop">
 					<li id="location">
-						<div class="div_location"> 
-							<i class="icon-location"></i>
-							<span class="location-value">上海</span>
+						<div class="div-location" id="d-location"> 
+							<i class="icon-location" id="i-location"></i>
+							<span class="location-value" id="v-location">上海</span>
 						</div>
 						<div class="">
 							<i class="shuxian"></i>
@@ -168,7 +217,7 @@
 					</li>
 					<li>
 						<div class="account">
-							<a href="#" id="tologin">亲，请登录</a>
+							<a href="#" id="tologin">亲,请登录</a>
 							<a href="#" id="myname" class="fade">hello</a>
 						</div>
 						<div style="display: none;">
@@ -198,8 +247,12 @@
 				</ul>
 			</div>
 		</div>
-		<div class="dingwei fade">
+		<div class="dingwei fade" id="dingwei">
 			<div class="letters">
+				<a href="#A">A</a>
+				<a href="#B">B</a>
+				<a href="#C">C</a>
+				<a href="#D">D</a>
 				<a href="">A</a>
 				<a href="">A</a>
 				<a href="">A</a>
@@ -212,33 +265,107 @@
 				<a href="">A</a>
 				<a href="">A</a>
 				<a href="">A</a>
+				<a href="">A</a>
+				<a href="">A</a>
+				<a href="">A</a>
+				<a href="">A</a>
+				<a href="">A</a>
+				<a href="#X">X</a>
+				<a href="#Y">Y</a>
+				<a href="#Z">Z</a>
 				</ul>
+			</div>
+			<div class="diming">
+				<div id="A" class="dm">
+					<div class="dmletters">A</div>
+					<div class="dmnames">
+						<a href="">安吉</a>
+					</div>
+					
+				</div>
+				<div id="B"  class="dm">
+					<div class="dmletters">B</div>
+					<div class="dmnames">
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+					</div>
+				</div>
+				<div id="C" class="dm">
+					<div class="dmletters">C</div>
+					<div class="dmnames">
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+					</div>
+				</div>
+				<div id="D" class="dm">
+					<div class="dmletters">D</div>
+					<div class="dmnames">
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+					</div>
+				</div>
+				<div id="X" class="dm">
+					<div class="dmletters">X</div>
+					<div class="dmnames">
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+					</div>
+				</div>
+				<div id="Y" class="dm">
+					<div class="dmletters">Y</div>
+					<div class="dmnames">
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+					</div>
+				</div>
+				<div id="Z" class="dm">
+					<div class="dmletters">Z</div>
+					<div class="dmnames">
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</body>
 	<script type="text/javascript">
 		var li_location=document.getElementById("location");
-		var div_location=document.getElementsByClassName("div_location")[0];
-		var icon_location=document.getElementsByClassName("icon-location")[0];
-		var dingwei=document.getElementsByClassName("dingwei")[0];
+		var div_location=document.getElementById("d-location");
+		var icon_location=document.getElementById("i-location");
+		var dingwei=document.getElementById("dingwei");
 		div_location.addEventListener("mouseover",opendingwei);
-		div_location.addEventListener("mouseleave",closedingwei);
+		div_location.addEventListener("mouseout",closedingwei);
 		dingwei.addEventListener("mouseover",opendingwei);
+		dingwei.addEventListener("mouseout",closedingwei);
 		var q;
 		function opendingwei(){
 			clearInterval(q);
-			div_location.classList.add("div_location-hover");
+			div_location.classList.add("div-location-over");
 			icon_location.classList.add("icon-location-over");
 			dingwei.classList.remove("fade");
 		}
 		function closedingwei(){
 			q=setInterval(function(){
-				div_location.classList.remove("div_location-hover");
+				div_location.classList.remove("div-location-over");
 				icon_location.classList.remove("icon-location-over");
 				dingwei.classList.add("fade");
 			},100);
-			clearInterval(q);
-			console.log(q);
 		}
 	</script>
 

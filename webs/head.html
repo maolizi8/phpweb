@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>车享</title>
+		<link href="http://s1.cximg.com/msweb02/resource/comm/images/favicon.ico" type="image/x-icon" rel="shortcut icon">
+		<link rel="stylesheet" type="text/css" href="theme/css/loading.css" />
+		<link rel="stylesheet" type="text/css" href="theme/css/comm.css" />
+		<style type="text/css">
+			* {
+				border: none;
+				margin: 0;
+				padding: 0;
+			}
+			
+			body {
+				font-size: 14px;
+				width: 100%;
+				height: 100%;
+				min-height: 1000px;
+				min-width: 700px;
+			}
+			
+			.breadcrumb {
+				width: 100%;
+				height: 30px;
+				margin-top: 0;
+				background-color: #f2f2f2;
+				border-bottom: 1px solid #dfdfdf;
+			}
+			
+			.topcenter {
+				width: 80%;
+				margin: 0 auto;
+				line-height: 29px;
+				font-family: Helvetica, verdana, Arial, SimSun, sans-serif;
+				font-size: 13px;
+			}
+			
+			.topcenter ul {
+				list-style: none;
+			}
+			
+			.topcenter ul li {
+				display: inline-block;
+				line-height: 29px;
+				color: #999;
+				padding-right: 10px;
+				padding-left: 10px;
+			}
+			
+			.topcenter ul li div {
+				display: inline-block;
+			}
+			
+			.topcenter ul li a {
+				color: #999;
+				text-decoration: none;
+			}
+			
+			.lefttop {
+				float: left;
+			}
+			
+			.lefttop li {}
+			
+			.lefttop li:first-child {
+				padding-right: 15px;
+				padding-left: 0;
+			}
+			
+			.lefttop li:nth-of-type(2) a {
+				color: #03a9f4;
+			}
+			
+			.lefttop li:nth-of-type(3) a:hover {
+				color: #03a9f4;
+			}
+			
+			.icon-location {
+				position: absolute;
+				width: 15px;
+				height: 15px;
+				margin-top: 4px;
+				margin-right: 13px;
+				background-image: url(http://s3.cximg.com/msweb02/resource/comm/img/_site-nav-s96e2828f52.png);
+				background-position: 0px -54px;
+				background-repeat: no-repeat;
+			}
+			
+			.icon-location-over {
+				position: absolute;
+				width: 15px;
+				height: 18px;
+				margin-top: 4px;
+				margin-right: 13px;
+				background-image: url(http://s3.cximg.com/msweb02/resource/comm/img/_site-nav-s96e2828f52.png);
+				background-position: 0px -34px;
+				background-repeat: no-repeat;
+			}
+			
+			.location-value {
+				margin-left: 15px;
+			}
+			
+			.div-location {
+				width: 50px;
+				height: 31px;
+				padding: 0 5px;
+			}
+			
+			.div-location-over {
+				color: #03a9f4;
+				width: 48px;
+				background-color: #fff;
+				border-bottom: transparent;
+				border-left: 1px solid #ccc;
+				border-right: 1px solid #ccc;
+			}
+			
+			.shuxian {
+				position: absolute;
+				width: 1px;
+				height: 15px;
+				top: 7px;
+				margin-left: 1px;
+				background-color: #999;
+			}
+			
+			.righttop {
+				float: right;
+			}
+			
+			.righttop li:nth-of-type(1) a {
+				color: #03a9f4;
+			}
+			
+			.rightdiv {
+				margin-right: 7px;
+				width: 70px;
+				padding-left: 7px;
+				padding-right: 5px;
+			}
+			
+			.rightdiv a:after {
+				content: "";
+				position: absolute;
+				width: 15px;
+				height: 10px;
+				margin-top: 8px;
+				margin-left: 3px;
+				background-image: url(http://s3.cximg.com/msweb02/resource/comm/img/_site-nav-s96e2828f52.png);
+				background-position: 0px -12px;
+				background-repeat: no-repeat;
+			}
+			
+			.rightdiv-over {
+				height: 31px;
+				width: 68px;
+				background-color: white;
+				border-bottom: transparent;
+				border-left: 1px solid #ccc;
+				border-right: 1px solid #ccc;
+			}
+			
+			.rightdiv-over a:after {
+				content: "";
+				position: absolute;
+				width: 15px;
+				height: 10px;
+				margin-top: 8px;
+				margin-left: 3px;
+				background-image: url(http://s3.cximg.com/msweb02/resource/comm/img/_site-nav-s96e2828f52.png);
+				background-position: 0px -22px;
+				background-repeat: no-repeat;
+			}
+			.mycx {
+				position: absolute;
+				width: 300px;
+				height: 250px;
+				border: 1px solid #ccc;
+				border-top: transparent;
+				top: 31px;
+			}
+			
+			.scancx {
+				position: absolute;
+				width: 300px;
+				height: 250px;
+				border: 1px solid #ccc;
+				border-top: transparent;
+				top: 31px;
+			}
+			.myapp{
+				position: absolute;
+				width: 80px;
+				height: 70px;
+				border: 1px solid #ccc;
+				border-top: transparent;
+			}
+			.thirdparty{
+				position: absolute;
+				width: 80px;
+				height: 70px;
+				border: 1px solid #ccc;
+				border-top: transparent;
+			}
+			.dingwei {
+				position: absolute;
+				width: 300px;
+				height: 250px;
+				border: 1px solid #ccc;
+				border-top: transparent;
+				left: 10%;
+				/*padding: 10px;*/
+			}
+			
+			.dingwei ul li {
+				display: inline;
+				text-wrap: ;
+			}
+			
+			.letters {
+				height: 70px;
+				border-bottom: 1px solid #999;
+				margin-top: 15px;
+				padding-left: 10px;
+				padding-right: 10px;
+			}
+			
+			.letters a {
+				text-decoration: none;
+				color: #000000;
+				width: 20px;
+				height: 20px;
+				font-size: 14px;
+				padding: 1px 3px;
+				line-height: 25px;
+				background-color: #E0E0E0;
+			}
+			
+			.letters a:hover {
+				background-color: #002DFF;
+				color: #fff;
+			}
+			
+			.diming {
+				height: 148px;
+				overflow-y: auto;
+				margin-bottom: 10px;
+				font-size: 16px;
+				font-family: verdana, sans-serif;
+			}
+			
+			.dm {
+				border-bottom: 1px dashed #999;
+			}
+			
+			.dm div {
+				display: inline-block;
+				vertical-align: top;
+			}
+			
+			.dmletters {
+				width: 30px;
+				margin-left: 10px;
+				line-height: 35px;
+				color: blue;
+			}
+			
+			.dmnames {
+				width: 200px;
+			}
+			
+			.dmnames a {
+				line-height: 35px;
+				width: 25px;
+				margin-left: 5px;
+				margin-right: 5px;
+				color: #666;
+				white-space: nowrap;
+				text-decoration: none;
+			}
+			
+			.dmnames a:hover {
+				background-color: blue;
+				color: white;
+			}
+			
+			
+		</style>
+	</head>
+
+	<body>
+		<div class="breadcrumb">
+			<div class="topcenter">
+				<ul class="lefttop">
+					<li id="location">
+						<div class="div-location" id="d-location"> <i class="icon-location" id="i-location"></i> <span class="location-value" id="v-location">上海</span> </div>
+						<div class=""> <i class="shuxian"></i> </div>
+					</li>
+					<li>
+						<div class="account">
+							<a href="#" id="tologin">亲，请登录</a>
+							<a href="#" id="myname" class="fade">hello</a>
+						</div>
+						<div style="display: none;">
+							<a href="#" id="myname">hello</a>
+						</div>
+					</li>
+					<li>
+						<div class="newuser">
+							<a href="#" id="toregister">免费注册</a>
+							<a href="#" id="tologout" class="fade">退出</a>
+						</div>
+					</li>
+				</ul>
+				<ul class="righttop">
+					<li>
+						<div class="rightdiv">
+							<a href="#">我的车享</a>
+						</div>
+						<div class="mycx" style="display: none;">
+							<div class=""> 
+								我的车享
+							</div>
+						</div>
+						<div class=""> <i class="shuxian"></i> </div>
+					</li>
+					<li>
+						<div class="rightdiv">
+							<a href="#">关注车享</a>
+						</div>
+						<div class="scancx" style="display: none;">
+							<div class=""> 关注车享</div>
+						</div>
+						<div class=""> <i class="shuxian"></i> </div>
+					</li>
+					<li>
+						<div class="rightdiv">
+							<a href="#">我的APP</a>
+						</div>
+						<div class="myapp" style="display: none;">
+							<div class=""> 我的APP </div>
+						</div>
+						<div class=""> <i class="shuxian"></i> </div>
+					</li>
+					<li>
+						<div class="rightdiv">
+							<a href="#">商户中心</a>
+						</div>
+						<div class="thirdparty" style="display: none;">
+							<div class=""> 商户中心 </div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="dingwei fade" id="dingwei">
+			<div class="letters">
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">B</a>
+				<a href="javascript:viod()">C</a>
+				<a href="javascript:viod()">D</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">A</a>
+				<a href="javascript:viod()">X</a>
+				<a href="javascript:viod()">Y</a>
+				<a href="javascript:viod()">Z</a>
+				</ul>
+			</div>
+			<div class="diming">
+				<div id="A" class="dm">
+					<div class="dmletters">A</div>
+					<div class="dmnames">
+						<a href="">安吉</a>
+					</div>
+				</div>
+				<div id="B" class="dm">
+					<div class="dmletters">B</div>
+					<div class="dmnames">
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+					</div>
+				</div>
+				<div id="C" class="dm">
+					<div class="dmletters">C</div>
+					<div class="dmnames">
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+					</div>
+				</div>
+				<div id="D" class="dm">
+					<div class="dmletters">D</div>
+					<div class="dmnames">
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+					</div>
+				</div>
+				<div id="X" class="dm">
+					<div class="dmletters">X</div>
+					<div class="dmnames">
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+					</div>
+				</div>
+				<div id="Y" class="dm">
+					<div class="dmletters">Y</div>
+					<div class="dmnames">
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+					</div>
+				</div>
+				<div id="Z" class="dm">
+					<div class="dmletters">Z</div>
+					<div class="dmnames">
+						<a href="">安吉</a>
+						<a href="">安吉</a>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</body>
+	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+	<script type="text/javascript">
+		var li_location = document.getElementById("location");
+		var div_location = document.getElementById("d-location");
+		var icon_location = document.getElementById("i-location");
+		var dingwei = document.getElementById("dingwei");
+		div_location.addEventListener("mouseover", opendingwei);
+		div_location.addEventListener("mouseout", closedingwei);
+		dingwei.addEventListener("mouseover", opendingwei);
+		dingwei.addEventListener("mouseout", closedingwei);
+		var q;
+
+		function opendingwei() {
+			clearInterval(q);
+			div_location.classList.add("div-location-over");
+			icon_location.classList.add("icon-location-over");
+			dingwei.classList.remove("fade");
+		}
+
+		function closedingwei() {
+			q = setInterval(function() {
+				div_location.classList.remove("div-location-over");
+				icon_location.classList.remove("icon-location-over");
+				dingwei.classList.add("fade");
+			}, 100);
+		}
+
+		function viod() {
+			return;
+		}
+
+		$(".letters a").on("click", function() {
+				$(".diming").scrollTop($(".diming").scrollTop() + $("#" + $(this).html()).position().top - 89)
+			}
+
+		);
+		$(".rightdiv")[0].addEventListener("mouseover", divhover0);
+		$(".rightdiv")[0].addEventListener("mouseout", divhide0);
+		$(".mycx")[0].addEventListener("mouseover", divhover0);
+		$(".mycx")[0].addEventListener("mouseout", divhide0);
+		$(".rightdiv")[1].addEventListener("mouseover", divhover1);
+		$(".rightdiv")[1].addEventListener("mouseout", divhide1);
+		$(".scancx")[0].addEventListener("mouseover", divhover1);
+		$(".scancx")[0].addEventListener("mouseout", divhide1);
+		$(".rightdiv")[2].addEventListener("mouseover", divhover2);
+		$(".rightdiv")[2].addEventListener("mouseout", divhide2);
+		$(".myapp")[0].addEventListener("mouseover", divhover2);
+		$(".myapp")[0].addEventListener("mouseout", divhide2);
+		$(".rightdiv")[3].addEventListener("mouseover", divhover3);
+		$(".rightdiv")[3].addEventListener("mouseout", divhide3);
+		$(".thirdparty")[0].addEventListener("mouseover", divhover3);
+		$(".thirdparty")[0].addEventListener("mouseout", divhide3);
+		
+		var q0,q1,q2,q3;
+
+		function divhover0() {
+			clearTimeout(q0);
+			$(".rightdiv")[0].classList.add("rightdiv-over");
+			$(".mycx")[0].style.display="block";
+		}
+
+		function divhide0() {
+			q0 = setTimeout(function() {
+				$(".rightdiv")[0].classList.remove("rightdiv-over");
+				$(".mycx")[0].style.display="none";
+			}, 100);
+		}
+
+		function divhover1() {
+			clearTimeout(q1);
+			$(".rightdiv")[1].classList.add("rightdiv-over");
+			$(".scancx")[0].style.display="block";
+		}
+
+		function divhide1() {
+			q1 = setTimeout(function() {
+				$(".rightdiv")[1].classList.remove("rightdiv-over");
+				$(".scancx")[0].style.display="none";
+			}, 100);
+		}
+		function divhover2() {
+			clearTimeout(q2);
+			$(".rightdiv")[2].classList.add("rightdiv-over");
+			$(".myapp")[0].style.display="block";
+		}
+
+		function divhide2() {
+			q2 = setTimeout(function() {
+				$(".rightdiv")[2].classList.remove("rightdiv-over");
+				$(".myapp")[0].style.display="none";
+			}, 100);
+		}
+		function divhover3() {
+			clearTimeout(q3);
+			$(".rightdiv")[3].classList.add("rightdiv-over");
+			$(".thirdparty")[0].style.display="block";
+		}
+
+		function divhide3() {
+			q3 = setTimeout(function() {
+				$(".rightdiv")[3].classList.remove("rightdiv-over");
+				$(".thirdparty")[0].style.display="none";
+			}, 100);
+		}
+	</script>
+
+</html>

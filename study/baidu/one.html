@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>title</title>
+		<style type="text/css">
+			* {
+				border: none;
+				padding: 0;
+				margin: 0;
+			}
+			
+			.head {
+				height: 30px;
+				background-color: #CBCBCB;
+				padding-top: 0;
+				margin-top: 0;
+			}
+			
+			.head ul {
+				list-style: none;
+				margin-top: 1px;
+				padding-top: 1px;
+				float: right;
+			}
+			
+			.head ul li {
+				width: 70px;
+				float: left;
+				margin-top: 5px;
+			}
+			
+			.head ul li a {
+				font-size: 14px;
+				font-weight: bold;
+				color: black;
+				text-decoration: none;
+			}
+			
+			.head ul li a:hover {
+				color: blue;
+				text-decoration: underline;
+			}
+			
+			.content {
+				/*margin-top: 10px;text-align: center;*/
+				width: 80%;
+				margin: 10px auto;
+			}
+			
+			.content h2 {
+				margin-bottom: 10px;
+			}
+			
+			.btn {
+				width: 100px;
+				height: 50px;
+				background-color: #00A6C7;
+				font-size: 16px;
+				color: #FFFFFF;
+				border: none;
+				border-radius: 10px;
+			}
+			
+			.btn:hover,
+			.btn:active {
+				background-color: #0000FF;
+				color: #FFFFFF;
+				border-radius: 10px;
+				border: none;
+				cursor: pointer;
+			}
+			
+			.btn:focus {
+				outline: none;
+			}
+			
+			.btn-small {
+				width: 70px;
+				height: 40px;
+				border-radius: 7px;
+			}
+			
+			.btn-login {
+				width: 300px;
+				height: 40px;
+				border-radius: 7px;
+				text-align: center;
+			}
+			
+			.btn-close {
+				float: right;
+				margin-right: 10px;
+				padding: 0;
+				width: 21px;
+				height: 23px;
+				font-size: 21px;
+				font-weight: 700;
+				color: #000;
+				background-color: white;
+				text-shadow: 0 1px 0 #fff;
+			}
+			
+			.btn-close:hover {
+				color: blue;
+				cursor: pointer;
+			}
+			/*.btn-close:active {
+				color: #000000;
+				background-color: white;
+				cursor: pointer;
+			}*/
+			/*.back {
+				position: absolute;
+				background: #3D3D3D;
+				z-index: 998;
+				top: 0;
+				left: 0;
+				height: 100%;
+				width: 100%;
+				opacity: 0.6;
+				display: none;
+			}*/
+			
+			.modal {
+				position: absolute;
+				background: #4d4d4d;
+				z-index: 998;
+				top: 0;
+				left: 0;
+				height: 100%;
+				width: 100%;
+				opacity: 0.6;
+				display: none;
+			}
+			
+			.loading {
+				widows: 100px;
+				height: 100px;
+				z-index: 1000;
+				text-align: center;
+				display: none;
+			}
+			
+			.loadnote {
+				display: block;
+			}
+			.modal-dialog {
+				position: relative;
+				z-index: 1000;
+				width: 410px;
+				height: 360px;
+				border: 1px solid #DCDCDC;
+				background-color: #FFFFFF;
+				text-align: center;
+				margin-top: 40px;
+				margin-left: auto;
+				margin-right: auto;
+			}
+			.modal-content{
+				position: absolute;
+				width: 400px;
+				height: 350px;
+				border:none;
+			}
+			
+			.fade {
+				display: none;
+			}
+			
+			.modal-head {
+				font-size: 20px;
+				text-align: left;
+				height: 50px;
+				margin-top: 10px;
+				margin-left: 10px;
+				z-index: 1008;
+				opacity: 1;
+			}
+			
+			.modal-body {
+				font-size: 14px;
+				height: 140px;
+				margin-top: 20px;
+			}
+			
+			.row {
+				height: 40px;
+				margin-left: 1px;
+				margin-top: 10px;
+			}
+			
+			.row label {
+				height: 35px;
+			}
+			
+			.row input {
+				height: 35px;
+				width: 300px;
+				border: 1px solid #DDC;
+				padding-left: 2px;
+			}
+			
+			.modal-footer {
+				text-align: center;
+			}
+			
+			.show {
+				display: block;
+			}
+			.alert{
+				
+			}
+		</style>
+	</head>
+
+	<body onload="weekDay()">
+		<div class="main">
+			<div class="head">
+				<ul>
+					<li>
+						<a href="" id="weekday"></a>
+					</li>
+					<li>
+						<a href="">菜单</a>
+					</li>
+					<li>
+						<a href="">菜单</a>
+					</li>
+					<li>
+						<a href="">菜单</a>
+					</li>
+					<li>
+						<a href="">菜单</a>
+					</li>
+				</ul>
+			</div>
+			<div class="content">
+				<h2>试试弹出层</h2>
+				<p id="test"></p>
+				<input type="button" class="btn" value="对话框" onclick="showDialog()" />
+				<input type="button" class="btn" value="加载中" onclick="showLoading()" />
+			</div>
+			<div class="footer" id=""></div>
+		</div>
+		
+		<div class="modal" id="back"></div>
+		
+		<div class="modal-dialog fade" id="popup">
+			<div class="modal-content">
+			<div class="modal-head">
+				头部标题
+				<button onclick="closebtn()" class="btn-close">&times;</button>
+			</div>
+			<div class="modal-body">
+				<div class="row">
+					<label>姓名：</label>
+					<input type="text" id="username" name="username" placeholder="请输入姓名" />
+				</div>
+				<div class="row">
+					<label>密码：</label>
+					<input type="password" id="password" name="password" placeholder="请输入密码" />
+				</div>
+			</div>
+			<div class="modal-footer">
+				<input type="button" onclick="loginbtn()" class="btn" value="确定" />
+				<input type="button" onclick="closebtn()" class="btn" value="取消" />
+			</div>
+			</div>
+		</div>
+		
+		<div class="loading" id="loading">
+			<img src="../theme/images/test3.gif" />
+			<i class="loadnote">Please wait...</i>
+		</div>
+	</body>
+
+	<script>
+		function weekDay() {
+			var x;
+			var d = new Date().getDay();
+			switch(d) {
+				case 0:
+					x = "今天周日";
+					break;
+				case 1:
+					x = "今天周一";
+					break;
+				case 2:
+					x = "今天周二";
+					break;
+				case 3:
+					x = "今天周三";
+					break;
+				case 4:
+					x = "今天周四";
+					break;
+				case 5:
+					x = "今天周五";
+					break;
+				case 6:
+					x = "今天周六";
+					break;
+			}
+			document.getElementById("weekday").innerHTML = x;
+		}
+
+		function showLoading() {
+			document.getElementById("back").className = "modal show";
+			document.getElementById("loading").className = "loading show";
+		}
+
+		function showDialog() {
+			document.getElementById("back").className = "modal show";
+			document.getElementById('popup').className = "modal-dialog show";
+		}
+
+		function loginbtn() {
+			var username = document.getElementById('username').value;
+			var pwd = document.getElementById('password').value;
+			if(username == "") {
+				alert("请输入姓名");
+			} else if(pwd == "") {
+				alert("请输入密码");
+			} else {
+				alert("提交！");
+				document.getElementById('popup').className = "modal-dialog fade";
+				document.getElementById("back").className = "modal fade";
+			}
+		}
+
+		function closebtn() {
+			console.log("test")
+			document.getElementById('popup').className = "modal-dialog fade";
+			document.getElementById("back").className = "modal fade";
+			
+		}
+	</script>
+
+</html>

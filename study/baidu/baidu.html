@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<title>百度一下，你就知道</title>
+		<script type="text/javascript" src="../theme/js/jquery-2.1.0.js" ></script>
+		<style type="text/css">
+		*{
+			border: none;
+			padding: 0;
+			margin: 0;
+		}
+		.min{
+			position: absolute;
+			min-height: 600px;
+			min-width: 1000px;
+			height: 100%;
+			width: 100%;
+		}
+			.title{
+				/*height: 70px;
+				border: 1px solid red;*/
+				height: 12%;
+			}
+			.title ul{
+				list-style: none;
+				float: right;
+				padding-top: 16px;
+				margin-right: 13px;
+				height: 40px;
+			}
+			.title ul li{
+				display: inline;
+				margin-left: 15px;
+				line-height: 24px;
+			}
+			.title ul li a{
+				width: 30px;
+				line-height: 24px;
+				font-size: 13px;
+				font-weight: bold;
+				color: black;
+				font-family: verdana,"times new roman"," geneva, arial, helvetica, sans-serif";
+			}
+			.title ul li.light a{
+				font-size: 13px;
+				font-weight:500;
+				color: black;
+				font-family: verdana,"times new roman"," geneva, arial, helvetica, sans-serif";
+			}
+			/*.title ul li.more{
+				color: white;
+			}*/
+			.title ul li.more a,.title ul li.more a:hover{
+				text-decoration: none;
+				font-weight: normal;
+				color: white;
+				height: 23px;
+				width: 60px;
+				padding: 3px 5px;
+				line-height: 24px;
+				text-align: center;
+				background-color: #38f;
+			}
+			.title ul li a:hover{
+				color: blue;
+			}
+			.main{
+				/*width: 80%;margin-left: auto;
+				margin-right:auto;height: 400px;
+				margin-top: 25px;
+				*/
+				height: 50%;
+				text-align: center;
+				/*border: 1px solid red;*/
+			}
+			.img{
+				width: 270px;
+				height: 130px;
+				margin: 0 auto;
+				background-image: url(https://www.baidu.com/img/bd_logo1.png);
+				background-repeat: no-repeat;
+				background-position:center;
+				background-size:contain;
+				
+				/* border: 1px solid #000000;padding-top: 30px;*/
+				
+			}
+			.main input{
+				margin-top: 30px;
+			}
+			.search{
+				width: 540px;
+				height: 35px;
+				border: 1px solid #b6b6b6;
+				border-color: #b8b8b8 transparent #ccc #b8b8b8;
+				padding-left: 5px;
+				font-family: verdana,"times new roman"," geneva, arial, helvetica, sans-serif";
+				font-size: 15px;
+			}
+			.sbtn{
+				margin-left: -10px;
+				width: 100px;
+				height: 37px;
+				border: 0;
+				background-color: #3385ff;
+				color: white;
+				font-size: 15px;
+			}
+			.sbtn:hover{
+				background-color: blue;
+			}
+			.camera{
+				position: absolute;
+				margin-top: 39px;
+				margin-left: -36px;
+				width: 21px;
+				height: 19px;
+				background-image: url(https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/soutu/img/camera_new_5606e8f.png);
+				background-position: 0 0;
+				background-repeat: no-repeat;
+			}
+			.camera:hover{
+				position: absolute;
+				margin-top: 39px;
+				margin-left: -36px;
+				width: 21px;
+				height: 19px;
+				background-image: url(https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/soutu/img/camera_new_5606e8f.png);
+				background-position: 0 -20px;
+				background-repeat: no-repeat;
+			}
+			.footer{
+				text-align: center;
+				margin-top: 80px;
+			}
+			.scan{
+				width: 60px;
+				height: 60px;
+				margin-left: auto;
+				margin-right: auto;
+				margin-bottom: 3px;
+				background-image: url(https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/home/img/qrcode/zbios_efde696.png);
+				background-repeat: no-repeat;
+				background-size: contain;
+				
+			}
+			.footer span{
+				font-size: 12px;
+				font-weight: bold;
+				font-family: arial;
+				color: #666;
+				line-height: 23px;
+			}
+			.links{
+				height: 25px;
+				margin-top: 13px;
+			}
+			.links ul{
+				list-style: none;
+			}
+			.links ul li{
+				display: inline;
+				margin-left: 15px;
+				
+			}
+			.links ul li:first-child{
+				margin-left: 0;
+			}
+			.links ul li a{
+				color: #999;
+				font-size: 12px;
+				font-family: verdana,"times new roman",sans-serif;
+			}
+			.notes{
+				font-family: verdana,sans-serif;
+				font-size: 12px;
+				color: #999999;
+				/*line-height: 30px;*/
+			}
+			.notes a{
+				color: #999999;
+				line-height: 30px;
+			}
+			.notes a[title="jing"]{
+				margin-left: 40px;
+			}
+			.icon-location{
+				position: absolute;
+				background-image: url(https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/img/icons_5859e57.png);
+				background-position: -600px -91px;
+				width: 21px;
+				height: 21px;
+			}
+			.icon-police{
+				position: absolute;
+				background-image: url(https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/global/img/icons_5859e57.png);
+				background-position: -623px -91px;
+				width: 21px;
+				height: 21px;
+				margin-left: 5px;
+			}
+			#dropdown{
+				position: absolute;
+				top: 40px;
+				right: 78px;
+				border: 1px solid #808080;
+			}
+			#dropdown ul{
+				list-style: none;
+			}
+			#dropdown ul a{
+				font-size: 12px;
+				color: #000000;
+				line-height: 26px;
+				text-decoration: none;
+			}
+			#dropdown ul a li:hover{
+				color: #FFFFFF;
+				background-color: #3388FF;
+			}
+			#dropdown ul li{
+				width: 70px;
+				text-align: center;
+			}
+			.fade{
+				display: none;
+			}
+			.show{
+				display: block;
+			}
+			#rightside{
+				position: absolute;
+				right: 0;
+				top: 0;
+				width: 84px;
+				height: 100%;
+				border-left: 1px solid #E7E7E7;
+				text-align: center;
+				vertical-align:middle;
+				background-color: #f9f9f9;
+			}
+			
+			.music,.photos,.knowledge,.documents,.hots{
+				width: 26px;
+				height: 26px;
+				padding: 5px 7px;
+				margin:2px 15px;
+				background-image: url(https://ss1.bdstatic.com/5eN1bjq8AAUYm2zgoY3K/r/www/cache/static/protocol/https/home/img/logos/bdbri_icons_0a62ce1.png);
+				background-repeat: no-repeat;
+				display: block;
+			}
+			.music{
+				background-position: -72px 0;
+			}
+			.photos{
+				background-position: -112px 0;
+				width: 22px;
+			}
+			.knowledge{
+				background-position: -36px 0;
+				width: 22px;
+			}
+			.documents{
+				background-position: -148px 0;
+				width: 22px;
+			}
+			.hots{
+				background-position: -184px 0;
+				width: 22px;
+			}
+			#rightside a{
+				display: block;
+				color: #666;
+				text-decoration: none;
+				font-size:12px;
+				font-family: verdana, arial,sans-serif;
+				height: 70px;
+				width: 70px;
+				margin: 0 7px;
+				padding-top: 6px;
+				border-bottom: 1px solid #E7E7E7;
+				vertical-align:middle;
+			}
+			#rightside a:first-child{
+				padding-top: 19px;
+				height: 40px;
+				cursor: default;
+				text-decoration: none;
+			}
+			#rightside a:hover{
+				text-decoration: underline;
+			}
+			#rightside a:first-child:hover{
+				cursor: default;
+				text-decoration: none;
+			}
+			#rightside a:last-child{
+				text-decoration: underline;
+				border-bottom: none;
+			}
+			.modal{
+				position: absolute;
+				width: 100%;
+				height: 100%;
+				top: 0;
+				left: 0;
+				background: #737373;
+				opacity: 0.6;
+				z-index: 998;
+			}
+			.popup{
+				z-index: 1000;
+				position: relative;
+				top: 50%;
+				left: 50%;
+				transform: translate(-50%,30%);
+				-webkit-transform: translate(-50%,30%);
+				background-color: #fff;
+				width: 393px;
+				height: 448px;
+				border: 1px solid #666;
+				opacity: 1;
+			}
+			#header{
+				height: 46px;
+				background-color: #f9f9f9;
+				border-bottom: 1px solid #E7E7E7 ;
+			}
+			#header span{
+				width: 30px;
+				
+				background-image: url(https://passport.baidu.com/passApi/img/baidu_logo_24_718a6c4.png);
+			}
+			#header span{
+				width: 30px;
+				
+				background-image: url(https://passport.baidu.com/passApi/img/baidu_logo_24_718a6c4.png);
+			}
+			#bottom{
+				height: 400px;
+			}
+			
+		</style>
+	</head>
+	<body>
+		<div class="min">
+		<div class="title">
+			<ul>
+				<li><a href="">糯米</a></li>
+				<li><a href="">新闻</a></li>
+				<li><a href="">hao123</a></li>
+				<li><a href="">地图</a></li>
+				<li><a href="">视频</a></li>
+				<li><a href="">贴吧</a></li>
+				<li class="light"><a href="">登录</a></li>
+				<li class="light"><a href="" class="setting" id="setting">设置</a></li>
+				<li class="more"><a href="" id="more">更多产品</a></li>
+			</ul>
+		</div>
+		<div class="main">
+			<div class="img"></div>
+			<input type="text" class="search" />
+			<span class="camera"></span>
+			<input type="button" class="sbtn" value="百度一下" />
+		</div>
+		<div class="footer">
+			<div class="scan"></div>
+			<span>手机百度</span>
+			<div class="links">
+				<ul>
+					<li><a href="">把百度设为主页</a></li>
+					<li><a href="">关于百度</a></li>
+					<li><a href="">About Baidu</a></li>
+					<li><a href="">百度推广</a></li>
+				</ul>
+			</div>
+			<div class="notes">
+				&copy;2016 Baidu<a href="">使用百度前必读</a>
+				<a href="">意见反馈</a> 京ICP证030173号
+				<i class="icon-location"></i>
+				<a href="" title="jing">京公网安备11000002000001号</a>
+				<i class="icon-police"></i>
+			</div>
+		</div>
+		</div>
+		<div class="dropdown fade" id="dropdown">
+			<ul>
+				<a href=""><li>搜索设置</li></a>
+				<a href=""><li>高级搜索</li></a>
+				<a href=""><li>关闭预测</li></a>
+				<a href=""><li>搜索历史</li></a>
+			</ul>
+		</div>
+		<div class="rightside fade" id="rightside">
+			<a>更多产品</a>
+				<a href=""><span class="music"></span>
+					音乐</a>
+				<a href=""><span class="photos"></span>
+					图片</a>
+				<a href=""><span class="knowledge"></span>
+					知道</a>
+				<a href=""><span class="documents"></span>
+					文库</a>
+			<a href=""><span class="hots"></span>
+			风云榜</a>
+			<a href="">全部产品&gt;&gt;</a>
+		</div>
+		<div class="modal fade"></div>
+		<div id="login" class="popup fade">
+			<div class="" id="header">
+				<span></span><h3>登录百度账号</h3>
+			</div>
+			<div class="" id="bottom"></div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var setting=document.getElementById("setting");
+		var dropdown=document.getElementById("dropdown");
+		setting.addEventListener("mouseover", showDrop);
+		setting.addEventListener("mouseleave", hideDrop);
+		dropdown.addEventListener("mouseover",showDrop);
+		dropdown.addEventListener("mouseleave",hideDrop);
+		var t1,t2;
+		
+		function showDrop(){
+			clearInterval(t1);
+			dropdown.className="dropdown show";
+		}
+		function hideDrop(){
+			var i=0;
+			t1=setInterval(function(){
+				dropdown.className="dropdown fade";
+			},100);
+			
+		}
+		
+		var more=document.getElementById("more");
+		var rightside=document.getElementById("rightside");
+		more.addEventListener("mouseover", showRight);
+		rightside.addEventListener("mouseleave",hideRight);
+		function showRight(){
+			clearInterval(t2);
+			rightside.className="rightside show";
+		}
+		function hideRight(){
+			t2=setInterval(function(){
+				rightside.className="rightside fade";
+			},100);
+		}
+	</script>
+</html>
