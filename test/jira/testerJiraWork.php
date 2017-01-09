@@ -77,7 +77,8 @@ AND w.UPDATEAUTHOR in
 	AND id in (SELECT TEAM_MEMBER_ID from ao_aefed0_membership)
 	)
 GROUP BY w.UPDATEAUTHOR
-) b on a.MEMBER_KEY=b.UPDATEAUTHOR";
+) b on a.MEMBER_KEY=b.UPDATEAUTHOR
+order by sumwork ASC";
 	}else {
 			$sql="";
 		}

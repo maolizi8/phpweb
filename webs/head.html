@@ -19,7 +19,7 @@
 				width: 100%;
 				height: 100%;
 				min-height: 1000px;
-				min-width: 700px;
+				min-width: 900px;
 			}
 			
 			.breadcrumb {
@@ -53,8 +53,8 @@
 			.topcenter ul li div {
 				display: inline-block;
 			}
-			
-			.topcenter ul li a {
+			/*.topcenter ul li a */
+			.topcenter a {
 				color: #999;
 				text-decoration: none;
 			}
@@ -132,7 +132,8 @@
 				float: right;
 			}
 			
-			.righttop li:nth-of-type(1) a {
+			/*.righttop li:nth-of-type(1) a*/
+			 #wdcx{
 				color: #03a9f4;
 			}
 			
@@ -177,23 +178,89 @@
 			}
 			.mycx {
 				position: absolute;
-				width: 300px;
-				height: 250px;
+				top: 31px;
+				width: 250px;
+				height: 150px;
 				border: 1px solid #ccc;
 				border-top: transparent;
-				top: 31px;
+				vertical-align: text-top;
+			}
+			
+			.notlogin>div{
+				float: left;
+			}
+			.myleft{
+				width: 70px;
+				vertical-align: top;
+			}
+			.touxiang{
+				width: 58px;
+				height: 58px;
+				border: 1px solid #999;
+				border-radius: 50%;
+				margin-left: 10px;
+				margin-top: 10px;
+			}
+			
+			.touxiang img{
+				padding: 1px;
+				border-radius: 50%;
+				width:55px;
+				height:55px;
+				background-repeat: no-repeat;
+				background-size: contain;
+			}
+			.myright{
+				width:130px ;
+				margin-left: 10px;
+				margin-top: 10px;
+			}
+			.myright a{
+				color: #333;
+				text-decoration: none;
+			}
+			.myright a:hover{
+				color: #03a9f4;
+				text-decoration: none;
+			}
+			.islogin{
+				display: block;
+			}
+			.islogin a{
+				font-size: 16px;
+				line-height: 24px;
+			}
+			.myinfo{
+				margin-top: 10px;
+			}
+			.myinfo p a:first-child{
+				margin-right: 20px;
 			}
 			
 			.scancx {
 				position: absolute;
-				width: 300px;
-				height: 250px;
+				top: 31px;
+				width: 383px;
+				height: 135px;
 				border: 1px solid #ccc;
 				border-top: transparent;
-				top: 31px;
+			}
+			.imgs{
+				display: inline-block;
+				margin-top: 10px;
+				margin-left: 10px;
+			}
+			.imgs img{
+				width: 80px;
+				height: 80px;
+			}
+			.imgs p{
+				width: 80px;
+				text-align: center;
 			}
 			.myapp{
 				position: absolute;
+				top: 31px;
 				width: 80px;
 				height: 70px;
 				border: 1px solid #ccc;
@@ -201,6 +268,7 @@
 			}
 			.thirdparty{
 				position: absolute;
+				top: 31px;
 				width: 80px;
 				height: 70px;
 				border: 1px solid #ccc;
@@ -218,9 +286,7 @@
 			
 			.dingwei ul li {
 				display: inline;
-				text-wrap: ;
 			}
-			
 			.letters {
 				height: 70px;
 				border-bottom: 1px solid #999;
@@ -302,8 +368,8 @@
 					</li>
 					<li>
 						<div class="account">
-							<a href="#" id="tologin">亲，请登录</a>
-							<a href="#" id="myname" class="fade">hello</a>
+							<a href="login.html" id="tologin" class="notlogin">亲，请登录</a>
+							<a href="mycx.html" id="myname" class="allogin" style="display: none;">秋秋</a>
 						</div>
 						<div style="display: none;">
 							<a href="#" id="myname">hello</a>
@@ -318,40 +384,99 @@
 				</ul>
 				<ul class="righttop">
 					<li>
-						<div class="rightdiv">
-							<a href="#">我的车享</a>
+						<div class="rightdiv" data-target="mycx">
+							<a href="#" id="wdcx">我的车享</a>
 						</div>
 						<div class="mycx" style="display: none;">
-							<div class=""> 
-								我的车享
+							<div class="notlogin"> 
+								<div class="myleft">
+									<div class="touxiang">
+										<img src="http://s1.cximg.com/msweb02/resource/comm/images/defaultuserimg55x55.png?t=1477043585000"/>
+									</div>
+								</div>
+								<div class="myright">
+									<div class="islogin">
+										<a href="login.html">亲，请登录</a>
+									</div>
+									<div class="myinfo">
+										<p>
+											<a href="mycx.html">我的订单</a>
+											<a href="mycx.html">优惠券</a>
+										</p>
+										<p>
+											<a href="mycx.html">我的消息</a>
+											<a href="mycx.html">我的权益</a>
+										</p>
+									</div>
+								</div>
+							</div>
+							<div class="allogin"  style="display: none;"> 
+								<div class="myleft">
+									<div class="touxiang">
+										<img src="http://i1.cximg.com/img2/avatar/faces01.jpg"/>
+									</div>
+								</div>
+								<div class="myright">
+									<div class="islogin">
+										<a href="mycx.html">秋秋</a>
+									</div>
+									<div class="myinfo">
+										<p>
+											积分：<a href="mycx.html">114</a>
+										</p>
+										<p>
+											<a href="mycx.html">我的订单</a>
+											<a href="mycx.html">优惠券</a>
+										</p>
+										<p>
+											<a href="mycx.html">我的消息</a>
+											<a href="mycx.html">我的权益</a>
+										</p>
+									</div>
+								</div>
 							</div>
 						</div>
 						<div class=""> <i class="shuxian"></i> </div>
 					</li>
 					<li>
-						<div class="rightdiv">
+						<div class="rightdiv" data-target="scancx">
 							<a href="#">关注车享</a>
 						</div>
 						<div class="scancx" style="display: none;">
-							<div class=""> 关注车享</div>
+							<div class="imgs">
+										<img alt="车享" src="http://s3.cximg.com/msweb02/resource/comm/images/qr_code/ms_120.jpg?t=1477043585000"/>
+										<p>车享</p>
+									</div>
+									<div class="imgs">
+										<img alt="车享新车" src="http://s3.cximg.com/msweb02/resource/comm/images/qr_code/carmall_120.jpg?t=1477043585000"/>
+										<p>车享新车</p>
+									</div>
+									<div class="imgs">
+										<img alt="上汽车享家" src="http://s3.cximg.com/msweb02/resource/comm/images/qr_code/sqcxj_120.jpg?t=1479706908000"/>
+										<p>上汽车享家</p>
+									</div>
+									<div class="imgs">
+										<img alt="车享招聘" src="http://s1.cximg.com/msweb02/resource/comm/images/qr_code/cxjob_120.jpg?t=1477043585000"/>
+										<p>车享招聘</p>
+									</div>
 						</div>
 						<div class=""> <i class="shuxian"></i> </div>
 					</li>
 					<li>
-						<div class="rightdiv">
+						<div class="rightdiv" data-target="myapp">
 							<a href="#">我的APP</a>
 						</div>
 						<div class="myapp" style="display: none;">
-							<div class=""> 我的APP </div>
+							<div class=""> 我的APP浮动  </div>
 						</div>
 						<div class=""> <i class="shuxian"></i> </div>
 					</li>
 					<li>
-						<div class="rightdiv">
+						<div class="rightdiv" data-target="thirdparty">
 							<a href="#">商户中心</a>
 						</div>
 						<div class="thirdparty" style="display: none;">
-							<div class=""> 商户中心 </div>
+							<div class=""> 商户中心浮动 </div>
 						</div>
 					</li>
 				</ul>
@@ -456,6 +581,25 @@
 	</body>
 	<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
 	<script type="text/javascript">
+	var loginornot=0;
+	$(function(){
+		loginToggle(loginornot);
+	})
+	function loginToggle(loginornot){
+		if(loginornot!=0){
+		var allogin=document.querySelectorAll(".allogin");
+		var notlogin=document.querySelectorAll(".notlogin");
+		notlogin.forEach(function(value, index, array) {
+			value.style.display="none";
+		})
+		allogin.forEach(function(value, index, array) {
+			value.style.display="block";
+		});
+	}
+	}
+	
+	/*eg one:*/
+	/*
 		var li_location = document.getElementById("location");
 		var div_location = document.getElementById("d-location");
 		var icon_location = document.getElementById("i-location");
@@ -464,22 +608,45 @@
 		div_location.addEventListener("mouseout", closedingwei);
 		dingwei.addEventListener("mouseover", opendingwei);
 		dingwei.addEventListener("mouseout", closedingwei);
-		var q;
-
+		
 		function opendingwei() {
-			clearInterval(q);
 			div_location.classList.add("div-location-over");
 			icon_location.classList.add("icon-location-over");
 			dingwei.classList.remove("fade");
 		}
 
 		function closedingwei() {
-			q = setInterval(function() {
-				div_location.classList.remove("div-location-over");
-				icon_location.classList.remove("icon-location-over");
-				dingwei.classList.add("fade");
-			}, 100);
+			div_location.classList.remove("div-location-over");
+			icon_location.classList.remove("icon-location-over");
+			dingwei.classList.add("fade");
 		}
+		* */
+	/*eg one end*/
+	 
+		
+		/*eg two:*/
+		document.querySelector("#d-location").onmouseover=function(){
+			var that=this;
+			that.classList.add("div-location-over");
+			document.querySelector("#i-location").classList.add("icon-location-over");
+			document.querySelector("#dingwei").classList.remove("fade");
+			document.querySelector("#dingwei").onmouseover=function(){
+				that.classList.add("div-location-over");
+				document.querySelector("#i-location").classList.add("icon-location-over");
+				this.classList.remove("fade");
+			};
+			document.querySelector("#dingwei").onmouseout=function(){
+				that.classList.remove("div-location-over");
+				document.querySelector("#i-location").classList.remove("icon-location-over");
+				this.classList.add("fade");
+			};
+		}
+		document.querySelector("#d-location").onmouseout=function(){
+			this.classList.remove("div-location-over");
+			document.querySelector("#i-location").classList.remove("icon-location-over");
+			document.querySelector("#dingwei").classList.add("fade");
+		}
+		/*eg two end*/
 
 		function viod() {
 			return;
@@ -490,74 +657,27 @@
 			}
 
 		);
-		$(".rightdiv")[0].addEventListener("mouseover", divhover0);
-		$(".rightdiv")[0].addEventListener("mouseout", divhide0);
-		$(".mycx")[0].addEventListener("mouseover", divhover0);
-		$(".mycx")[0].addEventListener("mouseout", divhide0);
-		$(".rightdiv")[1].addEventListener("mouseover", divhover1);
-		$(".rightdiv")[1].addEventListener("mouseout", divhide1);
-		$(".scancx")[0].addEventListener("mouseover", divhover1);
-		$(".scancx")[0].addEventListener("mouseout", divhide1);
-		$(".rightdiv")[2].addEventListener("mouseover", divhover2);
-		$(".rightdiv")[2].addEventListener("mouseout", divhide2);
-		$(".myapp")[0].addEventListener("mouseover", divhover2);
-		$(".myapp")[0].addEventListener("mouseout", divhide2);
-		$(".rightdiv")[3].addEventListener("mouseover", divhover3);
-		$(".rightdiv")[3].addEventListener("mouseout", divhide3);
-		$(".thirdparty")[0].addEventListener("mouseover", divhover3);
-		$(".thirdparty")[0].addEventListener("mouseout", divhide3);
 		
-		var q0,q1,q2,q3;
+		$(".rightdiv").hover(function(){
+			var that=this;
+			that.classList.add("rightdiv-over");
+			var targetdiv=$("."+$(that).attr("data-target"));
+			targetdiv[0].style.display="block";
+			targetdiv.hover(
+				function(){
+					that.classList.add("rightdiv-over");
+					targetdiv[0].style.display="block";
+				},
+				function(){
+					that.classList.remove("rightdiv-over");
+					targetdiv[0].style.display="none";
+				}
+			);
+		},function(){
+			this.classList.remove("rightdiv-over");
+			$("."+$(this).attr("data-target"))[0].style.display="none";
+		});
 
-		function divhover0() {
-			clearTimeout(q0);
-			$(".rightdiv")[0].classList.add("rightdiv-over");
-			$(".mycx")[0].style.display="block";
-		}
-
-		function divhide0() {
-			q0 = setTimeout(function() {
-				$(".rightdiv")[0].classList.remove("rightdiv-over");
-				$(".mycx")[0].style.display="none";
-			}, 100);
-		}
-
-		function divhover1() {
-			clearTimeout(q1);
-			$(".rightdiv")[1].classList.add("rightdiv-over");
-			$(".scancx")[0].style.display="block";
-		}
-
-		function divhide1() {
-			q1 = setTimeout(function() {
-				$(".rightdiv")[1].classList.remove("rightdiv-over");
-				$(".scancx")[0].style.display="none";
-			}, 100);
-		}
-		function divhover2() {
-			clearTimeout(q2);
-			$(".rightdiv")[2].classList.add("rightdiv-over");
-			$(".myapp")[0].style.display="block";
-		}
-
-		function divhide2() {
-			q2 = setTimeout(function() {
-				$(".rightdiv")[2].classList.remove("rightdiv-over");
-				$(".myapp")[0].style.display="none";
-			}, 100);
-		}
-		function divhover3() {
-			clearTimeout(q3);
-			$(".rightdiv")[3].classList.add("rightdiv-over");
-			$(".thirdparty")[0].style.display="block";
-		}
-
-		function divhide3() {
-			q3 = setTimeout(function() {
-				$(".rightdiv")[3].classList.remove("rightdiv-over");
-				$(".thirdparty")[0].style.display="none";
-			}, 100);
-		}
 	</script>
 
 </html>

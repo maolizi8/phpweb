@@ -109,6 +109,7 @@
 							<table class="table table-bordered">
 								<thead>
 									<tr>
+										<th>序号</th>
 										<th>域账户</th>
 										<th>显示名称</th>
 										<th>总工时/H</th>
@@ -228,6 +229,7 @@
 										var lxlbody = "";
 										for(var i = 0; i < dataList.length; i++) {
 											lxlbody += "<tr>";
+											lxlbody += "<td>" + (i+1) + "</td>";
 											lxlbody += "<td>" + dataList[i].lower_user_name + "</td>";
 											lxlbody += "<td>" + dataList[i].display_name + "</td>";
 											lxlbody += "<td>" + (dataList[i].sumwork / 3600.00) + "</td>";
