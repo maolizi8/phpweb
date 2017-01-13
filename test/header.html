@@ -25,13 +25,17 @@
 					<a href="testerProjWork.html" target="_blank">项目的测试工时</a>
 				</li>
 				<li>
-					<a href="index.html" target="_blank">测试人员看板</a>
+					<a href="testermgr.html" target="_blank">测试人员看板</a>
 				</li>
 				<li>
 					<a href="qaboard.html" target="_blank">项目质量看板</a>
 				</li>
 				<li>
 					<a href="qafigure.html" target="_blank">测试能力分析</a>
+				</li>
+				
+				<li style="float: right;">
+					<a href="login.html">退出</a>
 				</li>
 				<li style="float: right;">
 					<a href="rulesForQA.html" target="_blank">规则说明</a>
@@ -46,5 +50,13 @@
 		</div>
 
 	</body>
-
+<script type="text/javascript">
+	window.onload=function(){
+		var userRole=Number(localStorage.userrole);
+		if (userRole==0) {
+			window.location.href="login.html";
+		}
+	}
+	
+</script>
 </html>

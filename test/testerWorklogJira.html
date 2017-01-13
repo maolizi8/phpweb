@@ -166,6 +166,8 @@
 			$("#title").load("header.html");
 			$("#startdate").attr("value", dateFormet(lastlastSunday));
 			$("#enddate").attr("value", dateFormet(lastSaturday));
+			var userRole=localStorage.userrole;
+			console.log(userRole);
 		})
 
 		function calJiraWorklog() {
@@ -183,7 +185,7 @@
 
 				$.ajax({
 					type: "post",
-					url: "jira/testerJiraWork.php?action=d",
+					url: "jira/jiraWorklog.php?action=d&tid=43",
 					data: $("#inputdateform").serialize(),
 					async: true,
 					success: function(data) {
@@ -203,7 +205,7 @@
 						$("#lxlbody1").append(lxlbody);
 						$.ajax({
 							type: "post",
-							url: "jira/testerJiraWork.php?action=c",
+							url: "jira/jiraWorklog.php?action=c&tid=43",
 							data: $("#inputdateform").serialize(),
 							async: true,
 							success: function(data) {
@@ -221,7 +223,7 @@
 								$("#lxlbody2").append(lxlbody);
 								$.ajax({
 									type: "post",
-									url: "jira/testerJiraWork.php?action=t",
+									url: "jira/jiraWorklog.php?action=p&tid=43",
 									data: $("#inputdateform").serialize(),
 									async: true,
 									success: function(data) {

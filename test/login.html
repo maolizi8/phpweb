@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>登录</title>
+
+		<meta http-equiv="pragma" content="no-cache">
+		<meta http-equiv="cache-control" content="no-cache">
+		<meta http-equiv="expires" content="0">
+		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+		<meta http-equiv="description" content="This is my page">
+		<script src="theme/js/jquery-2.1.0.js"></script>
+		<style type="text/css">
+			body{
+				background-color: #F6F6F6;
+			}
+			h1{
+				margin-top: 50px;
+			}
+			.loginbox{
+				width: 300px;
+				margin-left: auto;
+				margin-right: auto;
+				margin-top: 50px;
+			}
+			.form-group{
+				height: 60px;
+			}
+			.form-group label{
+				color: #666;
+			}
+			.form-group input.putin{
+				margin-left: 5px;
+				width: 160px;
+				height: 30px;
+				padding-left: 8px;
+				border: 1px solid #999;
+			}
+			.btn{
+				width: 80px;
+				height: 30px;
+				margin-left: 78px;
+			}
+			.btn:hover{
+				background-color: #35b5eb;
+				border: 1px solid #999;
+			}
+			/*.btn-s{
+				margin-left: 78px;
+			}
+			.btn-r{
+				margin-right: 0px;
+			}*/
+		</style>
+	</head>
+
+	<body>
+		<h1 align="center">管理员登录</h1>
+		<div class="loginbox">
+			<form class="" name="login" id="loginform">
+				<div class="form-group">
+					<label for="username">用户名：</label>
+					<input class="putin" type="text" id="username" name="username" placeholder="用户名" />
+				</div>
+				<div class="form-group">
+					<label for="password">密&nbsp;码：</label>
+					<input class="putin" type="password" id="password" name="password" placeholder="密码" />
+				</div>
+				<div class="form-group">
+					<!--<input type="checkbox" name="remember" id="remember" value="记住我" />-->
+					<input type="button" class="btn" value="登录" id="logbtn" onClick="validateLogin()" />
+					<input type="button" class="btn" value="退出" onClick="logout()" />
+				</div>
+			</form>
+		</div>
+	</body>
+<script language="javascript">
+	localStorage.userrole=0;
+	window.onload=function(){
+		var userRole=localStorage.userrole;
+		console.log(userRole);
+	}
+	function validateLogin() {
+		if ($("#username").val()=="") {
+			alert("请输入用户名!");
+			return false;
+		} else if ($("#password").val()=="") {
+			alert("请输入密码!");
+			return false;
+		} else{
+			$.ajax({
+				type:"post",
+				url:"cxtester/userLogin.php",
+				async:true,
+				data:$("#loginform").serialize(),
+				success: function(data){
+					var role=Number(JSON.parse(data).role);
+					if (role==0) {
+						alert("用户名或密码错误！");
+					} else{
+						localStorage.userrole=role;
+						window.location.href="header.html";
+					}
+					//console.log(localStorage.userrole);
+				},
+				error: function() {
+					aler("系统错误，请联系管理员！");
+				}
+			});
+		}		
+	}
+	$(document).keyup(function(event){ 
+    	if(event.keyCode ==13){ 
+      		$("#logbtn").trigger("click"); 
+    	} 
+	});
+	function logout(){
+		localStorage.userrole=0;
+		alert(localStorage.userrole);
+	}
+</script>
+</html>
