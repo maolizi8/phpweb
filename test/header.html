@@ -5,6 +5,7 @@
 		<meta charset="UTF-8">
 		<title>title</title>
 		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
+		<script src="theme/js/cookie.js" type="text/javascript" charset="utf-8"></script>
 		<style type="text/css">
 			.topbread {
 				padding: 2px 7px;
@@ -19,7 +20,7 @@
 					<a href="testerWorklogByGroup.html" target="_blank">测试人员分组工时</a>
 				</li>-->
 				<li>
-					<a href="testerWorklogJira.html" target="_blank">测试人员工时</a>
+					<a href="testerWorklogJira.html" target="_blank">测试部工时</a>
 				</li>
 				<li>
 					<a href="testerProjWork.html" target="_blank">项目的测试工时</a>
@@ -52,11 +53,14 @@
 	</body>
 <script type="text/javascript">
 	window.onload=function(){
-		var userRole=Number(localStorage.userrole);
-		if (userRole==0) {
-			window.location.href="login.html";
+		var qarole=getCookie("qarole");
+		if (qarole!=""){
+			console.log("Welcome " + qarole);
+		}
+		else {
+			console.log("nouser");
+			window.location.href = "login.html";
 		}
 	}
-	
 </script>
 </html>

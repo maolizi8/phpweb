@@ -10,48 +10,54 @@
 		<meta http-equiv="expires" content="0">
 		<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 		<meta http-equiv="description" content="This is my page">
-		<script src="theme/js/jquery-2.1.0.js"></script>
+		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/cookie.js" type="text/javascript" charset="utf-8"></script>
 		<style type="text/css">
-			body{
+			body {
 				background-color: #F6F6F6;
 			}
-			h1{
+			
+			h1 {
 				margin-top: 50px;
 			}
-			.loginbox{
+			
+			.loginbox {
 				width: 300px;
 				margin-left: auto;
 				margin-right: auto;
 				margin-top: 50px;
 			}
-			.form-group{
+			
+			.form-group {
 				height: 60px;
 			}
-			.form-group label{
+			
+			.form-group label {
 				color: #666;
 			}
-			.form-group input.putin{
+			
+			.form-group input.putin {
 				margin-left: 5px;
 				width: 160px;
 				height: 30px;
 				padding-left: 8px;
 				border: 1px solid #999;
 			}
-			.btn{
+			.form-group a{
+				font-size: 12px;
+				color: #000000;
+				
+			}
+			.btn {
 				width: 80px;
 				height: 30px;
 				margin-left: 78px;
 			}
-			.btn:hover{
+			
+			.btn:hover {
 				background-color: #35b5eb;
 				border: 1px solid #999;
 			}
-			/*.btn-s{
-				margin-left: 78px;
-			}
-			.btn-r{
-				margin-right: 0px;
-			}*/
 		</style>
 	</head>
 
@@ -68,56 +74,64 @@
 					<input class="putin" type="password" id="password" name="password" placeholder="密码" />
 				</div>
 				<div class="form-group">
-					<!--<input type="checkbox" name="remember" id="remember" value="记住我" />-->
 					<input type="button" class="btn" value="登录" id="logbtn" onClick="validateLogin()" />
-					<input type="button" class="btn" value="退出" onClick="logout()" />
+					<a href="mailto:geqiuli@chexiang.com">联系管理员</a>
+					<!--<input type="checkbox" name="remember" id="remember" value="记住我" />-->
 				</div>
 			</form>
 		</div>
 	</body>
-<script language="javascript">
-	localStorage.userrole=0;
-	window.onload=function(){
-		var userRole=localStorage.userrole;
-		console.log(userRole);
-	}
-	function validateLogin() {
-		if ($("#username").val()=="") {
-			alert("请输入用户名!");
-			return false;
-		} else if ($("#password").val()=="") {
-			alert("请输入密码!");
-			return false;
-		} else{
-			$.ajax({
-				type:"post",
-				url:"cxtester/userLogin.php",
-				async:true,
-				data:$("#loginform").serialize(),
-				success: function(data){
-					var role=Number(JSON.parse(data).role);
-					if (role==0) {
-						alert("用户名或密码错误！");
-					} else{
-						localStorage.userrole=role;
-						window.location.href="header.html";
+	<script language="javascript">
+		window.onload = onloadfunc();
+		function onloadfunc() {
+			console.log(getCookie("qarole"));
+		}
+
+		function validateLogin() {
+			if($("#username").val() == "") {
+				alert("请输入用户名!");
+				return false;
+			} else if($("#password").val() == "") {
+				alert("请输入密码!");
+				return false;
+			} else {
+				$.ajax({
+					type: "post",
+					url: "cxtester/userLogin.php",
+					async: true,
+					data: $("#loginform").serialize(),
+					success: function(data) {
+						var role = Number(JSON.parse(data).role);
+						var username=$("#username").val();
+						if(role == 0) {
+							alert("用户名或密码错误！");
+						} else if(role == 10){
+							setCookie("qarole",role);
+							setCookie("qausername",username);
+							window.location.href = "admin.html";
+						}else if(role == 1){
+							setCookie("qarole",role);
+							setCookie("qausername",username);
+							window.location.href = "testermgr.html";
+						}else if(role == 2){
+							setCookie("qarole",role);
+							setCookie("qausername",username);
+							window.location.href = "devWorklog.html";
+						}else{
+							alert("请联系管理员！");
+						}
+					},
+					error: function() {
+						alert("系统错误，请联系管理员！");
 					}
-					//console.log(localStorage.userrole);
-				},
-				error: function() {
-					aler("系统错误，请联系管理员！");
-				}
-			});
-		}		
-	}
-	$(document).keyup(function(event){ 
-    	if(event.keyCode ==13){ 
-      		$("#logbtn").trigger("click"); 
-    	} 
-	});
-	function logout(){
-		localStorage.userrole=0;
-		alert(localStorage.userrole);
-	}
-</script>
+				});
+			}
+		}
+		$(document).keyup(function(event) {
+			if(event.keyCode == 13) {
+				$("#logbtn").trigger("click");
+			}
+		});
+	</script>
+
 </html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>首页</title>
+		<script src="theme/js/cookie.js" type="text/javascript" charset="utf-8"></script>
+	</head>
+
+	<body>
+		
+	</body>
+	<script type="text/javascript">
+		window.onload = function() {
+			var qarole = getCookie("qarole");
+			if(qarole == "" || qarole == null) {
+				console.log("nouser");
+				window.location.href = "login.html";
+			} else if(Number(qarole)==10) {
+				window.location.href = "admin.html";
+			}else if(Number(qarole)==1){
+				window.location.href = "testermgr.html";
+			}else if(Number(qarole)==2){
+				window.location.href = "devWorklog.html";
+			}else{
+				window.location.href = "error.html";
+			}
+		}
+	</script>
+
+</html>
