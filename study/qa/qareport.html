@@ -1,9 +1,9 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML">
 <html>
 
 	<head>
 
-		<title>质量月报</title>
+		<title>质量月报统计系统</title>
 		<meta charset="UTF-8">
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">
@@ -58,8 +58,16 @@
 				background-color: #f5f5f5;
 				/* color: #000000; */
 			}
-			.nav>li>a {background-color: #E6E6FA;}
-			.nav>li>a:focus, .nav>li>a:hover {text-decoration: none;background-color: #999;}
+			
+			.nav>li>a {
+				background-color: #E6E6FA;
+			}
+			
+			.nav>li>a:focus,
+			.nav>li>a:hover {
+				text-decoration: none;
+				background-color: #999;
+			}
 		</style>
 
 	</head>
@@ -101,19 +109,19 @@
 							</div>
 							<div class="col-md-2">结束时间 ：</div>
 							<div class="col-md-4">
-								<input type="date" class="form-control" id="enddate" name="enddate" placeholder="2017-01-10"  />
+								<input type="date" class="form-control" id="enddate" name="enddate" placeholder="2017-01-10" />
 							</div>
 						</div>
 						<div class="row">
 							<div class="col-md-3">
 								<input class="btn btn-primary form-control" value="计算度量项" onclick="calMeasure()" />
 							</div>
-							<div class="col-md-3">
+							<!-- <div class="col-md-3">
 								<input class="btn btn-primary form-control" value="计算测试工时(仅技平)" onclick="calTestTime()" />
 							</div>
 							<div class="col-md-3">
 								<input class="btn btn-primary form-control" value="计算开发工时(仅技平)" onclick="calDevelopTime()" />
-							</div>
+							</div> -->
 							<div class="col-md-3">
 								<input class="btn btn-primary form-control" value="计算开发测试工时(所有)" onclick="calAllDevelopTime()" />
 							</div>
@@ -131,16 +139,20 @@
 						<li role="presentation" class="active">
 							<a href="#qualityboard" data-toggle="tab" class="b">项目度量项结果</a>
 						</li>
-						<li role="presentation">
+						<!-- <li role="presentation">
 							<a href="#testerwork" data-toggle="tab" class="b">测试工时<span class="small">（仅技术与平台中心测试人员）</span>
 							</a>
 						</li>
 						<li role="presentation">
 							<a href="#developerwork" data-toggle="tab" class="b">开发工时<span class="small">（仅技术与平台中心开发人员）</span>
 							</a>
-						</li>
+						</li> -->
 						<li role="presentation">
 							<a href="#alldeveloperwork" data-toggle="tab" class="b">开发测试工时<span class="small">（所有人员）</span>
+							</a>
+						</li>
+						<li role="presentation">
+							<a href="#projectsid" data-toggle="tab" class="b">项目ID对照表</span>
 							</a>
 						</li>
 					</ul>
@@ -157,8 +169,8 @@
 											<th align="center">BUG总数</th>
 											<th align="center">有效BUG数</th>
 											<th align="center">缺陷有效率</th>
-											<th align="center">缺陷及时率</th>
 											<th align="center">缺陷reopen率</th>
+											<th align="center">缺陷及时率</th>
 											<th align="center">缺陷遗漏率</th>
 											<th align="center">P0P1验证时长/天</th>
 											<th align="center">P2P3验证时长/天</th>
@@ -167,12 +179,12 @@
 										</tr>
 									</thead>
 									<tbody id="projMeasBody">
-										
+
 									</tbody>
 								</table>
 							</div>
 						</div>
-						<div class="tab-pane fade" id="testerwork">
+						<!-- <div class="tab-pane fade" id="testerwork">
 							<div>
 								<table id="testertable" class="table" border="1" cellspacing="1" cellpadding="1" style="align-content: center; width: 100%;">
 									<thead>
@@ -205,7 +217,7 @@
 									</tbody>
 								</table>
 							</div>
-						</div>
+						</div> -->
 						<div class="tab-pane fade" id="alldeveloperwork">
 							<div>
 								<table id="testertable" class="table" border="1" cellspacing="1" cellpadding="1" style="align-content: center; width: 100%;">
@@ -220,11 +232,32 @@
 										</tr>
 									</thead>
 									<tbody id="alldeveloperWorkBody">
-										
+
 									</tbody>
 								</table>
 							</div>
 						</div>
+						<div class="tab-pane fade" id="projectsid">
+							<div>
+
+								<table id="testertable" class="table" border="1" cellspacing="1" cellpadding="1" style="align-content: center; width: 100%;">
+									<thead>
+										<tr>
+											<th>项目id</th>
+											<th>项目名称</th>
+											<th>
+												操作
+												<button data-target='#addProject' class='addProject btn btn-primary' style="margin-bottom: 3px;font-size: 12px;font-weight: 500;">添加项目及ID</button>
+											</th>
+										</tr>
+									</thead>
+									<tbody id="projectsidtbody">
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+
 					</div>
 				</div>
 			</div>
@@ -237,273 +270,40 @@
 			<div class="bounce2"></div>
 			<div class="bounce3"></div>
 		</div>
+		<div class="modal fade" id="addProject">
+			<div class="modal-dialog">
+				<div class="modal-content">
+					<div class="modal-header">
+						<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<h4 class="modal-title">新增项目及ID对照</h4>
+					</div>
+					<div class="modal-body">
+						<form class="form-horizontal" role="form" id="addProjectForm">
+							<div class="form-group">
+								<label for="projid" class="col-sm-2 control-label">项目ID</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="projid" name="projid" placeholder="请输入项目ID">
+								</div>
+							</div>
+							<div class="form-group">
+								<label for="projname" class="col-sm-2 control-label">项目名称</label>
+								<div class="col-sm-10">
+									<input type="text" class="form-control" id="projname" name="projname" placeholder="请输入项目名称">
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-sm-offset-9 col-sm-10">
+									<button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+									<button onclick="addProjID()" type="button" class="btn btn-primary">确定</button>
+
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
 	</body>
-	<script type="text/javascript">
-		var backgrey = document.getElementsByClassName("backgrey")[0];
-		var spinner = document.getElementsByClassName("spinner")[0];
-		
-		function calMeasure() {
-			var projid=$.trim($("#department").val());
-			if(projid == ""){
-				layer.alert("请输入项目ID！");
-				return;			
-			}else if(isNaN(projid)) {
-				layer.alert("项目ID为纯数字！");
-				return;
-			}else if($.trim($("#startdate").val()) == "") {
-				layer.alert("请输入开始日期！");
-				return;
-			}else if($.trim($("#enddate").val()) == "") {
-				layer.alert("请输入结束日期！");
-				return;
-			}else{
-				backgrey.classList.remove("fade");
-				spinner.classList.remove("fade");
-				$.ajax({
-				type: "post",
-				url: "CalculateMeasure",
-				data: $("#calProjMeasure").serialize(),
-				success: function(data) {
-					if(data== '[]') {
-						backgrey.classList.add("fade");
-						spinner.classList.add("fade");
-						layer.alert("无相关数据，请修改查询条件！");
-					} else {
-						var projList = eval(data);
-						console.log(projList);
-						//var projList=data;
-						var tbody = "";
-						tbody += '<tr>';
-						tbody += '<td>' + projList[0].projectid + '</td>';
-						tbody += '<td>' + projList[0].projname + '</td>';
-						tbody += '<td>' + projList[0].totalbugs + '</td>';
-						tbody += '<td>' + projList[0].realbug + '</td>';
-						var valid = Math.round(projList[0].valid * 10000) / 100.00;
-						var beforepre = Math
-							.round(projList[0].beforepre * 10000) / 100.00;
-						var reopen = Math.round(projList[0].reopen * 10000) / 100.00;
-						var productenv = Math
-							.round(projList[0].productenv * 10000) / 100.00;
-						var p0p1 = Math.round(projList[0].p0p1 / 864) / 100.00;
-						var p2p3 = Math.round(projList[0].p2p3 / 864) / 100.00;
-						tbody += '<td>' + valid + '%</td>';
-						tbody += '<td>' + beforepre + '%</td>';
-						tbody += '<td>' + reopen + '%</td>';
-						tbody += '<td>' + productenv + '%</td>';
-						tbody += '<td>' + p0p1 + '</td>';
-						tbody += '<td>' + p2p3 + '</td>';
-						tbody += '<td>' + projList[0].batch + '</td>';
-						tbody += '<td>' + projList[0].createddate + '</td>';
-						tbody += '</tr>';
-
-						backgrey.classList.add("fade");
-						spinner.classList.add("fade");
-						$("#myTab li:eq(0) a").tab('show');
-
-						$("#projMeasBody").append(tbody);
-					}
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					//alert(errorThrown);
-					console.log(errorThrown);
-				}
-			});
-			}
-			
-		}
-
-		function calTestTime() {
-			var projid=$.trim($("#department").val());
-			if(projid == ""){
-				layer.alert("请输入项目ID！");
-				return;			
-			}else if(isNaN(projid)) {
-				layer.alert("项目ID为纯数字！");
-				return;
-			}else if($.trim($("#startdate").val()) == "") {
-				layer.alert("请输入开始日期！");
-				return;
-			}else if($.trim($("#enddate").val()) == "") {
-				layer.alert("请输入结束日期！");
-				return;
-			}else{
-			backgrey.classList.remove("fade");
-			spinner.classList.remove("fade");
-
-			console.log($("#calTeseterWork").serialize())
-			$.ajax({
-					type: "post",
-					url: "CalculateTestTime",
-					data: $("#calProjMeasure").serialize(),
-					success: function(data) {
-						if(data == '[]') {
-							backgrey.classList.add("fade");
-						spinner.classList.add("fade");
-							layer.alert("无相关数据，请修改查询条件！");
-						} else {
-							var testworkList = eval(data);
-							console.log(testworkList);
-							//var testworkList=data;
-							var tbody = "";
-							tbody += '<tr>';
-							var sumworked = Math
-								.round(testworkList[0].sumworked / 288) / 100.00;
-							tbody += '<td>' + testworkList[0].projid + '</td>';
-							/* 	tbody += '<td>' + testworkList[0].pname
-										+ '</td>'; */
-							tbody += '<td>' + sumworked + '</td>';
-							tbody += '<td>' + testworkList[0].batch + '</td>';
-							tbody += '<td>' + testworkList[0].createddate +
-								'</td>';
-							tbody += '</tr>';
-							/* for (i=0,len=projList.length;i<len;i++) {
-								tbody+='<tr>';
-								tbody+='<td>'+projList[i]['id']+'</td>';
-								tbody+='</tr>';
-							} */
-							//console.log(tbody);
-							backgrey.classList.add("fade");
-							spinner.classList.add("fade");
-							$("#myTab li:eq(1) a").tab('show');
-							//$("#testerwork").addClass('in active');
-							$("#testerWorkBody").append(tbody);
-						}
-					},
-					error: function(XMLHttpRequest, textStatus, errorThrown) {
-						//alert(errorThrown);
-						console.log(errorThrown);
-					}
-				});
-		}
-		}
-
-		function calDevelopTime() {
-			var projid=$.trim($("#department").val());
-			if(projid == ""){
-				layer.alert("请输入项目ID！");
-				return;			
-			}else if(isNaN(projid)) {
-				layer.alert("项目ID为纯数字！");
-				return;
-			}else if($.trim($("#startdate").val()) == "") {
-				layer.alert("请输入开始日期！");
-				return;
-			}else if($.trim($("#enddate").val()) == "") {
-				layer.alert("请输入结束日期！");
-				return;
-			}else{
-			backgrey.classList.remove("fade");
-			spinner.classList.remove("fade");
-
-			//console.log($("#calDeveloperWork").serialize())
-			$.ajax({
-				type: "post",
-				url: "CalculateDevelopTime",
-				data: $("#calProjMeasure").serialize(),
-				success: function(data) {
-					console.log(data);
-					if(data == '[]') {
-						backgrey.classList.add("fade");
-						spinner.classList.add("fade");
-						layer.alert("无相关数据，请修改查询条件！");
-					} else {
-						var devworkList = eval(data);
-						console.log(devworkList);
-						//var devworkList=data;
-						var tbody = "";
-						tbody += '<tr>';
-						tbody += '<td>' + devworkList[0].projid + '</td>';
-						/* tbody += '<td>' + devworkList[0].pname + '</td>'; */
-						var sumworked = Math
-							.round(devworkList[0].sumworked / 288) / 100.00;
-						tbody += '<td>' + sumworked + '</td>';
-						tbody += '<td>' + devworkList[0].batch + '</td>';
-						tbody += '<td>' + devworkList[0].createddate +
-							'</td>';
-						tbody += '</tr>';
-						/* for (i=0,len=projList.length;i<len;i++) {
-							tbody+='<tr>';
-							tbody+='<td>'+projList[i]['id']+'</td>';
-							tbody+='</tr>';
-						} */
-						backgrey.classList.add("fade");
-						spinner.classList.add("fade");
-						$("#myTab li:eq(2) a").tab('show');
-
-						$("#developerWorkBody").append(tbody);
-					}
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					//alert(errorThrown);
-					console.log(errorThrown);
-				}
-			});
-			}
-		}
-
-		function calAllDevelopTime() {
-			var projid=$.trim($("#department").val());
-			if(projid == ""){
-				layer.alert("请输入项目ID！");
-				return;			
-			}else if(isNaN(projid)) {
-				layer.alert("项目ID为纯数字！");
-				return;
-			}else if($.trim($("#startdate").val()) == "") {
-				layer.alert("请输入开始日期！");
-				return;
-			}else if($.trim($("#enddate").val()) == "") {
-				layer.alert("请输入结束日期！");
-				return;
-			}else{
-			backgrey.classList.remove("fade");
-			spinner.classList.remove("fade");
-
-			//console.log($("#calDeveloperWork").serialize())
-			$.ajax({
-				type: "post",
-				url: "CalculateAllDevWorklog",
-				data: $("#calProjMeasure").serialize(),
-				success: function(data) {
-					console.log(data);
-					if(data == '[]') {
-						backgrey.classList.add("fade");
-						spinner.classList.add("fade");
-						layer.alert("无相关数据，请修改查询条件！");
-					} else {
-						var devworkList = JSON.parse(data);
-						console.log(devworkList);
-						//var devworkList=data;
-						var tbody = "";
-						tbody += '<tr>';
-						tbody += '<td>' + devworkList.project + '</td>';
-						tbody += '<td>' + devworkList.pname + '</td>';
-						var sumwtest = Math.round(devworkList.sumtest / 288) / 100.00;
-						var sumdevelop = Math.round(devworkList.sumdevelop / 288) / 100.00;
-						tbody += '<td>' + sumdevelop + '</td>';
-						tbody += '<td>' + sumwtest + '</td>';
-						tbody += '<td>' + devworkList.batch + '</td>';
-						tbody += '<td>' + devworkList.createddate + '</td>';
-						tbody += '</tr>';
-						/* for (i=0,len=projList.length;i<len;i++) {
-							tbody+='<tr>';
-							tbody+='<td>'+projList[i]['id']+'</td>';
-							tbody+='</tr>';
-						} */
-						//$("#alldeveloperWorkBody").tab('show');
-						backgrey.classList.add("fade");
-						spinner.classList.add("fade");
-						$("#myTab li:eq(3) a").tab('show');
-						$("#alldeveloperWorkBody").append(tbody);
-					}
-				},
-				error: function(XMLHttpRequest, textStatus, errorThrown) {
-					//alert(errorThrown);
-					console.log(errorThrown);
-				}
-			});
-			}
-		}
-	</script>
+	<script src="js/myjs.js" type="text/javascript" charset="utf-8"></script>
 
 </html>
