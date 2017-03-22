@@ -5,6 +5,11 @@
 		<meta charset="UTF-8">
 		<title>规则说明</title>
 		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
+		<style type="text/css">
+			p{
+				line-height: 30px;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -17,10 +22,12 @@
 				<div class="panel-body">
 					<h3>数据来源</h3>
 					<p>质量看板内容和数据全部来源于jira。
-						<br /> 展示项目信息：项目名称、项目类别、创建时间、负责人。
-						<br /> 数据信息：项目中总BUG数，未修复（所有的还没有关闭的BUG），待验证（处于resolved状态的BUG，需要测试人员去验证的BUG），有效率（有效BUG/总BUG），遗漏率（生产BUG/总BUG），及时率（PRE环境以前的BUG/总BUG）。
-						<br />
-					</p>
+						</p>
+						<p> 展示项目信息：项目名称、项目类别、创建时间、负责人。
+						</p>
+						<p> 数据信息：项目中总BUG数，未修复（所有的还没有关闭的BUG），待验证（处于resolved状态的BUG，需要测试人员去验证的BUG），有效率（有效BUG/总BUG），遗漏率（生产BUG/总BUG），及时率（PRE环境以前的BUG/总BUG）。
+						</p>
+						<p></p>
 					<hr>
 					<h3>颜色规则</h3>
 					<img src="jira/images/rulesforqa.jpg" />
@@ -33,11 +40,18 @@
 				<div class="panel-body">
 					<h3>数据来源</h3>
 					<p>测试能力分析内容和数据全部来源于jira。
-					<br /> 分别按月、按季度、按年展示生产BUG数量、有效BUG数量、以及BUG总数。
-					<br /> 数据信息：测试质量=生产Bug/有效Bug；测试效率=有效Bug/Bug总数
-					<br />
 					</p>
-					
+					<p> 分别按月、按季度、按年展示生产BUG数量、有效BUG数量、以及BUG总数。
+					</p>
+					<p> 数据信息：测试质量=生产Bug/有效Bug；测试效率=有效Bug/Bug总数
+					</p>
+					<p><b>生产bug</b>：issuetype = Bug AND priority in (Blocker, Critical, Major, Minor, Trivial) AND resolution in (Unresolved, Fixed, "Won't Fix", "Cannot Reproduce", Done, "Incomplete/Cancel") AND Bug根源 in (" IDB 慢查询", 兼容性问题, 冒烟测试未通过, 功能开发问题, 安全问题, 性能问题, 数据问题, 测试用例未执行, 测试用例未覆盖, 用户体验问题, 页面问题) AND 发现阶段 = 运营阶段 AND 所在环境 = PRODUCT ORDER BY created ASC, priority DESC
+					</p>
+					<p><b>有效bug</b>：issuetype = Bug AND resolution in (Unresolved, Fixed, "Won't Fix", "Cannot Reproduce", Done, "Incomplete/Cancel") 
+ 					</p>
+ 					<p><b>Bug总数</b>：issuetype = Bug </p>
+ 					<p><b>Bug贡献值</b>: 4*P0+2*P1+1*P2+0.8*（P3+P4），只算有效bug；不包括生产bug（发现阶段 ！= 运营阶段 AND 所在环境 ！= PRODUCT ）。
+					</p>
 				</div>
 			</div>
 

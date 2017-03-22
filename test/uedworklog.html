@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>UED部门工时统计</title>
+		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
+		<link rel="stylesheet" href="theme/css/loading.css" type="text/css" />
+		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/bootstrap.min.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/js/jBootstrapPage.js" type="text/javascript" charset="utf-8"></script>
+		<script src="theme/layer/layer.js" type="text/javascript" charset="utf-8"></script>
+		<style type="text/css">
+			tr {
+				border-top: 1px;
+				border-bottom: 1px;
+			}
+			
+			td {
+				text-align: center;
+			}
+			
+			.topbread {
+				padding: 2px 7px;
+			}
+			
+			.container th {
+				border-top: 1px;
+				text-align: center;
+			}
+			
+			.container hr {
+				margin-top: 7px;
+				margin-bottom: 7px;
+			}
+			/*.nav>li>a {background-color: #E6E6FA;}
+			.nav>li>a:focus, .nav>li>a:hover {text-decoration: none;background-color: #999;}*/
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<a target="_blank" style="float: right;" href="http://jira.dds.com/secure/TempoTeam!default.jspa?teamId=9">UED部门成员名单</a>
+			<h2 align="center">UED部门工时统计</h2>
+			<div style="margin-top: 30px;">
+				<form method="post" name="inputdate" id="inputdateform">
+					<div class="row">
+						<div class="col-md-2">开始时间：</div>
+						<div class="col-md-3">
+							<input type="date" class="form-control" id="startdate" name="startdate" />
+						</div>
+						<div class="col-md-2">结束时间：</div>
+						<div class="col-md-3">
+							<input type="date" class="form-control" id="enddate" name="enddate" />
+						</div>
+						<div class="col-md-2" style="float: right;">
+							<input type="button" class="btn btn-primary form-control" value="统计工时" onclick="calJiraWorklog()" />
+						</div>
+					</div>
+				</form>
+				<hr />
+				<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
+					<ul id="myTabs" class="nav nav-tabs" role="tablist">
+						<li role="presentation" class="active">
+							<a href="#lxl" data-toggle="tab">详细工时数据</a>
+						</li>
+						<li role="presentation">
+							<a href="#gql" data-toggle="tab">项目类别总工时</a>
+						</li>
+						<li role="presentation">
+							<a href="#personal" data-toggle="tab">UED部门个人总工时</a>
+						</li>
+					</ul>
+					<div id="myTabContent" class="tab-content">
+						<p></p>
+						<div class="tab-pane fade in active" id="lxl">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>项目类别</th>
+										<th>域账户</th>
+										<th>显示名称</th>
+										<th>总工时/H</th>
+										<th>起止时间段</th>
+										<th>统计时间</th>
+									</tr>
+								</thead>
+								<tbody id="lxlbody1">
+
+								</tbody>
+							</table>
+						</div>
+						<div class="tab-pane fade" id="gql">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>项目类别</th>
+										<th>总工时/H</th>
+										<th>起止时间段</th>
+										<th>统计时间</th>
+									</tr>
+								</thead>
+								<tbody id="lxlbody2">
+
+								</tbody>
+							</table>
+						</div>
+						<div class="tab-pane fade" id="personal">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>序号</th>
+										<th>域账户</th>
+										<th>显示名称</th>
+										<th>总工时/H</th>
+										<th>起止时间段</th>
+										<th>统计时间</th>
+									</tr>
+								</thead>
+								<tbody id="lxlbody3">
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+
+		<div class="backgrey fade"></div>
+		<div class="spinner fade">
+			<div class="bounce1"></div>
+			<div class="bounce2"></div>
+			<div class="bounce3"></div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		var backgrey = document.getElementsByClassName("backgrey")[0];
+		var spinner = document.getElementsByClassName("spinner")[0];
+		var myDate = new Date();
+		var ls = new Date();
+		var lls = new Date();
+		var theday = myDate.getDay();
+		var lastSaturday = new Date(ls.setDate(myDate.getDate() - myDate.getDay() - 1));
+		var lastlastSunday = new Date(lls.setDate(myDate.getDate() - myDate.getDay() - 7));
+
+		function dateFormet(myday) {
+			var m = myday.getMonth() + 1;
+			var d = myday.getDate();
+			var yyyy = myday.getFullYear();
+			if(m < 10) {
+				var mm = "0" + m.toString();
+			} else {
+				var mm = m.toString();
+			}
+			if(d < 10) {
+				var dd = "0" + d.toString();
+			} else {
+				var dd = d.toString();
+			}
+			return(yyyy.toString() + "-" + mm + "-" + dd);
+		}
+
+		$(function() {
+			$("#startdate").attr("value", dateFormet(lastlastSunday));
+			$("#enddate").attr("value", dateFormet(lastSaturday));
+		})
+
+		function calJiraWorklog() {
+			if($.trim($("#startdate").val()) == "") {
+				layer.alert("请输入开始日期！");
+				return;
+			} else if($.trim($("#enddate").val()) == "") {
+				layer.alert("请输入结束日期！");
+				return;
+			} else {
+				backgrey.classList.remove("fade");
+				spinner.classList.remove("fade");
+				var timenow = new Date();
+				var duriation = $.trim($("#startdate").val()) + "---" + $.trim($("#enddate").val());
+
+				$.ajax({
+					type: "post",
+					url: "jira/jiraWorklog.php?action=d&tid=9",
+					data: $("#inputdateform").serialize(),
+					async: true,
+					success: function(data) {
+						console.log(data);
+						var dataList = eval(data);
+						var lxlbody = "";
+						for(var i = 0; i < dataList.length; i++) {
+							lxlbody += "<tr>";
+							lxlbody += "<td>" + dataList[i].cname + "</td>";
+							lxlbody += "<td>" + dataList[i].lower_user_name + "</td>";
+							lxlbody += "<td>" + dataList[i].display_name + "</td>";
+							lxlbody += "<td>" + (dataList[i].sum / 3600.00) + "</td>";
+							lxlbody += "<td>" + duriation + "</td>";
+							lxlbody += "<td>" + timenow.toLocaleString() + "</td>";
+							lxlbody += "</tr>";
+						}
+						$("#lxlbody1").empty();
+						$("#lxlbody1").append(lxlbody);
+						$.ajax({
+							type: "post",
+							url: "jira/jiraWorklog.php?action=c&tid=9",
+							data: $("#inputdateform").serialize(),
+							async: true,
+							success: function(data) {
+								var dataList = eval(data);
+								var lxlbody = "";
+								for(var i = 0; i < dataList.length; i++) {
+									lxlbody += "<tr>";
+									lxlbody += "<td>" + dataList[i].cname + "</td>";
+									lxlbody += "<td>" + (dataList[i].sum / 3600.00) + "</td>";
+									lxlbody += "<td>" + duriation + "</td>";
+									lxlbody += "<td>" + timenow.toLocaleString() + "</td>";
+									lxlbody += "</tr>";
+								}
+								$("#lxlbody2").empty();
+								$("#lxlbody2").append(lxlbody);
+								$.ajax({
+									type: "post",
+									url: "jira/jiraWorklog.php?action=p&tid=9",
+									data: $("#inputdateform").serialize(),
+									async: true,
+									success: function(data) {
+										var dataList = eval(data);
+										var lxlbody = "";
+										for(var i = 0; i < dataList.length; i++) {
+											lxlbody += "<tr>";
+											lxlbody += "<td>" + (i+1) + "</td>";
+											lxlbody += "<td>" + dataList[i].lower_user_name + "</td>";
+											lxlbody += "<td>" + dataList[i].display_name + "</td>";
+											lxlbody += "<td>" + (dataList[i].sumwork / 3600.00) + "</td>";
+											lxlbody += "<td>" + duriation + "</td>";
+											lxlbody += "<td>" + timenow.toLocaleString() + "</td>";
+											lxlbody += "</tr>";
+										}
+										$("#lxlbody3").empty();
+										$("#lxlbody3").append(lxlbody);
+										backgrey.classList.add("fade");
+										spinner.classList.add("fade");
+									},
+									error: function(XMLHttpRequest, textStatus, errorThrown) {
+										layer.alert(errorThrown);
+										console.log(errorThrown);
+									}
+								});
+							},
+							error: function(XMLHttpRequest, textStatus, errorThrown) {
+								layer.alert(errorThrown);
+								console.log(errorThrown);
+							}
+						});
+					},
+					error: function(XMLHttpRequest, textStatus, errorThrown) {
+						layer.alert(errorThrown);
+						console.log(errorThrown);
+					}
+				});
+
+			}
+
+		}
+	</script>
+
+</html>
