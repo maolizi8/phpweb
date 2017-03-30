@@ -3,7 +3,7 @@
 
 	<head>
 		<meta charset="UTF-8">
-		<title>测试部工时查询</title>
+		<title>质量保障部工时分析</title>
 		<link rel="stylesheet" href="theme/css/bootstrap.min.css" type="text/css" />
 		<link rel="stylesheet" href="theme/css/loading.css" type="text/css" />
 		<script src="theme/js/jquery-2.1.0.js" type="text/javascript" charset="utf-8"></script>
@@ -41,7 +41,7 @@
 			<div id="title">
 
 			</div>
-			<h2 align="center">测试部工时查询</h2>
+			<h2 align="center">质量保障部工时分析</h2>
 			<div style="margin-top: 30px;">
 				<form method="post" name="inputdate" id="inputdateform">
 					<div class="row">
@@ -62,35 +62,18 @@
 				<div class="bs-example bs-example-tabs" data-example-id="togglable-tabs">
 					<ul id="myTabs" class="nav nav-tabs" role="tablist">
 						<li role="presentation" class="active">
-							<a href="#lxl" data-toggle="tab">详细工时数据</a>
-						</li>
-						<li role="presentation">
 							<a href="#gql" data-toggle="tab">项目类别总工时</a>
 						</li>
 						<li role="presentation">
-							<a href="#personal" data-toggle="tab">测试部个人总工时</a>
+							<a href="#personal" data-toggle="tab">个人工时盘点</a>
+						</li>
+						<li role="presentation">
+							<a href="#lxl" data-toggle="tab">详细工时数据</a>
 						</li>
 					</ul>
 					<div id="myTabContent" class="tab-content">
 						<p></p>
-						<div class="tab-pane fade in active" id="lxl">
-							<table class="table table-bordered">
-								<thead>
-									<tr>
-										<th>项目类别</th>
-										<th>域账户</th>
-										<th>显示名称</th>
-										<th>总工时/H</th>
-										<th>起止时间段</th>
-										<th>统计时间</th>
-									</tr>
-								</thead>
-								<tbody id="lxlbody1">
-
-								</tbody>
-							</table>
-						</div>
-						<div class="tab-pane fade" id="gql">
+						<div class="tab-pane fade in active" id="gql">
 							<table class="table table-bordered">
 								<thead>
 									<tr>
@@ -118,6 +101,23 @@
 									</tr>
 								</thead>
 								<tbody id="lxlbody3">
+
+								</tbody>
+							</table>
+						</div>
+						<div class="tab-pane fade" id="lxl">
+							<table class="table table-bordered">
+								<thead>
+									<tr>
+										<th>项目类别</th>
+										<th>域账户</th>
+										<th>显示名称</th>
+										<th>总工时/H</th>
+										<th>起止时间段</th>
+										<th>统计时间</th>
+									</tr>
+								</thead>
+								<tbody id="lxlbody1">
 
 								</tbody>
 							</table>

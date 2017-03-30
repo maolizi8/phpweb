@@ -118,6 +118,7 @@
 						<table class="table table-bordered">
 							<thead>
 								<tr>
+									<th>序号</th>
 									<th>姓名</th>
 									<th>域账户</th>
 									<th>有效Bug</th>
@@ -165,7 +166,7 @@
 						mTBody += "<td align='center'>" + (mList[i].prdnum || 0) + "</td>";
 						mTBody += "<td align='center'>" + (mList[i].validnum || 0) + "</td>";
 						mTBody += "<td align='center'>" + mList[i].total + "</td>";
-						var qua = Math.round(mList[i].prdnum / mList[i].validnum * 10000) / 100.00;
+						var qua = Math.round((mList[i].validnum - mList[i].prdnum) / mList[i].validnum * 10000) / 100.00;
 						var effi = Math.round(mList[i].validnum / mList[i].total * 10000) / 100.00;
 						mTBody += "<td align='center'>" + qua + "%</td>";
 						mTBody += "<td align='center'>" + effi + "%</td>";
@@ -192,7 +193,7 @@
 						qTBody += "<td align='center'>" + (qList[i].prdnum || 0) + "</td>";
 						qTBody += "<td align='center'>" + (qList[i].validnum || 0) + "</td>";
 						qTBody += "<td align='center'>" + qList[i].total + "</td>";
-						var qua = Math.round(qList[i].prdnum / qList[i].validnum * 10000) / 100.00;
+						var qua = Math.round((qList[i].validnum - qList[i].prdnum) / qList[i].validnum * 10000) / 100.00;
 						var effi = Math.round(qList[i].validnum / qList[i].total * 10000) / 100.00;
 						qTBody += "<td align='center'>" + qua + "%</td>";
 						qTBody += "<td align='center'>" + effi + "%</td>";
@@ -217,7 +218,7 @@
 						yTBody += "<td align='center'>" + (yList[i].prdnum || 0) + "</td>";
 						yTBody += "<td align='center'>" + (yList[i].validnum || 0) + "</td>";
 						yTBody += "<td align='center'>" + yList[i].total + "</td>";
-						var qua = Math.round(yList[i].prdnum / yList[i].validnum * 10000) / 100.00;
+						var qua = Math.round((yList[i].validnum - yList[i].prdnum) / yList[i].validnum * 10000) / 100.00;
 						var effi = Math.round(yList[i].validnum / yList[i].total * 10000) / 100.00;
 						yTBody += "<td align='center'>" + qua + "%</td>";
 						yTBody += "<td align='center'>" + effi + "%</td>";
@@ -271,6 +272,7 @@
 			var duriation = $.trim($("#startdate").val()) + "---" + $.trim($("#enddate").val());
 			for(var i = 0; i < dataList.length; i++) {
 				lxlbody += "<tr>";
+				lxlbody += "<td>" + (i+1) + "</td>";
 				lxlbody += "<td>" + dataList[i].display_name + "</td>";
 				lxlbody += "<td>" + dataList[i].lower_user_name + "</td>";
 				var validPer = Math.round(dataList[i].validper * 10000) / 100.00;

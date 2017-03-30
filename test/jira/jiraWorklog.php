@@ -54,7 +54,7 @@ where n.SINK_NODE_ID=c.id
 AND n.ASSOCIATION_TYPE='ProjectCategory'
 ) b ON a.PROJECT=b.SOURCE_NODE_ID
 GROUP BY b.SINK_NODE_ID
-ORDER BY b.cname";
+ORDER BY sum DESC";
 		}elseif ($action=='p') {
 			$sql="SELECT * from
 (SELECT DISTINCT u.MEMBER_KEY,cu.display_name,au.lower_user_name
