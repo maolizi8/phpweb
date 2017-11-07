@@ -65,7 +65,7 @@ def mailWrite(filename,address):
 def mailSend(mail):
     mail_info = {
         "from": "XXX@qq.com",
-        "to": "XXX@qq.com",
+        "to": ["XXX@qq.com","XXX@qq.com","XXX@qq.com"],
         "hostname": "smtp.qq.com",
         "username": "XXX@qq.com",
         "password": "XXXX",
@@ -81,8 +81,8 @@ def mailSend(mail):
     msg = MIMEText(mail, "html", mail_info["mail_encoding"])
     msg["Subject"] = Header(mail_info["mail_subject"], mail_info["mail_encoding"])
     msg["from"] = mail_info["from"]
-    msg["to"] = mail_info["to"]   
-    smtp.sendmail(mail_info["from"], mail_info["to"], msg.as_string())
+    msg["to"] = ','.join(mail_info["to"])   #【注意】 此处是逗号连接的字符串
+    smtp.sendmail(mail_info["from"], mail_info["to"], msg.as_string())  #【注意】 接收邮件的是list
     smtp.quit()
     
 
